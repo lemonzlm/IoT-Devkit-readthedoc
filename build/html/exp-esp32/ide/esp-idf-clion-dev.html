@@ -1,0 +1,815 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="zh-CN" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Clion 下 ESP-IDF 的配置与开发 &#8212; IoT-Devkit 实验手册 0.2 文档</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../../_static/translations.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'exp-esp32/ide/esp-idf-clion-dev';</script>
+    <link rel="author" title="关于这些文档" href="../../about.html" />
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" />
+    <link rel="next" title="外设接口与传感器" href="../peripherals/index.html" />
+    <link rel="prev" title="ESP-IDF JTAG 调试流程" href="esp-idf-cli-debug.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="zh-CN"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">IoT-Devkit 实验手册 0.2 文档</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../dev-board/index.html">实验箱概述与理论准备</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../dev-board/arch.html">实验系统构成</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../dev-board/ide.html">开发环境概览</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../dev-board/mcu.html">MCU基础</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../dev-board/esp32.html">ESP32</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../dev-board/stm32l475.html">STM32L475</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../dev-board/clion.html">Clion 项目工程基础</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../dev-board/cmake.html">Cmake 构建系统</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../dev-board/esp-idf.html">ESP-IDF SDK基础</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../exp-stm32/index.html">STM32实验篇</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-stm32/ide-setup.html">IDE环境搭建</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-stm32/debug-flow.html">基本调试流程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-stm32/peripherals-and-sensors.html">外设与传感器</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../exp-stm32/ble/index.html">BlueTooth</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../exp-stm32/ble/ble-gatt.html"> GATT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../exp-stm32/ble/ble-p2p.html"> BLE点对点(P2P)通信</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../exp-stm32/ble/Profiles.html"> 蓝牙Profiles</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-stm32/nfc.html">NFC</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../exp-stm32/wifi/index.html">WiFi</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../exp-stm32/wifi/tcp-over-wifi.html"> TCP over WiFi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../exp-stm32/wifi/http-over-wifi.html"> HTTP over WiFi</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-stm32/mqtt.html">MQTT</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../index.html">ESP32实验篇</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="index.html">IDE集成开发环境搭建</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="esp-idf-setup.html"> ESP-IDF环境配置</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp-idf-cli.html"> ESP-IDF命令行基本流程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp-idf-cli-debug.html"> ESP-IDF JTAG调试流程</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#"> Clion下ESP-IDF的配置与开发</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../peripherals/index.html">外设接口与传感器</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../peripherals/uart.html"> UART</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../peripherals/lcd%26spi.html"> LCD&amp;SPI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../peripherals/i2c.html"> I2C</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../peripherals/camera.html"> 摄像头</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../peripherals/touch.html"> 触摸传感器</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../peripherals/dht11.html"> 温湿度传感器采集</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../peripherals/light.html"> 光照传感器采集</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../peripherals/gesture.html"> 手势识别</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../bluetooth/index.html">BlueTooth</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../bluetooth/blufi.html"> BluFi配置实验</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../bluetooth/hci.html"> BlueTooth HCI主机控制接口</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../bluetooth/hid-gap.html"> 基于GAP的BLE HID人机接口</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../bluetooth/hid-device-gatt.html"> 基于GATT的BLE HID设备</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../wifi/index.html">WiFi</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../wifi/station.html"> Station 模式</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../wifi/ap.html"> AP模式</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../wifi/esp-now.html"> ESP_NOW 协议</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../wifi/ftm.html"> WiFi测距FTM</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../socket/index.html">Socket over WiFi</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../socket/tcp.html"> TCP Server and Client</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../socket/udp.html"> UDP Server and Client</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket.html">WebSocket over WiFi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../http.html">HTTP over WiFi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mqtt.html">MQTT over WiFi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../coap.html">CoAP over WiFi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../iot-cloud.html">接入IoT云平台</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../exp-lora/index.html">LoRa实验篇</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-lora/at-command.html">LoRa AT指令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-lora/p2p-stm32.html">LoRa P2P @STM32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-lora/lorawan-stm32.html">LoRaWan @STM32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-lora/p2p-esp32.html">LoRa P2P @ESP32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-lora/lorawan-esp32.html">LoRaWan @ESP32</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../exp-advanced/index.html">提高篇-Mesh与AIoT</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-advanced/wifi-mesh.html">WiFi Mesh网</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-advanced/ble-mesh.html">BLE Mesh网</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-advanced/code-recognition.html">二维码识别</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-advanced/ai-face-detection.html">AI人脸识别</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-advanced/ai-motion-detection.html">AI运动检测</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-advanced/ai-tensor-flow-light.html">AI Tensor Flow Light</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference.html">源代码与参考资料</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">关于我们</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="下载此页面">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/exp-esp32/ide/esp-idf-clion-dev.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="下载源文件"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="列印成 PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="全屏模式"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Clion 下 ESP-IDF 的配置与开发</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> 目录 </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clion">clion 简介</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Clion 及插件安装</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">安装 clion</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">添加插件</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">实验步骤</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">创建项目</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">连接设备</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">设置目标芯片</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">配置项目参数</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">在 clion 中打开项目</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">配置项目环境变量</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">系统变量</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">用户变量</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clion-menuconfig">在 Clion 中实现 menuconfig</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">代码编写</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">编译、烧录、监视</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">编译工程文件</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">烧录到设备</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id17">运行监视器查看串口日志输出</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#jtag-debug">JTAG Debug</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#jatg">JATG 配置</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id18">调试</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="clion-esp-idf">
+<h1>Clion 下 ESP-IDF 的配置与开发<a class="headerlink" href="#clion-esp-idf" title="Permalink to this heading">#</a></h1>
+<section id="clion">
+<h2>clion 简介<a class="headerlink" href="#clion" title="Permalink to this heading">#</a></h2>
+<p>clion 是 jetbrain 公司开发的 C/C++ IDE 集成开发工具，具有如下优点：</p>
+<ul>
+<li><p>完善的开发环境：</p>
+<p>指 ESP-IDF 工程的建立，配置，编译，调试，量产等基础操作的环境。一个优秀的编程环境可以让开发体验直线上升，工作事半功倍，而 Clion 恰是我们 C 语言开发的优秀编程环境！</p>
+</li>
+<li><p>代码辅助</p>
+<p>使用对 C 和 C++ 有深刻理解的编辑器，您便可以高效地读写代码。 可在智能补全功能中按类型筛选出补全结果。 使用路径导航来跟踪您在范围层次结构内的位置。 借助参数名称提示，深入了解函数调用。 查找符号的上下文用法，或通过键入其名称直接跳转到该符号。 CLion 甚至可以确保您的代码符合编码指南，包括格式、命名等要求。</p>
+<p><img alt="" src="../../_images/image-20220728105523027.png" /></p>
+</li>
+<li><p>代码生成</p>
+<p>立即生成大量样板代码。 使用简单的快捷键重写和实现函数。 生成构造函数和析构函数、getter 和 setter 以及相等、相关和流输出运算符。 使用语句包装代码块，或者从用法生成声明。 创建自定义活动模板以在整个代码库中重用典型代码块，从而节省时间并使样式保持一致。 <img alt="" src="../../_images/image-20220728105547240.png" /></p>
+</li>
+<li><p>安全重构</p>
+<p>重命名符号，内联函数、变量或宏，在层次结构中移动成员，更改函数签名，以及提取函数、变量、参数或 typedef。 无论您使用哪种自动重构，都请放心，CLion 能够安全地在整个代码中传播相关变更。</p>
+<p><img alt="" src="../../_images/image-20220728105623134.png" /></p>
+</li>
+<li><p>快速文档</p>
+<p>检查脱字符号下的代码即可了解任何信息：函数签名详细信息、审查评论、预览 Doxygen 样式文档、检查针对缺少显式类型的符号推断出的类型，以及查看正确格式化的最终宏替换。</p>
+<p><img alt="" src="../../_images/image-20220728105704105.png" /></p>
+</li>
+</ul>
+</section>
+<section id="id1">
+<h2>Clion 及插件安装<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
+<section id="id2">
+<h3>安装 clion<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h3>
+<p>clion 可以在官方网站获取并安装，在 ubunbu 下，安装 cion 又两种方法，分别如下：</p>
+<ol class="arabic">
+<li><p>命令行安装</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo snap install clion --classic
+</pre></div>
+</div>
+</li>
+<li><p>在 Ubuntu 自带应用商店 snap 中搜索一键安装</p>
+<p><img alt="image-20220728104733457" src="../../_images/image-20220728104733457.png" /></p>
+</li>
+</ol>
+</section>
+<section id="id3">
+<h3>添加插件<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>点击<code class="docutils literal notranslate"><span class="pre">setup</span> <span class="pre">|</span> <span class="pre">plugin</span></code> ，搜索 Chinese，选择 中文语言包 并下载安装</p>
+<ul class="simple">
+<li><p>安装完成后会提示重启 IDE，重启后便显示中文</p></li>
+</ul>
+</li>
+<li><p>在插件处搜索 Serial，选择 Serial Port Monitor 并下载安装</p>
+<ul class="simple">
+<li><p>这是串口调试器插件，集成在 IED 内非常好用</p></li>
+</ul>
+</li>
+</ol>
+<p><img alt="image-20220728112238437" src="../../_images/image-20220728112238437.png" /></p>
+</section>
+</section>
+<section id="id4">
+<h2>实验步骤<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h2>
+<p>要从空白开始实现一个项目，需要两个工具：</p>
+<ul class="simple">
+<li><p>基于命令行的 <code class="docutils literal notranslate"><span class="pre">idf.py</span></code> 项目管理工具</p></li>
+<li><p>编码，调试使用的 <code class="docutils literal notranslate"><span class="pre">Clion</span></code> 集成开发环境。</p></li>
+</ul>
+<section id="id5">
+<h3>创建项目<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h3>
+<p>现在，您可以开始准备开发 ESP32 应用程序了。假设我要重头开始创建 hellow-world 工程</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># 进入项目目录</span>
+<span class="nb">cd</span> ~/code/<span class="nv">$GROUPNAME</span>/esp32/
+
+<span class="c1"># 获取idf所需的环境和工具</span>
+get-idf
+<span class="c1"># 创建hellow-world工程</span>
+idf.py create-project hellow-world
+<span class="c1"># 检查下目录下发生了什么</span>
+tree -L <span class="m">2</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p>❗<strong>注意：</strong></p>
+<ul class="simple">
+<li><p>ESP-IDF 编译系统不支持带有空格的路径！！！</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="id6">
+<h3>连接设备<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h3>
+<p>现在，请将 ESP32 开发板连接到 PC，并查看开发板使用的串口。</p>
+<p>我们使用的<code class="docutils literal notranslate"> <span class="pre">ESP-WROVER-KIT</span></code> 开发板一般会有如下两个 <code class="docutils literal notranslate"><span class="pre">ttyUSB</span></code> 口：</p>
+<p>数字较小的为<code class="docutils literal notranslate"> <span class="pre">JATG</span></code> 接口，较大的为串口接口。</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>ls -l /dev/ttyUSB*
+crw-rw----+ <span class="m">1</span> root plugdev <span class="m">188</span>, <span class="m">0</span> 7月  <span class="m">27</span> <span class="m">14</span>:31 /dev/ttyUSB0
+crw-rw----+ <span class="m">1</span> root plugdev <span class="m">188</span>, <span class="m">1</span> 7月  <span class="m">27</span> <span class="m">14</span>:31 /dev/ttyUSB1
+</pre></div>
+</div>
+<p>此处的用户群组 <code class="docutils literal notranslate"><span class="pre">plugdev</span> </code>可能会有出入，具体原因是对<code class="docutils literal notranslate"><span class="pre">JAGT</span></code>进行了 <code class="docutils literal notranslate"><span class="pre">USB</span> </code>驱动配置，会在下一章 <code class="docutils literal notranslate"><span class="pre">ESP-IDFJTAG</span> </code>调试流程 中提及。</p>
+<p>请记住串口名，在下面的步骤中会使用到。</p>
+</section>
+<section id="id7">
+<h3>设置目标芯片<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h3>
+<p>打开一个新项目后，应首先设置“目标”芯片 。乐鑫有 esp32, esp32-s2, esp32-s3,esp32-c 以及 esp32-h 等多种架构</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># 我们的开发版目标芯片是ESP32</span>
+idf.py set-target esp32
+<span class="c1"># 检查下目录下发生了什么</span>
+tree -L <span class="m">2</span>
+</pre></div>
+</div>
+</section>
+<section id="id8">
+<h3>配置项目参数<a class="headerlink" href="#id8" title="Permalink to this heading">#</a></h3>
+<p>运行工程配置工具 menuconfig。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">idf</span><span class="o">.</span><span class="n">py</span> <span class="n">menuconfig</span>
+</pre></div>
+</div>
+<p>注意，此操作将清除并初始化项目之前的编译和配置（如有）。 也可以在后续步骤中再 clion 中实现该步骤的设置。</p>
+</section>
+<section id="id9">
+<h3>在 clion 中打开项目<a class="headerlink" href="#id9" title="Permalink to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>打开 clion，然后依次<code class="docutils literal notranslate"><span class="pre">文件</span></code> | <code class="docutils literal notranslate"><span class="pre">打开</span></code></p></li>
+<li><p>在对话框找到你刚才创建项目的目录</p></li>
+<li><p>点击<code class="docutils literal notranslate"><span class="pre">cmakelists.txt</span></code>这个文件，点击打开</p></li>
+<li><p>在弹出的对话框选择<code class="docutils literal notranslate"><span class="pre">作为项目打开</span></code></p></li>
+</ol>
+</section>
+<section id="id10">
+<h3>配置项目环境变量<a class="headerlink" href="#id10" title="Permalink to this heading">#</a></h3>
+<section id="id11">
+<h4>系统变量<a class="headerlink" href="#id11" title="Permalink to this heading">#</a></h4>
+<p>需要配置 esp-idf 的工具到系统环境变量，以便 clion 正确的使用这些工具。执行如下操作</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">设置</span></code> -| <code class="docutils literal notranslate"><span class="pre">构建、执行、部署</span></code> | <code class="docutils literal notranslate"><span class="pre">工具链</span></code>，</p></li>
+<li><p>在对话框右上角点击 <code class="docutils literal notranslate"><span class="pre">添加环境</span></code> | <code class="docutils literal notranslate"><span class="pre">来自文件</span></code></p></li>
+<li><p>选择你的 esp-idf 的环境脚本文件，如：<code class="docutils literal notranslate"><span class="pre">/home/iot/esp/esp-idf/export.sh</span></code></p></li>
+</ol>
+<p><img alt="" src="../../_images/clion_env-setup.png" /></p>
+</section>
+<section id="id12">
+<h4>用户变量<a class="headerlink" href="#id12" title="Permalink to this heading">#</a></h4>
+<p>需要添加如下几个用户变量</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>名称</p></th>
+<th class="head"><p>值</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>ESPBAUD</p></td>
+<td><p>115200</p></td>
+</tr>
+<tr class="row-odd"><td><p>ESPPORT</p></td>
+<td><p>/dev/ttyUSB1</p></td>
+</tr>
+<tr class="row-even"><td><p>IDF_PATH</p></td>
+<td><p>/home/iot/esp/esp-idf</p></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<div><p>❗ 注意</p>
+<p>ESPBAUD 是波特率，默认 115200；ESPPORT 是串口的引脚，一般为数字较大的那个，具体根据实际情况填写，一般为 1 或 2</p>
+<p>IDF_PATH 一般默认如上表填写，实际上是安装的 ESP-IDF 的目录，自行构建环境的同学目录还可能带有-4.4.1 这种版本号</p>
+</div></blockquote>
+<p>添加过程如下图所示：</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">设置</span></code> | <code class="docutils literal notranslate"><span class="pre">构建、执行、部署</span></code> | <code class="docutils literal notranslate"><span class="pre">cmake</span></code></p></li>
+<li><p>点击下方<code class="docutils literal notranslate"><span class="pre">环境</span></code>选项的编辑按钮，在弹出的对话框，点击 <code class="docutils literal notranslate"><span class="pre">+</span></code> 号</p></li>
+<li><p>填写名称和值</p></li>
+</ol>
+<p><img alt="image-20230524113409598" src="../../_images/user_env.png" /></p>
+<p>请下载 MOV 文件播放演示。</p>
+<p>&lt;video src=“../IMG/config-env.mov”&gt;</video></p>
+<p><strong>注意：在环境文件名下写 export.sh 所在的真实目录</strong></p>
+</section>
+</section>
+<section id="clion-menuconfig">
+<h3>在 Clion 中实现 menuconfig<a class="headerlink" href="#clion-menuconfig" title="Permalink to this heading">#</a></h3>
+<p>menuconfig 可以通过 idf.py 实现，也可在 clion 中配置实现，具体配置方法如下：</p>
+<p>点击<code class="docutils literal notranslate"><span class="pre">选择运行/调试配置</span></code> 选择<code class="docutils literal notranslate"><span class="pre">编辑配置</span></code>，如下图：找到 Shell Script 进行添加</p>
+<p><img alt="image-20230524121853805" src="../../_images/clion-edit-config.png" /></p>
+<p>在弹出对话框中（如下图），点击 + ，选择 Shell Script , 一次选择并填写：</p>
+<p>名称：menuconfig</p>
+<p>执行：脚本文本</p>
+<p>脚本文本填写如下：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>get-idf<span class="p">;</span>idf.py menuconfig
+</pre></div>
+</div>
+<p><img alt="image-20230524122500709" src="../../_images/edit-menuconfig.png" /></p>
+<p>以上设置好后，就可以在 clion 中实现 menuconfig 设置，点击<code class="docutils literal notranslate"><span class="pre">选择运行/调试配置</span></code> , 选择<code class="docutils literal notranslate"><span class="pre">menuconfig</span></code>并点击运行按钮，终端框会如下图所示，通过上下键依次设置即可。</p>
+<p>如何不需要设置，直接按下 ESC 返回即可。</p>
+<p><img alt="image-20220728151042596" src="../../_images/image-20220728151042596.png" /></p>
+</section>
+<section id="id13">
+<h3>代码编写<a class="headerlink" href="#id13" title="Permalink to this heading">#</a></h3>
+<p>在 clion 中进行代码编写，充分发挥 clion 的功能。</p>
+</section>
+<section id="id14">
+<h3>编译、烧录、监视<a class="headerlink" href="#id14" title="Permalink to this heading">#</a></h3>
+<p>右上角<code class="docutils literal notranslate"><span class="pre">调试配置</span></code>工具栏是调试和配置的重要工具，如下图所示，左侧<code class="docutils literal notranslate"><span class="pre">小锤子</span></code>图标代表<code class="docutils literal notranslate"><span class="pre">构建</span></code>，右侧<code class="docutils literal notranslate"><span class="pre">三角</span></code>图标代表<code class="docutils literal notranslate"><span class="pre">运行</span></code>。下拉图标中有各种运行配置（esp-idf 的各种构建目标），其中最重要的就是，<code class="docutils literal notranslate"><span class="pre">编译</span></code>、<code class="docutils literal notranslate"><span class="pre">烧录</span></code>、<code class="docutils literal notranslate"><span class="pre">监视</span></code>运行几个常见配置目标。即： <code class="docutils literal notranslate"><span class="pre">hello_world(工程名).elf</span></code>、<code class="docutils literal notranslate"><span class="pre">flash</span></code>、<code class="docutils literal notranslate"><span class="pre">monitor</span></code>。其他不需要的配置选项，可以在<code class="docutils literal notranslate"><span class="pre">编辑配置</span></code>中 用 <code class="docutils literal notranslate"><span class="pre">-</span></code> 号 删掉。</p>
+<p><img alt="image-20230524123809612" src="../../../../Library/Application%20Support/typora-user-images/image-20230524123809612.png" /></p>
+<p><img alt="image-20220728143215219" src="../../_images/image-20220728143215219.png" /></p>
+<section id="id15">
+<h4>编译工程文件<a class="headerlink" href="#id15" title="Permalink to this heading">#</a></h4>
+<p>选择<code class="docutils literal notranslate"><span class="pre">hello_world.elf</span></code>，点击<code class="docutils literal notranslate"><span class="pre">构建</span></code>运行编译，如果一切正常，编译完成后将生成 .elf 文件。</p>
+</section>
+<section id="id16">
+<h4>烧录到设备<a class="headerlink" href="#id16" title="Permalink to this heading">#</a></h4>
+<p>选择<code class="docutils literal notranslate"><span class="pre">flash</span></code>，点击<code class="docutils literal notranslate"><span class="pre">构建</span></code>。跟在终端烧录一样，当下方消息框出现如图所示连接中的情况的时候，请按下板子的 boot 按键直到烧录开始再松开。</p>
+<p><img alt="image-20220728152106428" src="../../_images/image-20220728152106428.png" /></p>
+</section>
+<section id="id17">
+<h4>运行监视器查看串口日志输出<a class="headerlink" href="#id17" title="Permalink to this heading">#</a></h4>
+<p>选择<code class="docutils literal notranslate"><span class="pre">monitor</span></code>执行<code class="docutils literal notranslate"><span class="pre">构建</span></code>，就能看到如下图的日志输出啦！</p>
+<p>点击 红色方块 即可终止退出。</p>
+<p><img alt="image-20220728152512423" src="../../_images/image-20220728152512423.png" /></p>
+</section>
+</section>
+<section id="jtag-debug">
+<h3>JTAG Debug<a class="headerlink" href="#jtag-debug" title="Permalink to this heading">#</a></h3>
+<section id="jatg">
+<h4>JATG 配置<a class="headerlink" href="#jatg" title="Permalink to this heading">#</a></h4>
+<p>点 <code class="docutils literal notranslate"><span class="pre">运行/调试配置</span></code> 框左上角<code class="docutils literal notranslate"><span class="pre">添加新配置</span></code>，找到 <code class="docutils literal notranslate"><span class="pre">嵌入式</span> <span class="pre">GDB</span> <span class="pre">服务器</span></code> 进行添加</p>
+<ul class="simple">
+<li><p>名称： 默认不用更改，也可改为自己想要的名称；</p></li>
+<li><p>目标： 默认不用更改；</p></li>
+<li><p>可执行二进制文件选择对应工程名的 elf 文件。</p></li>
+<li><p>调试器</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>/home/Ubuntu用户名/.espressif/tools/xtensa-esp32-elf/esp-2021r2-patch3-8.4.0/xtensa-esp32-elf/bin/xtensa-esp32-elf-gdb
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>下载可执行文件：<strong>无</strong></p></li>
+<li><p>‘target remote’:</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>tcp:127.0.0.1:3333
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>GDB 服务器：</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>/home/Ubuntu用户名/.espressif/tools/openocd-esp32/v0.11.0-esp32-20211220/openocd-esp32/bin/openocd
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>GDB 服务器实参：</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>-f board/esp32-wrover-kit-3.3v.cfg -c <span class="s2">&quot;init;reset halt;&quot;</span>
+</pre></div>
+</div>
+<p><img alt="image-20220728145749085" src="../../_images/image-20220728145749085.png" /></p>
+</section>
+<section id="id18">
+<h4>调试<a class="headerlink" href="#id18" title="Permalink to this heading">#</a></h4>
+<p>先在希望程序中断运行的语句所在行打上断点，在所在行行数数字旁边空的区域单击，即可看见该行高亮并且带有红点</p>
+<p>再选择设置好的 JTAGDebug 并点旁边的 ‘’小虫子‘’ 按键进行 Debug，执行后会如下图所示：</p>
+<p><img alt="image-20220728152832656" src="../../_images/image-20220728152832656.png" /></p>
+<p>我们能清楚的看到变量的情况以及类型等，更复杂的语句还有更多显示。</p>
+<p>调试框边上的各个按键同学们可自行查看并学习用法。</p>
+<p>点击 红色方块 即可终止退出。</p>
+<p><strong>至此 Clion 下 ESP-IDF 的配置与开发已经完成！</strong></p>
+</section>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="esp-idf-cli-debug.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">上一页</p>
+        <p class="prev-next-title">ESP-IDF JTAG 调试流程</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../peripherals/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">下一页</p>
+        <p class="prev-next-title">外设接口与传感器</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 目录
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clion">clion 简介</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Clion 及插件安装</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">安装 clion</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">添加插件</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">实验步骤</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">创建项目</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">连接设备</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">设置目标芯片</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">配置项目参数</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">在 clion 中打开项目</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">配置项目环境变量</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">系统变量</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">用户变量</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clion-menuconfig">在 Clion 中实现 menuconfig</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">代码编写</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">编译、烧录、监视</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">编译工程文件</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">烧录到设备</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id17">运行监视器查看串口日志输出</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#jtag-debug">JTAG Debug</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#jatg">JATG 配置</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id18">调试</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+作者： Lemon.Go，谭文龙，罗明雄
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022, Lemon.Go@gdpu.edu.cn.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,623 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="zh-CN" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>LoRa AT指令操作 &#8212; IoT-Devkit 实验手册 0.2 文档</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../_static/translations.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'exp-lora/at-command';</script>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="基于STM32的LoRa节点P2P通信" href="p2p-stm32.html" />
+    <link rel="prev" title="LoRa实验篇" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="zh-CN"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">IoT-Devkit 实验手册 0.2 文档</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../dev-board/index.html">实验箱概述与理论准备</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../dev-board/arch.html">实验系统构成</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dev-board/ide.html">开发环境概览</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../dev-board/mcu.html">MCU基础</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../dev-board/esp32.html">ESP32</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../dev-board/stm32l475.html">STM32L475</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../dev-board/clion.html">Clion 项目工程基础</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dev-board/cmake.html">Cmake 构建系统</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dev-board/esp-idf.html">ESP-IDF SDK基础</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../exp-stm32/index.html">STM32实验篇</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../exp-stm32/ide-setup.html">IDE环境搭建</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-stm32/debug-flow.html">基本调试流程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-stm32/peripherals-and-sensors.html">外设与传感器</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../exp-stm32/ble/index.html">BlueTooth</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../exp-stm32/ble/ble-gatt.html"> GATT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-stm32/ble/ble-p2p.html"> BLE点对点(P2P)通信</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-stm32/ble/Profiles.html"> 蓝牙Profiles</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-stm32/nfc.html">NFC</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../exp-stm32/wifi/index.html">WiFi</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../exp-stm32/wifi/tcp-over-wifi.html"> TCP over WiFi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-stm32/wifi/http-over-wifi.html"> HTTP over WiFi</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-stm32/mqtt.html">MQTT</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../exp-esp32/index.html">ESP32实验篇</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../exp-esp32/ide/index.html">IDE集成开发环境搭建</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/ide/esp-idf-setup.html"> ESP-IDF环境配置</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/ide/esp-idf-cli.html"> ESP-IDF命令行基本流程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/ide/esp-idf-cli-debug.html"> ESP-IDF JTAG调试流程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/ide/esp-idf-clion-dev.html"> Clion下ESP-IDF的配置与开发</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../exp-esp32/peripherals/index.html">外设接口与传感器</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/peripherals/uart.html"> UART</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/peripherals/lcd%26spi.html"> LCD&amp;SPI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/peripherals/i2c.html"> I2C</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/peripherals/camera.html"> 摄像头</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/peripherals/touch.html"> 触摸传感器</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/peripherals/dht11.html"> 温湿度传感器采集</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/peripherals/light.html"> 光照传感器采集</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/peripherals/gesture.html"> 手势识别</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../exp-esp32/bluetooth/index.html">BlueTooth</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/bluetooth/blufi.html"> BluFi配置实验</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/bluetooth/hci.html"> BlueTooth HCI主机控制接口</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/bluetooth/hid-gap.html"> 基于GAP的BlueTooth HID人机接口</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/bluetooth/hid-device-gatt.html"> 基于GATT的BLE HID设备</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../exp-esp32/wifi/index.html">WiFi</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/wifi/station.html"> Station 模式</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/wifi/ap.html"> AP模式</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/wifi/esp-now.html"> ESP_NOW 协议</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/wifi/ftm.html"> WiFi测距FTM</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../exp-esp32/socket/index.html">Socket over WiFi</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/socket/tcp.html"> TCP Server and Client</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/socket/udp.html"> UDP Server and Client</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-esp32/websocket.html">WebSocket over WiFi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-esp32/http.html">HTTP over WiFi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-esp32/mqtt.html">MQTT over WiFi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-esp32/coap.html">CoAP over WiFi</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">LoRa实验篇</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">LoRa AT指令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p2p-stm32.html">LoRa P2P @STM32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lorawan-stm32.html">LoRaWan @STM32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mqtt-stm32.html">MQTT over LoRaWan @STM32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="p2p-esp32.html">LoRa P2P @ESP32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lorawan-esp32.html">LoRaWan @ESP32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mqtt-esp32.html">MQTT over LoRaWan @ESP32</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../exp-advanced/index.html">提高篇-Mesh与AIoT</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../exp-advanced/wifi-mesh.html">WiFi Mesh网</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-advanced/ble-mesh.html">BLE Mesh网</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-advanced/code-recognition.html">二维码识别</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-advanced/ai-face-detection.html">AI人脸识别</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-advanced/ai-motion-detection.html">AI运动检测</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-advanced/ai-tensor-flow-light.html">AI Tensor Flow Light</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../reference.html">参考资料</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">关于我们</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="下载此页面">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/exp-lora/at-command.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="下载源文件"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="列印成 PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="全屏模式"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>LoRa AT指令操作</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> 目录 </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">实验目的</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">准备工作</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">硬件</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">软件</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">相关电路原理</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">实验步骤</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#at">常用AT指令</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="lora-at">
+<h1>LoRa AT指令操作<a class="headerlink" href="#lora-at" title="Permalink to this heading">#</a></h1>
+<p>目前的 AT （Attention）指令着重应用在蜂窝模块（NB-IOT、2G/3G/4G等）、WiFi 模块、BLE 模块、LoRa模块中，目的是为了简化嵌入式设备联网的复杂度。</p>
+<p>实验箱上的LoRa模块（RAK3172模块）集成了STM32WLE5CC MCU芯片，是专为简化LoRaWAN和LoRa® P2P（点对点）通信而设计的设备。使用UART接口发送AT命令，可轻松完成模块配置，将LoRa技术集成到项目中。可通过AT命令配置LoRa P2P和LoRaWAN通信所需的参数。也可以使用任何带有UART接口的微控制器来配置RAK3172模块。本章节我们将利用RAK3172模块来初步了解如何使用AT指令。参考链接:link: <a class="reference external" href="https://docs.rakwireless.com.cn/Product-Categories/WisDuo/RAK3172-Module/Overview/">RAK3172 WisDuo LPWAN模块</a></p>
+<section id="id1">
+<h2>实验目的<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>了解实验箱上的RAK3172模块</p></li>
+<li><p>学习AT指令的使用</p></li>
+</ul>
+</section>
+<section id="id2">
+<h2>准备工作<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>ubuntu系统中安装CoolTerm和ch340驱动</p></li>
+<li><p>初步了解AT指令语法</p></li>
+</ul>
+<blockquote>
+<div><ol class="arabic">
+<li><p>命令输入：命令以 “AT”开头， 以<CR><LF>（即\r\n）结束，本文中的命令介绍都省略了“\r\n”。AT命令的标准格式“AT+XXX”，其中”XXX”表示命令。</p>
+<p><strong>四种可用的命令操作：</strong></p>
+<p>AT+XXX?，结尾为“?”，用于获取XXX命令的帮助，例如<strong>AT+DEVEUI？</strong></p>
+<p>AT+XXX，结尾没有“?”、“=?”和“<value>”，执行命令，例如<strong>ATZ</strong></p>
+<p>AT+XXX=?，结尾为“=?”，获取XXX命令的取值，例如<strong>AT+CFS=?</strong></p>
+<p>AT+XXX=<value>与，结尾为<value>，用于给XXX命令赋值，例如<strong>AT+SEND=2:Hello</strong></p>
+</li>
+<li><p>命令应答：命令输出通过UART端口返回。返回格式分为两部分：返回值和状态返回码。</p>
+<p><value><CR><LF></p>
+<p><CR><LF><Status><CR><LF></p>
+<p>:exclamation:注意：<CR>代表“回车”，<LF>代表“换行”</p>
+<ul class="simple">
+<li><p>运行 “AT+XXX?”或“AT+XXX=?” 命令时，将返回<value><CR><LF>和<CR><LF><Status><CR><LF>。“AT+XXX”和“AT+XXX=<value>”命令，没有返回值，只返回状态返回码。</p></li>
+<li><p>每个命令(除了用于MCU复位的ATZ命令)都会返回一个状态字符串，格式为前后都是<CR><LF>的<CR><LF><Status><CR><LF>。可能的状态:</p></li>
+</ul>
+<p><img alt="image-20220929094848388" src="../_images/image-20220929094848388.png" /></p>
+</li>
+</ol>
+<p>关于AT指令的介绍到此为止，更详细的说明请参考RAK文档:link: <a class="reference external" href="https://docs.rakwireless.com.cn/Product-Categories/WisDuo/RAK3172-Module/Overview/">RAK3172 WisDuo LPWAN模块</a></p>
+</div></blockquote>
+<section id="id3">
+<h3>硬件<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>LoRa模块</p></li>
+<li><p>USB 数据线</p></li>
+</ul>
+</section>
+<section id="id4">
+<h3>软件<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>CoolTerm</p></li>
+</ul>
+</section>
+</section>
+<section id="id5">
+<h2>相关电路原理<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h2>
+<p>实验所用的LoRa模块上有两个串口，串口1有USB转TTL芯片（ch340），可以用usb线直接与电脑连接进行通信，串口2用于与其他带有UART接口的微控制器来配置RAK3172模块。</p>
+</section>
+<section id="id6">
+<h2>实验步骤<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>通过USB接口与电脑通信，注意跳线帽的接法</p></li>
+</ul>
+<p><img alt="image-20220929092849979" src="../_images/image-20220929092849979.png" /></p>
+<ul class="simple">
+<li><p>CoolTerm的设置，Port号可能不一样，根据实际情况进行设置，波特率为115200</p></li>
+</ul>
+<p><img alt="image-20220929093506009" src="../_images/image-20220929093506009.png" /></p>
+<p><img alt="image-20220929093601507" src="../_images/image-20220929093601507.png" /></p>
+<blockquote>
+<div><p>:exclamation:注意：在官方Linux内核版本中自Kernel2.6就默认包含了对USB转串口芯片CH340/CH341/CH9341/CH343芯片的驱动支持，其驱动所在位置：/lib/modules/5.15.0-46-generic/kernel/drivers/usb/serial，但并没有设置成开机加载，所以需要先加载CH340串口驱动。</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>sudo modprobe ch341
+</pre></div>
+</div>
+<p>然后查看系统工作情况。</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>dmesg
+</pre></div>
+</div>
+<p><img alt="image-20220929160127345" src="../_images/image-20220929160127345.png" /></p>
+<p>可以看到ch340驱动加载成功</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>选择ttyUSB0，点击<strong>Connect</strong>，不出意外的话会提示error，原因是使用USB端口时需要权限，普通用户没有权限，需要设置ttyUSB0的权限，但这样子会在电脑重启后又恢复系统默认的权限，还要重新设置，永久解决方法请自行百度了解。</p></li>
+</ul>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>sudo chmod <span class="m">777</span> /dev/ttyUSB0
+</pre></div>
+</div>
+<p><img alt="image-20220929161041170" src="../_images/image-20220929161041170.png" /></p>
+<ul class="simple">
+<li><p>发送AT指令</p></li>
+</ul>
+<p>在下面的输入框中输入AT指令，不用带\r\n，因为设置里面默认发送时自动加上\r\n，</p>
+<p><img alt="image-20220929225100483" src="../_images/image-20220929225100483.png" /></p>
+<p>该命令将返回LoRa模块的固件版本，如图为RUI_3.4.11_RAK3172-E，OK为状态返回码，命令运行正确，无错误就会返回OK。</p>
+<p><img alt="image-20220929225128724" src="../_images/image-20220929225128724.png" /></p>
+</section>
+<section id="at">
+<h2>常用AT指令<a class="headerlink" href="#at" title="Permalink to this heading">#</a></h2>
+<p>AT指令有很多，接下来列举在使用RAK3172模块时，常用的AT指令。</p>
+<blockquote>
+<div><p>AT+VER：固件版本，此命令允许用户访问固件的版本。</p>
+<p>AT+NJM：LoRa网络加入模式，此命令允许用户访问和配置网络加入模式。</p>
+<p>AT+BAND：区域频段，此命令用于访问和配置区域频段。</p>
+<p>AT+MASK：设置信道掩码，打开或关闭信道，此命令通过设置十六进制信道掩码来配置设备的信道。</p>
+<p>AT+CLASS：LoRaWAN®节点工作模式，此命令允许用户访问和配置LoRaWAN®节点工作模式。</p>
+<p>AT+DEVEUI：设备EUI，此命令允许用户访问和配置全局终端设备ID。</p>
+<p>AT+APPEUI：应用程序标识符，此命令允许用户访问和配置全局应用程序标识符。</p>
+<p>AT+APPKEY：应用程序密钥，此命令允许用户访问和配置应用程序密钥。</p>
+<p>AT+CFM：确认模式，此命令允许用户访问和配置设备的负载类型。</p>
+<p>AT+JOIN：加入LoRa® 网络，此命令向LoRa®网络发出加入请求。</p>
+<p>AT+SEND：发送数据，此命令提供了在专用端口号上发送数据的格式。</p>
+<p>AT+NWM：LoRa®网络工作模式，此命令允许用户访问和配置LoRa®网络工作模式，切换到P2P或LoRaWAN，0：P2P，1：LoRaWAN。</p>
+<p>AT+P2P：P2P参数统一配置，此命令允许用户访问和配置P2P模式所有参数。</p>
+<p>AT+PSEND：P2P发送数据，此命令提供P2P发送数据的格式。</p>
+<p>ATE：设置命令回显，此命令设置命令回显打开或关闭。</p>
+<p>AT+DEVEUI：设备EUI，此命令允许用户访问和配置全局终端设备ID。</p>
+<p>AT+NJS：LoRa® 网络加入状态，此命令允许用户访问LoRa®网络连接的当前状态。</p>
+</div></blockquote>
+<p>其余AT指令请参考:link: <a class="reference external" href="https://docs.rakwireless.com.cn/Product-Categories/WisDuo/RAK3172-Module/Overview/">RAK3172 WisDuo LPWAN模块</a></p>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">上一页</p>
+        <p class="prev-next-title">LoRa实验篇</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="p2p-stm32.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">下一页</p>
+        <p class="prev-next-title">基于STM32的LoRa节点P2P通信</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 目录
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">实验目的</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">准备工作</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">硬件</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">软件</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">相关电路原理</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">实验步骤</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#at">常用AT指令</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+作者： Lemon.Go，谭文龙，罗明雄
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022, Lemon.Go@gdpu.edu.cn.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

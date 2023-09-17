@@ -1,0 +1,935 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="zh-CN" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>低功耗节点实验箱 &#8212; IoT-Devkit 实验手册 0.2 文档</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../_static/translations.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'dev-board/arch';</script>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="开发环境" href="ide.html" />
+    <link rel="prev" title="IoT实验箱与前置知识准备" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="zh-CN"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">IoT-Devkit 实验手册 0.2 文档</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">实验箱概述与理论准备</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">实验系统构成</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ide.html">开发环境概览</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="mcu.html">MCU基础</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="esp32.html">ESP32</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stm32l475.html">STM32L475</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="clion.html">Clion 项目工程基础</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmake.html">Cmake 构建系统</a></li>
+<li class="toctree-l2"><a class="reference internal" href="esp-idf.html">ESP-IDF SDK基础</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../exp-stm32/index.html">STM32实验篇</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../exp-stm32/ide-setup.html">IDE环境搭建</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-stm32/debug-flow.html">基本调试流程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-stm32/peripherals-and-sensors.html">外设与传感器</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../exp-stm32/ble/index.html">BlueTooth</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../exp-stm32/ble/ble-gatt.html"> GATT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-stm32/ble/ble-p2p.html"> BLE点对点(P2P)通信</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-stm32/ble/Profiles.html"> 蓝牙Profiles</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-stm32/nfc.html">NFC</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../exp-stm32/wifi/index.html">WiFi</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../exp-stm32/wifi/tcp-over-wifi.html"> TCP over WiFi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-stm32/wifi/http-over-wifi.html"> HTTP over WiFi</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-stm32/mqtt.html">MQTT</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../exp-esp32/index.html">ESP32实验篇</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../exp-esp32/ide/index.html">IDE集成开发环境搭建</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/ide/esp-idf-setup.html"> ESP-IDF环境配置</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/ide/esp-idf-cli.html"> ESP-IDF命令行基本流程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/ide/esp-idf-cli-debug.html"> ESP-IDF JTAG调试流程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/ide/esp-idf-clion-dev.html"> Clion下ESP-IDF的配置与开发</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../exp-esp32/peripherals/index.html">外设接口与传感器</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/peripherals/uart.html"> UART</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/peripherals/lcd%26spi.html"> LCD&amp;SPI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/peripherals/i2c.html"> I2C</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/peripherals/camera.html"> 摄像头</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/peripherals/touch.html"> 触摸传感器</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/peripherals/dht11.html"> 温湿度传感器采集</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/peripherals/light.html"> 光照传感器采集</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/peripherals/gesture.html"> 手势识别</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../exp-esp32/bluetooth/index.html">BlueTooth</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/bluetooth/blufi.html"> BluFi配置实验</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/bluetooth/hci.html"> BlueTooth HCI主机控制接口</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/bluetooth/hid-gap.html"> 基于GAP的BlueTooth HID人机接口</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/bluetooth/hid-device-gatt.html"> 基于GATT的BLE HID设备</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../exp-esp32/wifi/index.html">WiFi</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/wifi/station.html"> Station 模式</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/wifi/ap.html"> AP模式</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/wifi/esp-now.html"> ESP_NOW 协议</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/wifi/ftm.html"> WiFi测距FTM</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../exp-esp32/socket/index.html">Socket over WiFi</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/socket/tcp.html"> TCP Server and Client</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/socket/udp.html"> UDP Server and Client</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-esp32/websocket.html">WebSocket over WiFi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-esp32/http.html">HTTP over WiFi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-esp32/mqtt.html">MQTT over WiFi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-esp32/coap.html">CoAP over WiFi</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../exp-lora/index.html">LoRa实验篇</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../exp-lora/at-command.html">LoRa AT指令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-lora/p2p-stm32.html">LoRa P2P @STM32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-lora/lorawan-stm32.html">LoRaWan @STM32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-lora/mqtt-stm32.html">MQTT over LoRaWan @STM32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-lora/p2p-esp32.html">LoRa P2P @ESP32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-lora/lorawan-esp32.html">LoRaWan @ESP32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-lora/mqtt-esp32.html">MQTT over LoRaWan @ESP32</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../exp-advanced/index.html">提高篇-Mesh与AIoT</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../exp-advanced/wifi-mesh.html">WiFi Mesh网</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-advanced/ble-mesh.html">BLE Mesh网</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-advanced/code-recognition.html">二维码识别</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-advanced/ai-face-detection.html">AI人脸识别</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-advanced/ai-motion-detection.html">AI运动检测</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-advanced/ai-tensor-flow-light.html">AI Tensor Flow Light</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../reference.html">参考资料</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">关于我们</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="下载此页面">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/dev-board/arch.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="下载源文件"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="列印成 PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="全屏模式"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>低功耗节点实验箱</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> 目录 </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">1  节点设备-实验箱</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#esp-wrover-kit">1.1 ESP-WROVER-KIT</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#b-l475e-iot01a">1.2 B-L475E-IOT01A</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lora-rak3172">1.3 LoRa节点-RAK3172</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nb-iot">1.4 NB-IOT节点</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lorawan">2 LoRaWAN网关</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lorawan-rak2287">2.1 LoraWan集中器：RAK2287</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#raspberry-pi-4b">2.2 宿主机：Raspberry Pi 4B+</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lorawan-chripstack">1.2.2 LoraWan 软件：ChripStack</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iot">3 IoT 平台</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#thingsboard">3.1 ThingsBoard</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#chirpstack">3.2 ChirpStack</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#emqx">3.3 EMQX</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="id1">
+<h1>低功耗节点实验箱<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h1>
+<p>本教程所描述的iot实验系统包含如下几个部分，基本涵盖了iot领域的主要技术内容。</p>
+<ul class="simple">
+<li><p>节点设备</p>
+<ul>
+<li><p>ESP-WROVER-KIT</p></li>
+<li><p>B-L475-IOT01A</p></li>
+</ul>
+</li>
+<li><p>LoRa网关</p></li>
+<li><p>iot平台</p></li>
+</ul>
+<p>涉及到的主要Iot技术包含：</p>
+<ul class="simple">
+<li><p>感知层：涉及温度，湿度，3轴磁力计，3D加速度计，3D陀螺仪，数字气压计，浓度时间和姿势检测，手势识别，运动检测等十余种传感器数据采集</p></li>
+<li><p>识别层：NFC</p></li>
+<li><p>网络层：WiFi，Bluetooth，BLE，lora，nb-iot，</p></li>
+<li><p>平台：emqx，chirpstack，TTN，thingsboard。</p></li>
+<li><p>支持接入协议：mqtt，coap，http</p></li>
+</ul>
+<p>实验系统的架构如下图所示：</p>
+<p><img alt="实验系统架构" src="../_images/architecture.png" /></p>
+<section id="id2">
+<h2>1  节点设备-实验箱<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h2>
+<p>节点设备由两个MCU为主线，分别包含其各自的外围设备，具体包括如下几个部分。</p>
+<ul class="simple">
+<li><p>B-L475E-IOT01A</p></li>
+</ul>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>MUC</p></th>
+<th class="head"><p>STM32BL475E</p></th>
+<th class="head"><p>板载</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Bluetooth</p></td>
+<td><p>SPBTLE-RF</p></td>
+<td><p>板载</p></td>
+</tr>
+<tr class="row-odd"><td><p>WiFi</p></td>
+<td><p>INVENTEK</p></td>
+<td><p>板载</p></td>
+</tr>
+<tr class="row-even"><td><p>NFC</p></td>
+<td><p>M24SR</p></td>
+<td><p>板载</p></td>
+</tr>
+<tr class="row-odd"><td><p>microphone</p></td>
+<td><p>MP34DT01</p></td>
+<td><p>板载</p></td>
+</tr>
+<tr class="row-even"><td><p>sensors</p></td>
+<td><p>若干</p></td>
+<td><p>板载</p></td>
+</tr>
+<tr class="row-odd"><td><p>接口</p></td>
+<td><p>arduino，PMOD，micro usb</p></td>
+<td><p>板载</p></td>
+</tr>
+<tr class="row-even"><td><p>debuge</p></td>
+<td><p>ST Link</p></td>
+<td><p>板载</p></td>
+</tr>
+<tr class="row-odd"><td><p>LoRA</p></td>
+<td><p>RAK3172</p></td>
+<td><p>外置，UART</p></td>
+</tr>
+<tr class="row-even"><td><p>IDE</p></td>
+<td><p>STM32CUBE, Keil，IAR，Arm Mbed</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><p>ESP-WROVER-KIT</p></li>
+</ul>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>MCU</p></th>
+<th class="head"><p>ESP32</p></th>
+<th class="head"><p>板载</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Bluetooth</p></td>
+<td><p>on chip</p></td>
+<td><p>板载</p></td>
+</tr>
+<tr class="row-odd"><td><p>WiFi</p></td>
+<td><p>on chip</p></td>
+<td><p>板载</p></td>
+</tr>
+<tr class="row-even"><td><p>SD卡</p></td>
+<td><p></p></td>
+<td><p>板载</p></td>
+</tr>
+<tr class="row-odd"><td><p>摄像头</p></td>
+<td><p></p></td>
+<td><p>外置</p></td>
+</tr>
+<tr class="row-even"><td><p>LCD</p></td>
+<td><p>3.2“ SPI</p></td>
+<td><p>板载</p></td>
+</tr>
+<tr class="row-odd"><td><p>接口</p></td>
+<td><p>micro usb，</p></td>
+<td><p>板载</p></td>
+</tr>
+<tr class="row-even"><td><p>JTAG</p></td>
+<td><p>JTAG PROG</p></td>
+<td><p>板载</p></td>
+</tr>
+<tr class="row-odd"><td><p>LoRA</p></td>
+<td><p>RAK3172</p></td>
+<td><p>外置</p></td>
+</tr>
+</tbody>
+</table>
+<p>节点设备概念图如下：</p>
+<p><img alt="节点设备组成" src="../_images/lw-node.png" /></p>
+<section id="esp-wrover-kit">
+<h3>1.1 ESP-WROVER-KIT<a class="headerlink" href="#esp-wrover-kit" title="Permalink to this heading">#</a></h3>
+<p><a class="reference external" href="https://docs.espressif.com/projects/esp-idf/zh_CN/latest/esp32/hw-reference/esp32/get-started-wrover-kit.html">ESP-WROVER-KIT</a> 是 <a class="reference external" href="https://espressif.com/">乐鑫</a>的一款基于 <a class="reference external" href="https://www.espressif.com/zh-hans/products/socs/esp32">ESP32</a> 芯片的开发板。ESP-WROVER-KIT 开发板已集成了如下组件：</p>
+<ul class="simple">
+<li><p>ESP32-WROVER-E 模组</p></li>
+<li><p>LCD 屏</p></li>
+<li><p>microSD 卡槽</p></li>
+<li><p>双USB, 一个用于通信，一个用于debug</p></li>
+<li><p>内置调试器</p></li>
+</ul>
+<p><strong>实物图：</strong></p>
+<p><img alt="Untitled" src="../_images/esp-wrover-kit.png" /></p>
+<p><img alt="Untitled" src="../_images/esp-wrover-kit-1.png" /></p>
+<p><img alt="Untitled" src="../_images/esp-worver-kit-3.png" /></p>
+<p><strong>布局</strong></p>
+<p><img alt="Untitled" src="../_images/esp-kit-layout.png" /></p>
+<p><strong>功能框图</strong></p>
+<p><img alt="Untitled" src="../_images/structure.png" /></p>
+<p><strong>电路原理图：</strong></p>
+<p><a class="reference download internal" download="" href="../_downloads/8a2587f491690f856c7a0917ddfba074/sch.pdf"><span class="xref download myst">ESP-WROVER-KIT_V4_1-3.pdf</span></a></p>
+<p>功能说明请参见<a class="reference external" href="https://docs.espressif.com/projects/esp-idf/zh_CN/latest/esp32/hw-reference/esp32/get-started-wrover-kit.html">官方网页</a></p>
+<p><strong>开发环境</strong></p>
+<ul class="simple">
+<li><p>官方环境：eclipse based  ide</p></li>
+<li><p>VS Code + esp-idf plugin</p></li>
+<li><p>VS Code + platformio</p></li>
+<li><p>Clion</p></li>
+</ul>
+</section>
+<section id="b-l475e-iot01a">
+<h3>1.2 B-L475E-IOT01A<a class="headerlink" href="#b-l475e-iot01a" title="Permalink to this heading">#</a></h3>
+<p><strong>描述</strong></p>
+<p><a class="reference external" href="https://www.st.com/zh/evaluation-tools/b-l475e-iot01a.html">B-L475E-IOT01A</a>物联网节点探索套件允许用户开发与云服务器直接连接的应用程序。</p>
+<p>该探索套件利用低功耗通信、多路传感和基于Arm® Cortex® -M4内核的STM32L4系列功能，支持广泛的应用。
+它可支持Arduino Uno V3和PMOD连接，借助大量可选的专用附加板，能够实现无限扩展功能。</p>
+<p><strong>所有功能</strong></p>
+<ul class="simple">
+<li><p>超低功耗STM32L4系列MCU基于Arm® Cortex®-M4内核，具有1 MB的Flash存储器和128 KB的RAM，并采用LQFP100封装</p></li>
+<li><p>64 Mbit的Quad-SPI（Macronix）闪存</p></li>
+<li><p>Bluetooth® V4.1模块（SPBTLE-RF）</p></li>
+<li><p>Sub-GHz（868 MHz或915 MHz）低功耗可编程RF模块（SPSGRF-868或SPSGRF-915）</p></li>
+<li><p>符合802.11 b/g/n规范的Wi-Fi®模块来自Inventek Systems（ISM43362-M3G-L44）</p></li>
+<li><p>基于M24SR及其印刷NFC天线的动态NFC标签</p></li>
+<li><p>2个全向数字麦克风(MP34DT01)</p></li>
+<li><p>用于相对湿度和温度测量的电容式数字传感器（HTS221）</p></li>
+<li><p>高性能3轴磁力计（LIS3MDL）</p></li>
+<li><p>3D加速度计和3D陀螺仪（LSM6DSL）</p></li>
+<li><p>260-1260 hPa绝对数字输出气压计（LPS22HB）</p></li>
+<li><p>渡越时间和姿势检测传感器（VL53L0X）</p></li>
+<li><p>2个按钮(用户和复位按钮)</p></li>
+<li><p>带有Micro-AB连接器的USB OTG FS</p></li>
+<li><p>扩展连接器：</p>
+<ul>
+<li><p>Arduino™ Uno V3</p></li>
+<li><p>PMOD</p></li>
+</ul>
+</li>
+<li><p>灵活的电源选项：</p>
+<ul>
+<li><p>ST LINK USB VBUS或外部电源</p></li>
+</ul>
+</li>
+<li><p>具有USB重新枚举功能的板上ST-LINK/V2-1调试器/编程器：大容量存储器、虚拟COM端口和调试端口</p></li>
+<li><p>作为STM32Cube MCU软件包的一部分，提供全面的免费软件HAL库（包括大量示例）</p></li>
+<li><p>支持广泛的集成开发环境（IDE），包括IAR™、Keil®、基于GCC的IDE、Arm® Mbed Enabled™</p></li>
+<li><p>Arm® Mbed™在线工具（参见<a class="reference external" href="http://mbed.org/">http://mbed.org</a>）</p></li>
+</ul>
+<p>开发板结构框图</p>
+<p><img alt="Untitled" src="../_images/stm32-arch.png" /></p>
+<p>开发板布局</p>
+<p><img alt="" src="../_images/stm-layout-up.png" /></p>
+<p><code class="docutils literal notranslate"><span class="pre">**正面布局**</span></code></p>
+<p><img alt="" src="../_images/stm-layout-back.png" /></p>
+<p><strong><code class="docutils literal notranslate"><span class="pre">背部布局</span></code></strong></p>
+<p><strong>开发环境</strong></p>
+<ul class="simple">
+<li><p>STM32CUBE IDE</p></li>
+<li><p>keil</p></li>
+<li><p>IAR</p></li>
+<li><p>STM32CUBEMX+Clion</p></li>
+</ul>
+<p>开发者技术手册</p>
+<p><a class="reference download internal" download="" href="../_downloads/1b3e22d7c23486324f5ee852f95e9fbe/stm-bl-475-data-sheet.pdf"><span class="xref download myst">um2153-discovery-kit-for-iot-node-multichannel-communication-with-stm32l4-stmicroelectronics.pdf</span></a></p>
+</section>
+<section id="lora-rak3172">
+<h3>1.3 LoRa节点-RAK3172<a class="headerlink" href="#lora-rak3172" title="Permalink to this heading">#</a></h3>
+<p><strong>模块概述</strong></p>
+<p><a class="reference external" href="https://docs.rakwireless.com.cn/Product-Categories/WisDuo/RAK3172-Module/Overview/">RAK3172</a>模块集成了STM32WLE5CC MCU芯片，是一款低功耗、远距离、易用、小巧的无线数据应用LoRa®收发模块。该模块遵循LoRaWAN® 1.0.3协议，支持Class A、Class B、Class C三种工作模式，易于连接到不同的LoRaWAN服务器平台，如TTN、Chirpstack、Activity、腾讯云等等。该模块还支持LoRa® P2P（点对点）通信，可帮助用户快速实现自己的远距离LoRa®网络。</p>
+<p>用户可通过UART接口使用AT命令来配置模式和控制模块工作。RAK3172特别适合需要低功耗、电池供电的各种应用。</p>
+<p><strong>电路板图</strong></p>
+<p><img alt="Untitled" src="../_images/rak3172-3d.png" /></p>
+<p><strong>系统框图</strong></p>
+<p>RAK3172模块的内部组成和主要外部接口如下图所示。</p>
+<p><img alt="Untitled" src="../_images/rak3172-inner.png" /></p>
+<p><strong>产品特性</strong></p>
+<ul class="simple">
+<li><p>集成STM32WLE5CC芯片</p></li>
+<li><p>遵循LoRaWAN® 1.0.3协议</p></li>
+<li><p>支持的频段：EU433、CN470、IN865、EU868、AU915、US915、KR920、RU864、AS923-1/2/3/4</p></li>
+<li><p>LoRaWAN激活模式：OTAA、ABP</p></li>
+<li><p>支持LoRa® P2P（点对点）通信</p></li>
+<li><p>具有简单易用的AT命令功能</p></li>
+<li><p>支持通过UART接口发送AT命令</p></li>
+<li><p>使用优化过的天线，通信距离可超过15 km</p></li>
+<li><p>CPU核：ARM 32-bit Cortex-M4</p></li>
+<li><p>内置带ECC的256 KB闪存</p></li>
+<li><p>64 KB RAM</p></li>
+<li><p>超低功耗，睡眠模式下功耗低至1.69 μA</p></li>
+<li><p>温度范围：-40 °C ~ +85 °C</p></li>
+<li><p>供电电压：2.0 V ~ 3.6 V</p></li>
+</ul>
+<p><strong>引脚定义</strong></p>
+<p><img alt="Untitled" src="../_images/rak3172-pins.png" /></p>
+<p><strong>与MCU的连接</strong></p>
+<p><img alt="Untitled" src="../_images/rak3172-connetion.png" /></p>
+</section>
+<section id="nb-iot">
+<h3>1.4 NB-IOT节点<a class="headerlink" href="#nb-iot" title="Permalink to this heading">#</a></h3>
+<p>待更新</p>
+</section>
+</section>
+<section id="lorawan">
+<h2>2 LoRaWAN网关<a class="headerlink" href="#lorawan" title="Permalink to this heading">#</a></h2>
+<p>LoRaWAN®是一种低功耗广域（LPWA）网络协议，旨在以无线方式将电池操作的“things”连接到区域、国家或全球网络中的互联网，致力于解决关键的物联网（IoT）要求，如双向通信、端到端安全、移动性和本地化服务。</p>
+<p>lora网关包含硬件部分和软件支持。硬件部分包括LoRA Wan 集中器与宿主机，软件运行在宿主机上。</p>
+<ul class="simple">
+<li><p>LoraWan集中器</p></li>
+<li><p>Raspberry Pi 4B+</p></li>
+<li><p>chirpstack</p></li>
+</ul>
+<p>相关规范与国际组织</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.lora-alliance.org/">LoRa Alliance</a></p></li>
+<li><p><a class="reference external" href="https://lora-alliance.org/lorawan-for-developers">LoRaWAN specification</a></p></li>
+</ul>
+<section id="lorawan-rak2287">
+<h3>2.1 LoraWan集中器：RAK2287<a class="headerlink" href="#lorawan-rak2287" title="Permalink to this heading">#</a></h3>
+<p><strong>概述</strong></p>
+<p>RAK2287是一款LPWAN集中器模块，易于集成到现有的路由器或其它网络设备中，为其添加LPWAN网关功能。主要功能特点如下。</p>
+<ul class="simple">
+<li><p>基于Semtech SX1302</p></li>
+<li><p>支持SPI接口，具有Mini PCI-e标准插槽的嵌入式平台</p></li>
+<li><p>集成了ZOE-M8Q GPS芯片</p></li>
+<li><p>提供多达10条可编程并行解调路径</p></li>
+<li><p>中等干扰环境下，每平方公里最多可覆盖500个节点</p></li>
+</ul>
+<p><strong>特性</strong></p>
+<ul class="simple">
+<li><p>基于Mini PCI-e外形尺寸而设计，带散热片。</p></li>
+<li><p>SX1302基带处理器，实现了8 x 8通道LoRa数据包检测器，8 x SF5-SF12 LoRa解调器，8 x SF5- SF10 LoRa解调器，一个125/250/500 kHz高速LoRa解调器和一个（G）FSK解调器。</p></li>
+<li><p>Mini PCI-e接口，电压为3.3 V</p></li>
+<li><p>兼容Mini PCI-e类型的3G/LTE卡</p></li>
+<li><p>发射功率最大可达27 dBm，接收灵敏度低至-139 dBm&#64;SF12，带宽125 kHz</p></li>
+<li><p>支持最新的LoRaWAN 1.0.3协议</p></li>
+<li><p>支持全球免许可证频段：EU868, CN470, US915, AS923, AU915, KR920, IN865, AS920</p></li>
+<li><p>支持SPI接口</p></li>
+<li><p>内置ZOE-M8Q GPS模块</p></li>
+</ul>
+<p><strong>电路板</strong></p>
+<p><img alt="RAK2287主电路板" src="../_images/rak2287-board.png" /></p>
+<p>RAK2287主电路板</p>
+<p><strong>系统框图</strong></p>
+<p>RAK2287板卡配备了一个<a class="reference external" href="https://www.semtech.com/products/wireless-rf/lora-core/sx1302#documentation">SX1302芯片</a>和两个SX1250。第一个芯片用于射频信号，是设备的核心。后者提供了相关的LoRa调制解调器和处理功能。该模块实现了符合PCI Express Mini Card要求的附加信号调整电路，并且提供了一个UFL连接器，可用于集成外部天线。</p>
+<p><img alt="RAK2287系统框图" src="../_images/rak287-block.png" /></p>
+<p>RAK2287系统框图</p>
+<p><strong>引脚定义</strong></p>
+<p><img alt="Untitled" src="../_images/rak2287-pins.png" /></p>
+<p><strong>原理图</strong></p>
+<p><img alt="原理图" src="../_images/rak2287-sch.png" /></p>
+<p>更多内容请参考<a class="reference external" href="https://docs.rakwireless.com.cn/Product-Categories/WisLink/RAK2287/Datasheet/">数据手册</a></p>
+</section>
+<section id="raspberry-pi-4b">
+<h3>2.2 宿主机：Raspberry Pi 4B+<a class="headerlink" href="#raspberry-pi-4b" title="Permalink to this heading">#</a></h3>
+<p><strong>技术参数</strong></p>
+<ul class="simple">
+<li><p>Broadcom BCM2711, Quad core Cortex-A72 (ARM v8) 64-bit SoC &#64; 1.5GHz</p></li>
+<li><p>1GB, 2GB, 4GB or 8GB LPDDR4-3200 SDRAM (depending on model)</p></li>
+<li><p>2.4 GHz and 5.0 GHz IEEE 802.11ac wireless, Bluetooth 5.0, BLE</p></li>
+<li><p>Gigabit Ethernet</p></li>
+<li><p>2 USB 3.0 ports; 2 USB 2.0 ports.</p></li>
+<li><p>Raspberry Pi standard 40 pin GPIO header (fully backwards compatible with previous boards)</p></li>
+<li><p>2 × micro-HDMI ports (up to 4kp60 supported)</p></li>
+<li><p>2-lane MIPI DSI display port</p></li>
+<li><p>2-lane MIPI CSI camera port</p></li>
+<li><p>4-pole stereo audio and composite video port</p></li>
+<li><p>H.265 (4kp60 decode), H264 (1080p60 decode, 1080p30 encode)</p></li>
+<li><p>OpenGL ES 3.1, Vulkan 1.0</p></li>
+<li><p>Micro-SD card slot for loading operating system and data storage</p></li>
+<li><p>5V DC via USB-C connector (minimum 3A*)</p></li>
+<li><p>5V DC via GPIO header (minimum 3A*)</p></li>
+<li><p>Power over Ethernet (PoE) enabled (requires separate PoE HAT)</p></li>
+<li><p>Operating temperature: 0 – 50 degrees C ambient</p></li>
+</ul>
+<p><strong>产品图</strong></p>
+<p><img alt="树莓派4" src="../_images/pi4-layout.png" /></p>
+<p>RaspberryPi 40 PIN 接口定义</p>
+<p><img alt="树莓派4引脚定义" src="../_images/pi4-pins.png" /></p>
+</section>
+<section id="lorawan-chripstack">
+<h3>1.2.2 LoraWan 软件：ChripStack<a class="headerlink" href="#lorawan-chripstack" title="Permalink to this heading">#</a></h3>
+<p>ChirpStack是一个开源的LoRaWAN网络服务器。主要功能包括：</p>
+<ul class="simple">
+<li><p>可用于设置私有或公共LoRaWAN网络。</p></li>
+<li><p>ChirpStack提供了一个Web界面，用于管理网关、设备和租户，</p></li>
+<li><p>与主要云提供商、数据库和通常用于处理设备数据的服务进行数据集成。</p></li>
+<li><p>ChirpStack提供了一个基于gRPC的API，可用于集成或扩展ChirpStack。</p></li>
+</ul>
+<p><strong>ChirpStack架构</strong></p>
+<p>ChirpStack包含如下几个主要部分</p>
+<ul class="simple">
+<li><p>chirpstack gateway bridge：处理与网关集中器之间的通信</p></li>
+<li><p>chirpstack network server</p></li>
+<li><p>chirpstack application server</p></li>
+</ul>
+<p>chirpstack 部署如图所示：</p>
+<p><img alt="chirpstack 架构" src="../_images/chirpstack.png" /></p>
+<aside>
+💡 我们的项目部署方案：chirpstack gateway bridge部署在网关侧，即树莓派上。而network server 以及 application server 都部署在cloud server上，即阿里云。
+</aside>
+</section>
+</section>
+<section id="iot">
+<h2>3 IoT 平台<a class="headerlink" href="#iot" title="Permalink to this heading">#</a></h2>
+<p>本项目的IoT云平台集成了众多优秀的开源项目，经过优化，整合了各自的优点，主要包括如下三个开源项目：</p>
+<ul class="simple">
+<li><p>ChirpStack</p></li>
+<li><p>ThingsBoard</p></li>
+<li><p>EMQX</p></li>
+</ul>
+<p>本项目中平台功能以ThingsBoard为核心，以EMQX取代其他两个项目的内置的MQTT Broker，ChirpStack则主要用于来自LoRaWAN的信息。平台结构如下图：</p>
+<p><img alt="IoT 平台结构" src="../_images/iot-platform.png" /></p>
+<section id="thingsboard">
+<h3>3.1 ThingsBoard<a class="headerlink" href="#thingsboard" title="Permalink to this heading">#</a></h3>
+<p><a class="reference external" href="https://thingsboard.io">ThingsBoard</a>是一个开源物联网平台，可以快速开发、管理和扩展物联网项目。他可以提供开箱即用的物联网云或本地解决方案，为物联网应用程序启用服务器端基础设施。我们的平台构建于其之上，并对其中mqtt的海量并发进行了优化。</p>
+<p><strong>特点</strong></p>
+<ul class="simple">
+<li><p>配置设备、资产和客户，并定义它们之间的关系。</p></li>
+<li><p>从设备和资产收集数据并使之可视化。</p></li>
+<li><p>分析传入的遥测数据和警报触发信息。</p></li>
+<li><p>使用远程过程调用（RPC）控制设备。</p></li>
+<li><p>根据设备的生命周期事件、REST API事件、RPC请求等构建工作流程。</p></li>
+<li><p>提供响应敏捷的动态仪表板，向客户展示设备或资产遥测信息。</p></li>
+<li><p>使用自定义的规则链实现特定功能。</p></li>
+<li><p>与其他iot平台或系统集成。</p></li>
+</ul>
+<p>平台总体框架如下图所示：</p>
+<p><img alt="Untitled" src="../_images/thingsboard.png" /></p>
+<p>系统实际使用架构包含两种模式，整体模式架构和基于微服务的架构。</p>
+<p><strong>1 整体模式架构</strong></p>
+<p>在<a class="reference external" href="https://thingsboard.io/docs/reference/monolithic/">整体模式</a>下，所有ThingsBoard组件都在单个Java虚拟机（JVM）中启动，并共享相同的操作系统资源。由于ThingsBoard是用Java编写的，整体架构的明显优势是最大限度地减少了运行ThingsBoard所需的内存。这样就可以在受限环境中使用256或512 MB的RAM启动和运行ThingsBoard进程。但他也有明显的缺点，如果某个组建的消息过载，例如MQTT传输，它也可能影响其他组件。例如，如果ThingsBoard进程的操作系统限制为4096文件描述符，则无法同时从设备和websocket用户会话中打开超过4096个MQTT会话。</p>
+<p>整体模式架构如下图所示：</p>
+<p><img alt="Untitled" src="../_images/tb-componets.png" /></p>
+<p>架构个组件描述请参见<a class="reference external" href="https://thingsboard.io/docs/reference/monolithic/">官方说明</a>。</p>
+<p><strong>2 微服务架构</strong></p>
+<p>ThingsBoard v2.2，该平台支持<a class="reference external" href="https://thingsboard.io/docs/reference/msa/">微服务部署模式</a>。微服务选项更适合高可用性和可扩展的场景。</p>
+<p>其具体架构如下图所示：</p>
+<p><img alt="Untitled" src="../_images/tb-micro-service.png" /></p>
+<p><strong>3 iot gateway</strong></p>
+<p>ThingsBoard 支持的iot协议有mqtt, coap以及http， 对于其他协议，可以采用<a class="reference external" href="https://thingsboard.io/docs/iot-gateway/what-is-iot-gateway/">iot gateway</a> 组件来实现。</p>
+<p>iot gateway框架如图所示：</p>
+<p><img alt="python-gateway-animd-ff.svg" src="../_images/tb-gateway.svg" /></p>
+</section>
+<section id="chirpstack">
+<h3>3.2 ChirpStack<a class="headerlink" href="#chirpstack" title="Permalink to this heading">#</a></h3>
+<p>如上所述，本项目中，chirpstack的部署在两个物理位置，gateway bridge 在lora网关中部署，而iot 平台中，则部署chirpstack network server以及 application server。</p>
+<p>chirpstack network server 作为mqtt客户端，用MQTT Broker 发布和订阅消息。本项目中由emqx取代了原来项目中的默认MQTT Broker Mosquito。</p>
+<p>application server将遥测数据以及交换信息于Thethingsboard集成。</p>
+</section>
+<section id="emqx">
+<h3>3.3 EMQX<a class="headerlink" href="#emqx" title="Permalink to this heading">#</a></h3>
+<p>EMQX 是一款大规模可弹性伸缩的云原生分布式物联网 MQTT 消息服务器。</p>
+<p>目前emqx已经成为全球最具扩展性，github上活跃度最高的 MQTT 消息服务器，EMQX 提供了高效可靠海量物联网设备连接，能够高性能实时移动与处理消息和事件流数据，可快速构建关键业务的物联网平台与应用。</p>
+<p><strong>优势</strong></p>
+<ul class="simple">
+<li><p><strong>开放源码</strong>：基于 Apache 2.0 许可证完全开源，自 2013 年起 200+ 开源版本迭代。</p></li>
+<li><p><strong>MQTT 5.0</strong>：100% 支持 MQTT 5.0 和 3.x 协议标准，更好的伸缩性、安全性和可靠性。</p></li>
+<li><p><strong>海量连接</strong>：单节点支持 500 万 MQTT 设备连接，集群可扩展至 1 亿并发 MQTT 连接。</p></li>
+<li><p><strong>高性能</strong>：单节点支持每秒实时接收、移动、处理与分发数百万条的 MQTT 消息。</p></li>
+<li><p><strong>低时延</strong>：基于 Erlang/OTP 软实时的运行时系统设计，消息分发与投递时延低于 1 毫秒。</p></li>
+<li><p><strong>高可用</strong>：采用 Masterless 的大规模分布式集群架构，实现系统高可用和水平扩展。</p></li>
+</ul>
+<p><strong>用法</strong></p>
+<p>本项目中emqx作为唯一开放的mqtt代理服务。与平台外部直接连接，而在平台内部，对于chirpstack network server，直接连接。而对于the things network，由于tb有自己的mqtt broker，因此需要使用emqx的mqtt桥接功能，具体如下所示：</p>
+<p>1 入方向</p>
+<p><img alt="Untitled" src="../_images/emqx-in.png" /></p>
+<p>2 出方向</p>
+<p><img alt="Untitled" src="../_images/emqx-out.png" /></p>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">上一页</p>
+        <p class="prev-next-title">IoT实验箱与前置知识准备</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="ide.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">下一页</p>
+        <p class="prev-next-title">开发环境</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 目录
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">1  节点设备-实验箱</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#esp-wrover-kit">1.1 ESP-WROVER-KIT</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#b-l475e-iot01a">1.2 B-L475E-IOT01A</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lora-rak3172">1.3 LoRa节点-RAK3172</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nb-iot">1.4 NB-IOT节点</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lorawan">2 LoRaWAN网关</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lorawan-rak2287">2.1 LoraWan集中器：RAK2287</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#raspberry-pi-4b">2.2 宿主机：Raspberry Pi 4B+</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lorawan-chripstack">1.2.2 LoraWan 软件：ChripStack</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#iot">3 IoT 平台</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#thingsboard">3.1 ThingsBoard</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#chirpstack">3.2 ChirpStack</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#emqx">3.3 EMQX</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+作者： Lemon.Go，谭文龙，罗明雄
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022, Lemon.Go@gdpu.edu.cn.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

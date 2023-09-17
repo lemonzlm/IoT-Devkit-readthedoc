@@ -1,0 +1,665 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="zh-CN" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>触摸传感器 &#8212; IoT-Devkit 实验手册 0.2 文档</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../../_static/translations.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'exp-esp32/peripherals/touch';</script>
+    <link rel="author" title="关于这些文档" href="../../about.html" />
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" />
+    <link rel="next" title="温湿度传感器采集" href="dht11.html" />
+    <link rel="prev" title="摄像头OV7670" href="camera.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="zh-CN"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">IoT-Devkit 实验手册 0.2 文档</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../dev-board/index.html">实验箱概述与理论准备</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../dev-board/arch.html">实验系统构成</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../dev-board/ide.html">开发环境概览</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../dev-board/mcu.html">MCU基础</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../dev-board/esp32.html">ESP32</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../dev-board/stm32l475.html">STM32L475</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../dev-board/clion.html">Clion 项目工程基础</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../dev-board/cmake.html">Cmake 构建系统</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../dev-board/esp-idf.html">ESP-IDF SDK基础</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../exp-stm32/index.html">STM32实验篇</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-stm32/ide-setup.html">IDE环境搭建</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-stm32/debug-flow.html">基本调试流程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-stm32/peripherals-and-sensors.html">外设与传感器</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../exp-stm32/ble/index.html">BlueTooth</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../exp-stm32/ble/ble-gatt.html"> GATT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../exp-stm32/ble/ble-p2p.html"> BLE点对点(P2P)通信</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../exp-stm32/ble/Profiles.html"> 蓝牙Profiles</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-stm32/nfc.html">NFC</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../exp-stm32/wifi/index.html">WiFi</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../exp-stm32/wifi/tcp-over-wifi.html"> TCP over WiFi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../exp-stm32/wifi/http-over-wifi.html"> HTTP over WiFi</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-stm32/mqtt.html">MQTT</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../index.html">ESP32实验篇</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="../ide/index.html">IDE集成开发环境搭建</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../ide/esp-idf-setup.html"> ESP-IDF环境配置</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ide/esp-idf-cli.html"> ESP-IDF命令行基本流程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ide/esp-idf-cli-debug.html"> ESP-IDF JTAG调试流程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ide/esp-idf-clion-dev.html"> Clion下ESP-IDF的配置与开发</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="index.html">外设接口与传感器</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="uart.html"> UART</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lcd%26spi.html"> LCD&amp;SPI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="i2c.html"> I2C</a></li>
+<li class="toctree-l3"><a class="reference internal" href="camera.html"> 摄像头</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#"> 触摸传感器</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dht11.html"> 温湿度传感器采集</a></li>
+<li class="toctree-l3"><a class="reference internal" href="light.html"> 光照传感器采集</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gesture.html"> 手势识别</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../bluetooth/index.html">BlueTooth</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../bluetooth/blufi.html"> BluFi配置实验</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../bluetooth/hci.html"> BlueTooth HCI主机控制接口</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../bluetooth/hid-gap.html"> 基于GAP的BlueTooth HID人机接口</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../bluetooth/hid-device-gatt.html"> 基于GATT的BLE HID设备</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../wifi/index.html">WiFi</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../wifi/station.html"> Station 模式</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../wifi/ap.html"> AP模式</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../wifi/esp-now.html"> ESP_NOW 协议</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../wifi/ftm.html"> WiFi测距FTM</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../socket/index.html">Socket over WiFi</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../socket/tcp.html"> TCP Server and Client</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../socket/udp.html"> UDP Server and Client</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket.html">WebSocket over WiFi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../http.html">HTTP over WiFi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mqtt.html">MQTT over WiFi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../coap.html">CoAP over WiFi</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../exp-lora/index.html">LoRa实验篇</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-lora/at-command.html">LoRa AT指令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-lora/p2p-stm32.html">LoRa P2P @STM32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-lora/lorawan-stm32.html">LoRaWan @STM32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-lora/mqtt-stm32.html">MQTT over LoRaWan @STM32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-lora/p2p-esp32.html">LoRa P2P @ESP32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-lora/lorawan-esp32.html">LoRaWan @ESP32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-lora/mqtt-esp32.html">MQTT over LoRaWan @ESP32</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../exp-advanced/index.html">提高篇-Mesh与AIoT</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-advanced/wifi-mesh.html">WiFi Mesh网</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-advanced/ble-mesh.html">BLE Mesh网</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-advanced/code-recognition.html">二维码识别</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-advanced/ai-face-detection.html">AI人脸识别</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-advanced/ai-motion-detection.html">AI运动检测</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-advanced/ai-tensor-flow-light.html">AI Tensor Flow Light</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference.html">源代码与参考资料</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">关于我们</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="下载此页面">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/exp-esp32/peripherals/touch.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="下载源文件"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="列印成 PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="全屏模式"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>触摸传感器</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> 目录 </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#api">API 介绍</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">初始化触摸传感器驱动程序</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpio">配置触摸传感器 GPIO 管脚</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">触摸状态测量</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">测量方式</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">优化测量</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">滤波采样</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">触摸监测</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">中断触发</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">从睡眠模式唤醒</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">实验内容</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">触摸传感器中断示例</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">源代码参考</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">代码调试与示例输出</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="id1">
+<h1>触摸传感器<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h1>
+<p>触摸传感器系统由保护覆盖层、触摸电极、绝缘基板和走线组成，保护覆盖层位于最上层，绝缘基板上设有电极及走线。<strong>用户触摸覆盖层将产生电容变化</strong>，根据电容变化判断此次触摸是否为有效触摸行为。</p>
+<p>ESP32 最多可支持 <strong>10 个电容式触摸传感器</strong>通道/GPIO。</p>
+<p>触摸传感器可以以矩阵或滑条等方式组合使用，从而覆盖更大触感区域及更多触感点。触摸传感由软件或专用硬件计时器发起，由有限状态机 (FSM) 硬件控制。</p>
+<section id="api">
+<h2>API 介绍<a class="headerlink" href="#api" title="Permalink to this heading">#</a></h2>
+<p>下面将 API 分解成几个函数组进行介绍，帮助用户快速了解以下功能：</p>
+<ul class="simple">
+<li><p>初始化触摸传感器驱动程序</p></li>
+<li><p>配置触摸传感器 GPIO 管脚</p></li>
+<li><p>触摸状态测量</p></li>
+<li><p>调整测量参数（优化测量）</p></li>
+<li><p>滤波采样</p></li>
+<li><p>触摸监测方式</p></li>
+<li><p>设置中断信号监测触碰动作</p></li>
+<li><p>中断触发，唤醒睡眠模式</p></li>
+</ul>
+<section id="id2">
+<h3>初始化触摸传感器驱动程序<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h3>
+<p>使用触摸传感器之前，需要先调用 <code class="docutils literal notranslate"><span class="pre">touch_pad_init()</span></code> 函数初始化触摸传感器驱动程序。此函数设置了 API 参考 项下的 Macros 中列出的几项 .._DEFAULT 驱动程序参数，同时删除之前设置过的触摸传感器信息（如有），并禁用中断。</p>
+<p>如果不再需要该驱动程序，可以调用 <code class="docutils literal notranslate"><span class="pre">touch_pad_deinit()</span></code> 释放已初始化的驱动程序。</p>
+</section>
+<section id="gpio">
+<h3>配置触摸传感器 GPIO 管脚<a class="headerlink" href="#gpio" title="Permalink to this heading">#</a></h3>
+<p>调用 <code class="docutils literal notranslate"><span class="pre">touch_pad_config()</span></code> 使能某一 GPIO 的触感功能。</p>
+<p>使用 <code class="docutils literal notranslate"><span class="pre">touch_pad_set_fsm_mode()</span></code> 选择触摸传感器测量（由 FSM 操作）是由硬件定时器自动启动，还是由软件自动启动。如果选择软件模式，请使用 <code class="docutils literal notranslate"><span class="pre">touch_pad_sw_start()</span></code> 启动 FSM。</p>
+</section>
+<section id="id3">
+<h3>触摸状态测量<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h3>
+<p>借助以下两个函数从传感器读取原始数据和滤波后的数据：</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">touch_pad_read_raw_data()</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">touch_pad_read_filtered()</span></code></p></li>
+</ul>
+<p>这两个函数也可以用于检查触碰和释放触摸传感器时传感器读数变化范围，然后根据这些信息设定触摸传感器的触摸阈值。</p>
+<blockquote>
+<div><p><strong>❗ 注意</strong></p>
+<p><strong>使用<code class="docutils literal notranslate"><span class="pre">touch_pad_read_filtered()</span></code>之前，需要先调用 滤波采样 中特定的滤波器函数来初始化并配置该滤波器。</strong></p>
+</div></blockquote>
+</section>
+<section id="id4">
+<h3>测量方式<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h3>
+<p>触摸传感器会统计固定时间内的充放电次数，其计数结果即为原始数据，可由 <code class="docutils literal notranslate"><span class="pre">touch_pad_read_raw_data()</span></code> 读出。上述固定时间可通过 <code class="docutils literal notranslate"><span class="pre">touch_pad_set_measurement_clock_cycles()</span></code> 设置。完成一次测量后，触摸传感器会在下次测量开始前保持睡眠状态。两次测量之前的间隔时间可由 <code class="docutils literal notranslate"><span class="pre">touch_pad_set_measurement_interval()</span></code> 进行设置。</p>
+<blockquote>
+<div><p><strong>❗ 注意</strong></p>
+<p><strong>若设置的计数时间太短（即测量持续的时钟周期数太小），则可能导致结果不准确，但是过大的计数时间也会造成功耗上升。另外，若睡眠时间加测量时间的总时间过长，则会造成触摸传感器响应变慢。</strong></p>
+</div></blockquote>
+</section>
+<section id="id5">
+<h3>优化测量<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h3>
+<p>触摸传感器设有数个可配置参数，以适应触摸传感器设计特点。例如，如果需要感知较细微的电容变化，则可以缩小触摸传感器充放电的参考电压范围。用户可以使用 <code class="docutils literal notranslate"><span class="pre">touch_pad_set_voltage()</span></code> 函数设置电压参考低值和参考高值。</p>
+<p>优化测量除了可以识别细微的电容变化之外，还可以降低应用程序功耗，但可能会增加测量噪声干扰。如果得到的动态读数范围结果比较理想，则可以调用 <code class="docutils literal notranslate"><span class="pre">touch_pad_set_measurement_clock_cycles()</span></code> 函数来减少测量时间，从而进一步降低功耗。</p>
+<p>可用的测量参数及相应的 <code class="docutils literal notranslate"><span class="pre">set</span></code>函数总结如下：</p>
+<p>触摸传感器充放电参数：</p>
+<p>电压门限：<code class="docutils literal notranslate"><span class="pre">touch_pad_set_voltage()</span></code></p>
+<p>速率（斜率）<code class="docutils literal notranslate"> <span class="pre">touch_pad_set_cnt_mode()</span></code></p>
+<p>单次测量所用的时钟周期：<code class="docutils literal notranslate"><span class="pre">touch_pad_set_measurement_clock_cycles()</span></code></p>
+<p>电压门限（参考低值/参考高值）、速率（斜率）与测量时间的关系如下图所示：</p>
+<p><img alt="image-20220802142310089" src="../../_images/image-20220802142310089.png" /></p>
+<p>上图中的 Output 代表触摸传感器读值，即一个测量周期内测得的脉冲计数值。</p>
+<p>所有函数均成对出现，用于设定某一特定参数，并获取当前参数值。例如：<code class="docutils literal notranslate"><span class="pre">touch_pad_set_voltage()</span> </code>和 <code class="docutils literal notranslate"><span class="pre">touch_pad_get_voltage()</span></code>。</p>
+</section>
+<section id="id6">
+<h3>滤波采样<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h3>
+<p>如果测量中存在噪声，可以使用提供的 API 函数对采样进行滤波。使用滤波器之前，请先调用 <code class="docutils literal notranslate"><span class="pre">touch_pad_filter_start()</span></code> 启动该滤波器。</p>
+<p>滤波器类型为 IIR（无限脉冲响应滤波器），可以调用 <code class="docutils literal notranslate"><span class="pre">touch_pad_set_filter_period()</span></code> 配置此类滤波器的采样周期。</p>
+<p>如需停止滤波器，请调用 <code class="docutils literal notranslate"><span class="pre">touch_pad_filter_stop()</span></code> 函数。如果不再使用该滤波器，请调用 <code class="docutils literal notranslate"><span class="pre">touch_pad_filter_delete()</span></code> 删除此滤波器。</p>
+</section>
+<section id="id7">
+<h3>触摸监测<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h3>
+<p>触摸监测基于用户配置的阈值和 FSM 执行的原始测量，并由 ESP32 硬件实现。用户可以调用 <code class="docutils literal notranslate"><span class="pre">touch_pad_get_status()</span></code> 查看被触碰的触摸传感器，或调用 <code class="docutils literal notranslate"><span class="pre">touch_pad_clear_status()</span></code> 清除触摸状态信息。</p>
+<p>也可以将硬件触摸监测连接至中断，详细介绍见下一章节。</p>
+<p>如果测量中存在噪声，且电容变化幅度较小，硬件触摸监测结果可能就不太理想。如需解决这一问题，不建议使用硬件监测或中断信号，建议用户在自己的应用程序中进行采样滤波，并执行触摸监测。</p>
+</section>
+<section id="id8">
+<h3>中断触发<a class="headerlink" href="#id8" title="Permalink to this heading">#</a></h3>
+<p>在对触摸监测启用中断之前，请先设置一个触摸监测阈值。然后使用 触摸状态测量 中所述的函数读取并显示触摸和释放触摸传感器时测得的结果。如果测量中存在噪声且相对电容变化较小，请使用滤波器。用户也可以根据应用程序和环境条件，测试温度和电源电压变化对测量值的影响。</p>
+<p>确定监测阈值后就可以在初始化时调用 <code class="docutils literal notranslate"><span class="pre">touch_pad_config()</span> </code>设置此阈值，或在运行时调用 <code class="docutils literal notranslate"><span class="pre">touch_pad_set_thresh()</span></code> 设置此阈值。</p>
+<p>下一步就是设置如何触发中断。用户可以设置在阈值以下或以上触发中断，具体触发模式由函数 <code class="docutils literal notranslate"><span class="pre">touch_pad_set_trigger_mode()</span> </code>设置。</p>
+<p>最后用户可以使用以下函数配置和管理中断调用：</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">touch_pad_isr_register()</span> <span class="pre">/</span> <span class="pre">touch_pad_isr_deregister()</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">touch_pad_intr_enable()</span> <span class="pre">/</span> <span class="pre">touch_pad_intr_disable()</span></code></p></li>
+</ul>
+<p>中断配置完成后，用户可以调用 touch_pad_get_status() 查看中断信号来自哪个触摸传感器，也可以调用 touch_pad_clear_status() 清除触摸传感器状态信息。</p>
+<blockquote>
+<div><p><strong>❗ 注意</strong></p>
+<p><strong>触摸监测中的中断信号基于原始/未经滤波的采样（对比设置的阈值），并在硬件中实现。启用软件滤波 API (请参考 滤波采样）并不会影响这一过程。</strong></p>
+</div></blockquote>
+</section>
+<section id="id9">
+<h3>从睡眠模式唤醒<a class="headerlink" href="#id9" title="Permalink to this heading">#</a></h3>
+<p>如果使用触摸传感器中断将芯片从睡眠模式唤醒，用户可以选择配置一些触摸传感器，例如 SET1 或 SET1 和 SET2，触摸这些触摸传感器将触发中断并唤醒芯片。请调用 <code class="docutils literal notranslate"><span class="pre">touch_pad_set_trigger_source()</span> </code>实现上述操作。</p>
+<p>用户可以使用以下函数管理 ‘SET’ 中触摸传感器所需的位模式配置：</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">touch_pad_set_group_mask()</span> <span class="pre">/</span> <span class="pre">touch_pad_get_group_mask()</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">touch_pad_clear_group_mask()</span></code></p></li>
+</ul>
+</section>
+</section>
+<section id="id10">
+<h2>实验内容<a class="headerlink" href="#id10" title="Permalink to this heading">#</a></h2>
+<section id="id11">
+<h3>触摸传感器中断示例<a class="headerlink" href="#id11" title="Permalink to this heading">#</a></h3>
+<p>本实验演示如何设置 ESP32 的电容式触摸板外设以在触摸板时触发中断。它还展示了当需要更高的触摸检测灵敏度时，如何通过用于传感器设计的软件检测触摸事件。</p>
+<p>ESP32 通过配置硬件寄存器支持触摸检测。硬件定期检测脉冲计数。如果脉冲计数超过设定的阈值，则会产生硬件中断，通知应用层某个触摸传感器通道可能被触发。</p>
+<p>对于当垫被玻璃或塑料覆盖时的传感器设计，由“触摸”动作引起的差异可能非常小。在这种情况下，我们使用软件池和算法来降低噪声，以便仍然能够检测到脉冲计数的微小变化。在某些情况下，我们可能需要使用其他例程来动态调整阈值水平，因为它可能会根据环境条件而变化。</p>
+</section>
+<section id="id12">
+<h3>源代码参考<a class="headerlink" href="#id12" title="Permalink to this heading">#</a></h3>
+<p>参见<a class="reference internal" href="../../reference.html"><span class="std std-doc">参考资料与源代码</span></a></p>
+</section>
+<section id="id13">
+<h3>代码调试与示例输出<a class="headerlink" href="#id13" title="Permalink to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>使用 idf.py 以及 clion 管理项目，编码，build, flash,monitor</p></li>
+<li><p>触摸 GPIO27 并 monitor</p></li>
+</ol>
+<p>观察监视器打印输出如下：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>I <span class="o">(</span><span class="m">6303</span><span class="o">)</span> Touch pad: Waiting <span class="k">for</span> any pad being touched...
+I <span class="o">(</span><span class="m">6733</span><span class="o">)</span> Touch pad: T7 activated!
+I <span class="o">(</span><span class="m">7333</span><span class="o">)</span> Touch pad: T7 activated!
+I <span class="o">(</span><span class="m">7723</span><span class="o">)</span> Touch pad: T7 activated!
+I <span class="o">(</span><span class="m">8043</span><span class="o">)</span> Touch pad: T7 activated!
+I <span class="o">(</span><span class="m">8883</span><span class="o">)</span> Touch pad: T5 activated!
+I <span class="o">(</span><span class="m">9523</span><span class="o">)</span> Touch pad: T7 activated!
+I <span class="o">(</span><span class="m">12503</span><span class="o">)</span> Touch pad: Waiting <span class="k">for</span> any pad being touched...
+I <span class="o">(</span><span class="m">15483</span><span class="o">)</span> Touch pad: T7 activated!
+I <span class="o">(</span><span class="m">16253</span><span class="o">)</span> Touch pad: T5 activated!
+I <span class="o">(</span><span class="m">17903</span><span class="o">)</span> Touch pad: Waiting <span class="k">for</span> any pad being touched...
+I <span class="o">(</span><span class="m">22903</span><span class="o">)</span> Touch pad: Waiting <span class="k">for</span> any pad being touched...
+</pre></div>
+</div>
+<blockquote>
+<div><p><strong>❗ 注意</strong></p>
+<ol class="arabic simple">
+<li><p><strong>感应阈值在启动时通过执行简单校准自动设置。应用程序正在读取每个焊盘的电流值，并假设该值的三分之二作为感应阈值。不要在应用程序启动时触摸板，否则感应可能无法正常工作。</strong></p></li>
+<li><p><strong>因为我们开发板的引脚大规模复用，请在使用时将摄像头拔下，触摸 GPIO27</strong></p></li>
+</ol>
+</div></blockquote>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="camera.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">上一页</p>
+        <p class="prev-next-title">摄像头OV7670</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="dht11.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">下一页</p>
+        <p class="prev-next-title">温湿度传感器采集</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 目录
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#api">API 介绍</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">初始化触摸传感器驱动程序</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpio">配置触摸传感器 GPIO 管脚</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">触摸状态测量</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">测量方式</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">优化测量</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">滤波采样</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">触摸监测</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">中断触发</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">从睡眠模式唤醒</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">实验内容</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">触摸传感器中断示例</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">源代码参考</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">代码调试与示例输出</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+作者： Lemon.Go，谭文龙，罗明雄
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022, Lemon.Go@gdpu.edu.cn.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

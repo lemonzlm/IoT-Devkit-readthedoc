@@ -1,0 +1,1124 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="zh-CN" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>外设与传感器 &#8212; IoT-Devkit 实验手册 0.2 文档</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../_static/translations.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'exp-stm32/peripherals-and-sensors';</script>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="BLE低功耗蓝牙实验" href="ble/index.html" />
+    <link rel="prev" title="基本调试流程" href="debug-flow.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="zh-CN"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">IoT-Devkit 实验手册 0.2 文档</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../dev-board/index.html">实验箱概述与理论准备</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../dev-board/arch.html">实验系统构成</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dev-board/ide.html">开发环境概览</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../dev-board/mcu.html">MCU基础</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../dev-board/esp32.html">ESP32</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../dev-board/stm32l475.html">STM32L475</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../dev-board/clion.html">Clion 项目工程基础</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dev-board/cmake.html">Cmake 构建系统</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dev-board/esp-idf.html">ESP-IDF SDK基础</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">STM32实验篇</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="ide-setup.html">IDE环境搭建</a></li>
+<li class="toctree-l2"><a class="reference internal" href="debug-flow.html">基本调试流程</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">外设与传感器</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="ble/index.html">BlueTooth</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="ble/ble-gatt.html"> GATT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ble/ble-p2p.html"> BLE点对点(P2P)通信</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ble/Profiles.html"> 蓝牙Profiles</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="nfc.html">NFC</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="wifi/index.html">WiFi</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="wifi/tcp-over-wifi.html"> TCP over WiFi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wifi/http-over-wifi.html"> HTTP over WiFi</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="mqtt.html">MQTT</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../exp-esp32/index.html">ESP32实验篇</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../exp-esp32/ide/index.html">IDE集成开发环境搭建</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/ide/esp-idf-setup.html"> ESP-IDF环境配置</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/ide/esp-idf-cli.html"> ESP-IDF命令行基本流程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/ide/esp-idf-cli-debug.html"> ESP-IDF JTAG调试流程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/ide/esp-idf-clion-dev.html"> Clion下ESP-IDF的配置与开发</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../exp-esp32/peripherals/index.html">外设接口与传感器</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/peripherals/uart.html"> UART</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/peripherals/lcd%26spi.html"> LCD&amp;SPI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/peripherals/i2c.html"> I2C</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/peripherals/camera.html"> 摄像头</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/peripherals/touch.html"> 触摸传感器</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/peripherals/dht11.html"> 温湿度传感器采集</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/peripherals/light.html"> 光照传感器采集</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/peripherals/gesture.html"> 手势识别</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../exp-esp32/bluetooth/index.html">BlueTooth</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/bluetooth/blufi.html"> BluFi配置实验</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/bluetooth/hci.html"> BlueTooth HCI主机控制接口</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/bluetooth/hid-gap.html"> 基于GAP的BlueTooth HID人机接口</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/bluetooth/hid-device-gatt.html"> 基于GATT的BLE HID设备</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../exp-esp32/wifi/index.html">WiFi</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/wifi/station.html"> Station 模式</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/wifi/ap.html"> AP模式</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/wifi/esp-now.html"> ESP_NOW 协议</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/wifi/ftm.html"> WiFi测距FTM</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../exp-esp32/socket/index.html">Socket over WiFi</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/socket/tcp.html"> TCP Server and Client</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/socket/udp.html"> UDP Server and Client</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-esp32/websocket.html">WebSocket over WiFi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-esp32/http.html">HTTP over WiFi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-esp32/mqtt.html">MQTT over WiFi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-esp32/coap.html">CoAP over WiFi</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../exp-lora/index.html">LoRa实验篇</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../exp-lora/at-command.html">LoRa AT指令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-lora/p2p-stm32.html">LoRa P2P @STM32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-lora/lorawan-stm32.html">LoRaWan @STM32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-lora/mqtt-stm32.html">MQTT over LoRaWan @STM32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-lora/p2p-esp32.html">LoRa P2P @ESP32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-lora/lorawan-esp32.html">LoRaWan @ESP32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-lora/mqtt-esp32.html">MQTT over LoRaWan @ESP32</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../exp-advanced/index.html">提高篇-Mesh与AIoT</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../exp-advanced/wifi-mesh.html">WiFi Mesh网</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-advanced/ble-mesh.html">BLE Mesh网</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-advanced/code-recognition.html">二维码识别</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-advanced/ai-face-detection.html">AI人脸识别</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-advanced/ai-motion-detection.html">AI运动检测</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-advanced/ai-tensor-flow-light.html">AI Tensor Flow Light</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../reference.html">参考资料</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">关于我们</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="下载此页面">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/exp-stm32/peripherals-and-sensors.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="下载源文件"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="列印成 PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="全屏模式"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>外设与传感器</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> 目录 </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">实验目的</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">准备工作</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">硬件</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">软件</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">相关电路原理</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#api">引脚定义与相关API</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uartapi">UART实验引脚定义与相关API</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#i2capi">I2C实验引脚定义与相关API</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">实验步骤</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uart"><a id="1">UART与电脑通信</a></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#stm32cubemx">STM32CubeMX创建工程</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">代码编写及运行结果</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">UART阻塞式发送数据</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#printf"><a id="2">重定向printf()函数</a></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">UART中断式接收数据</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#i2c">I2C获取传感器数据</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">STM32CubeMX创建工程</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">代码编写及运行结果</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="id1">
+<h1>外设与传感器<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h1>
+<p>常见的STM32外设有 GPIO、TIM、USART、ADC、DAC、SPI、I2C、EXIT、RTC、SysTIck、WDG、DMA、FLASH、FSMC 等。</p>
+<p>B-L475E-IOT01A 上板载许多传感器，包括但不限于以下传感器（更具体描述的请参考 ST 官方文档 :clap:）：</p>
+<ul class="simple">
+<li><p>用于相对湿度和温度测量的电容式数字传感器（HTS221）</p></li>
+<li><p>高性能3轴磁力计（LIS3MDL）</p></li>
+<li><p>3D加速度计和3D陀螺仪（LSM6DSL）</p></li>
+<li><p>260-1260 hPa绝对数字输出气压计（LPS22HB）</p></li>
+</ul>
+<p>在上一章节，我们使用 STM32 的 GPIO 点亮了 LED 灯，在后续章节，我们会利用 STM32 的串口来与 LoRa 节点通信。因此，本章节我们将学习如何使用 STM32 的 UART（USART 与 UART的区别请自行了解）与 I2C 外设，以及如何获取以 I2C 为通信方式的传感器数据。</p>
+<section id="id2">
+<h2>实验目的<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>实现 UART 阻塞式发送数据以及重定向 printf() 函数</p></li>
+<li><p>实现 UART 中断式接收数据</p></li>
+<li><p>实现 I2C 接收传感器数据</p></li>
+</ul>
+</section>
+<section id="id3">
+<h2>准备工作<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>CLion 中安装 Serial Port Monitor 插件</p></li>
+</ul>
+<section id="id4">
+<h3>硬件<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>物联网实验箱</p></li>
+<li><p>USB 数据线</p></li>
+</ul>
+</section>
+<section id="id5">
+<h3>软件<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>CLion</p></li>
+<li><p>STM32CubeMX</p></li>
+</ul>
+</section>
+</section>
+<section id="id6">
+<h2>相关电路原理<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>STM32 与 USB STLINK 接口</p></li>
+</ul>
+<p><img alt="image-20220729112306980" src="../_images/image-20220729112306980.png" /></p>
+<p><img alt="image-20220729112414977" src="../_images/image-20220729112414977.png" /></p>
+<blockquote>
+<div><p>:exclamation: 注意</p>
+<p>开发板上一共有两片 STM32，其中一片是 STM32F103，另一片是 STM32L475，其中 STM32F103 里烧录了 stlink 固件，是作为仿真器来使用的。那这个时候好（hào）事儿的同学就会有疑问了，你这原理图上 STM32L4 的串口1怎么是 PB6 和 PB7 ，STM32 的串口1不是 PA9 和 PA10 吗？:thinking:其实是因为如果以开发板为模板生成工程的话，在默认的配置里，是把 PB6 和 PB7 重映射为串口1的，而 PA9，PA10 默认配置为 OTG 功能，打开 .ioc 文件就可以发现。</p>
+<p><img alt="image-20220801143622483" src="../_images/image-20220729113356237.png" /></p>
+</div></blockquote>
+<ul class="simple">
+<li><p>STM32 与 I2C 传感器接口</p></li>
+</ul>
+<p><img alt="image-20220729105520689" src="../_images/image-20220729105520689.png" /></p>
+<p><img alt="image-20220729110116832" src="../_images/image-20220729110116832.png" /></p>
+<p>结合两张图可以看出，这四个传感器都与 STM32 的 I2C2 相连，即STM32 的 PB10 和 PB11。除此之外，每一个传感器的 INT 或 DRDY 引脚连接到 STM32 的 GPIO 上（有关 I2C 的主从模式、中断和非中断模式请自行了解）。</p>
+<p><img alt="image-20220729111403881" src="../_images/image-20220729111403881.png" /></p>
+</section>
+<section id="api">
+<h2>引脚定义与相关API<a class="headerlink" href="#api" title="Permalink to this heading">#</a></h2>
+<section id="uartapi">
+<h3>UART实验引脚定义与相关API<a class="headerlink" href="#uartapi" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>引脚定义</p></li>
+</ul>
+<p>PB6 配置为 TX 引脚，PB7 配置为 RX 引脚</p>
+<ul class="simple">
+<li><p>相关API</p></li>
+</ul>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/**</span>
+<span class="cm">  * @brief Receive an amount of data in interrupt mode.</span>
+<span class="cm">  * @note   When UART parity is not enabled (PCE = 0), and Word Length is configured to 9 bits (M1-M0 = 01),</span>
+<span class="cm">  *         the received data is handled as a set of u16. In this case, Size must indicate the number</span>
+<span class="cm">  *         of u16 available through pData.</span>
+<span class="cm">  * @param huart UART handle.</span>
+<span class="cm">  * @param pData Pointer to data buffer (u8 or u16 data elements).</span>
+<span class="cm">  * @param Size  Amount of data elements (u8 or u16) to be received.</span>
+<span class="cm">  * @retval HAL status</span>
+<span class="cm">  */</span><span class="w"></span>
+<span class="n">HAL_StatusTypeDef</span><span class="w"> </span><span class="nf">HAL_UART_Receive_IT</span><span class="p">(</span><span class="n">UART_HandleTypeDef</span><span class="w"> </span><span class="o">*</span><span class="n">huart</span><span class="p">,</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="o">*</span><span class="n">pData</span><span class="p">,</span><span class="w"> </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">Size</span><span class="p">)</span><span class="w"></span>
+
+
+<span class="cm">/**</span>
+<span class="cm">  * @brief Send an amount of data in blocking mode.</span>
+<span class="cm">  * @note   When UART parity is not enabled (PCE = 0), and Word Length is configured to 9 bits (M1-M0 = 01),</span>
+<span class="cm">  *         the sent data is handled as a set of u16. In this case, Size must indicate the number</span>
+<span class="cm">  *         of u16 provided through pData.</span>
+<span class="cm">  * @note When FIFO mode is enabled, writing a data in the TDR register adds one</span>
+<span class="cm">  *       data to the TXFIFO. Write operations to the TDR register are performed</span>
+<span class="cm">  *       when TXFNF flag is set. From hardware perspective, TXFNF flag and</span>
+<span class="cm">  *       TXE are mapped on the same bit-field.</span>
+<span class="cm">  * @param huart   UART handle.</span>
+<span class="cm">  * @param pData   Pointer to data buffer (u8 or u16 data elements).</span>
+<span class="cm">  * @param Size    Amount of data elements (u8 or u16) to be sent.</span>
+<span class="cm">  * @param Timeout Timeout duration.</span>
+<span class="cm">  * @retval HAL status</span>
+<span class="cm">  */</span><span class="w"></span>
+<span class="n">HAL_StatusTypeDef</span><span class="w"> </span><span class="n">HAL_UART_Transmit</span><span class="p">(</span><span class="n">UART_HandleTypeDef</span><span class="w"> </span><span class="o">*</span><span class="n">huart</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="o">*</span><span class="n">pData</span><span class="p">,</span><span class="w"> </span><span class="kt">uint16_t</span><span class="w"> </span><span class="n">Size</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">Timeout</span><span class="p">)</span><span class="w"></span>
+
+
+<span class="cm">/**</span>
+<span class="cm">  * @brief This function provides minimum delay (in milliseconds) based</span>
+<span class="cm">  *        on variable incremented.</span>
+<span class="cm">  * @note In the default implementation , SysTick timer is the source of time base.</span>
+<span class="cm">  *       It is used to generate interrupts at regular time intervals where uwTick</span>
+<span class="cm">  *       is incremented.</span>
+<span class="cm">  * @note This function is declared as __weak to be overwritten in case of other</span>
+<span class="cm">  *       implementations in user file.</span>
+<span class="cm">  * @param Delay  specifies the delay time length, in milliseconds.</span>
+<span class="cm">  * @retval None</span>
+<span class="cm">  */</span><span class="w"></span>
+<span class="n">__weak</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">HAL_Delay</span><span class="p">(</span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">Delay</span><span class="p">)</span><span class="w"></span>
+
+
+<span class="cm">/**</span>
+<span class="cm">  * @brief Return the UART handle state.</span>
+<span class="cm">  * @param  huart Pointer to a UART_HandleTypeDef structure that contains</span>
+<span class="cm">  *               the configuration information for the specified UART.</span>
+<span class="cm">  * @retval HAL state</span>
+<span class="cm">  */</span><span class="w"></span>
+<span class="n">HAL_UART_StateTypeDef</span><span class="w"> </span><span class="n">HAL_UART_GetState</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">UART_HandleTypeDef</span><span class="w"> </span><span class="o">*</span><span class="n">huart</span><span class="p">)</span><span class="w"></span>
+
+
+<span class="cm">/**</span>
+<span class="cm">  * @brief  Rx Transfer completed callback.</span>
+<span class="cm">  * @param  huart UART handle.</span>
+<span class="cm">  * @retval None</span>
+<span class="cm">  */</span><span class="w"></span>
+<span class="n">__weak</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">HAL_UART_RxCpltCallback</span><span class="p">(</span><span class="n">UART_HandleTypeDef</span><span class="w"> </span><span class="o">*</span><span class="n">huart</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="cm">/* Prevent unused argument(s) compilation warning */</span><span class="w"></span>
+<span class="w">  </span><span class="n">UNUSED</span><span class="p">(</span><span class="n">huart</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">  </span><span class="cm">/* NOTE : This function should not be modified, when the callback is needed,</span>
+<span class="cm">            the HAL_UART_RxCpltCallback can be implemented in the user file.</span>
+<span class="cm">   */</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+<section id="i2capi">
+<h3>I2C实验引脚定义与相关API<a class="headerlink" href="#i2capi" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>引脚定义</p></li>
+</ul>
+<p>PB10 配置为 SCL引脚，PB11 配置为 SDA引脚</p>
+<ul class="simple">
+<li><p>相关API</p></li>
+</ul>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/**</span>
+<span class="cm">  * @功能  串口显示 LPS22HB pressure sensor 的值</span>
+<span class="cm">  */</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="n">Pressure_Test</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span>
+
+<span class="cm">/**</span>
+<span class="cm">  * @功能  串口显示 HTS221 humidity sensor 的值</span>
+<span class="cm">  */</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="n">Humidity_Test</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span>
+
+<span class="cm">/**</span>
+<span class="cm">  * @功能  串口显示 HTS221 temperature sensor 的值</span>
+<span class="cm">  */</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="n">Temperature_Test</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span>
+
+<span class="cm">/**</span>
+<span class="cm">  * @功能  串口显示 LSM6DSL accelerometer sensor 的值</span>
+<span class="cm">  */</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="n">Accelero_Test</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span>
+
+<span class="cm">/**</span>
+<span class="cm">  * @功能  串口显示 LIS3MDL gyroscope sensor 的值</span>
+<span class="cm">  */</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="n">Gyro_Test</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span>
+
+<span class="cm">/**</span>
+<span class="cm">  * @功能  串口显示 LIS3MDL magnetometer sensor 的值</span>
+<span class="cm">  */</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="n">Magneto_Test</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id7">
+<h2>实验步骤<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h2>
+<section id="uart">
+<h3><a id="1">UART与电脑通信</a><a class="headerlink" href="#uart" title="Permalink to this heading">#</a></h3>
+<section id="stm32cubemx">
+<h4>STM32CubeMX创建工程<a class="headerlink" href="#stm32cubemx" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p>在 <strong>Pinout &amp; Configuration</strong> 中使能 USART1 的中断，<strong>Mode</strong>为 <strong>Asynchronous</strong>（异步方式，简称UART）</p></li>
+</ul>
+<p><img alt="image-20220729134653395" src="../_images/image-20220729134653395.png" /></p>
+<ul class="simple">
+<li><p>配置完点击 <strong>GENERATE CODE</strong> 生成工程</p></li>
+</ul>
+<p><img alt="image-20220805093724262" src="../_images/image-20220805093724262.png" /></p>
+</section>
+<section id="id8">
+<h4>代码编写及运行结果<a class="headerlink" href="#id8" title="Permalink to this heading">#</a></h4>
+<section id="id9">
+<h5>UART阻塞式发送数据<a class="headerlink" href="#id9" title="Permalink to this heading">#</a></h5>
+<p>在 main.c 中编写以下代码，编写完成后点击右上角的绿色三角形编译并下载程序，串口终端打印出hello world!</p>
+<p><img alt="image-20220729142245276" src="../_images/image-20220729142245276.png" /></p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">HAL_UART_Transmit</span><span class="p">(</span><span class="o">&amp;</span><span class="n">huart1</span><span class="p">,</span><span class="s">&quot;hello world!</span><span class="se">\r\n</span><span class="s">&quot;</span><span class="p">,</span><span class="mi">14</span><span class="p">,</span><span class="mh">0xffff</span><span class="p">);</span><span class="w"></span>
+<span class="n">HAL_Delay</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span><span class="w">    </span><span class="c1">//延时一秒</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p>:exclamation: 注意</p>
+<p>Serial Monitor 各个按键和选项的功能请自行了解，由于串口波特率默认配置为115200，因此在这里也需要把 Baudrate 设置为115200，Port name 要选择为对应的端口。</p>
+<p><img alt="image-20220729143242927" src="../_images/image-20220729143242927.png" /></p>
+</div></blockquote>
+</section>
+<section id="printf">
+<h5><a id="2">重定向printf()函数</a><a class="headerlink" href="#printf" title="Permalink to this heading">#</a></h5>
+<p>printf 是指格式化输出函数，主要功能是向标准输出设备按规定格式输出信息。printf 是C语言标准库函数，定义于头文件 &lt;stdio.h&gt;，输出的字符串除了可以是字母、数字、空格和一些数字符号以外，还可以使用一些转义字符表示特殊的含义 。</p>
+<p>学习标准库的时候，在 <strong>Keil</strong> 里面为了使用printf函数我们需要重定向fputc函数：</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="nf">fputc</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">ch</span><span class="p">,</span><span class="w"> </span><span class="kt">FILE</span><span class="w"> </span><span class="o">*</span><span class="n">f</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">HAL_UART_Transmit</span><span class="p">(</span><span class="o">&amp;</span><span class="n">huart1</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">ch</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1000</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">ch</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>其中的 FILE 定义在 stdio.h 头文件中，所以需要在项目中包含这个头文件，但是经过测试发现，Keil 里面包含的是 MDK\ARM\ARMCC\include 这个目录下的stdio.h，而在 Clion 中是不会链接到这个文件的。因此如果在 CLion 中也按之前的方法进行重定向，会发现 printf 没有任何输出。在 CLion 中链接的是 GNU-Tools-ARM-Embedded\arm-none-eabi\include里面的stdio.h，如果仍然想使用 printf 函数功能，则需要进行如下操作：</p>
+<ul class="simple">
+<li><p>在~/Core/Src/usart.c中添加以下代码</p></li>
+</ul>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/* USER CODE BEGIN 1 */</span><span class="w"></span>
+<span class="cp">#ifdef __GNUC__</span>
+<span class="cm">/* With GCC/RAISONANCE, small printf (option LD Linker-&gt;Libraries-&gt;Small printf</span>
+<span class="cm">   set to &#39;Yes&#39;) calls __io_putchar() */</span><span class="w"></span>
+<span class="cp">#define PUTCHAR_PROTOTYPE int __io_putchar(int ch)</span>
+<span class="cp">#else</span>
+<span class="cp">#define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)</span>
+<span class="cp">#endif </span><span class="cm">/* __GNUC__ */</span><span class="cp"></span>
+<span class="cm">/**</span>
+<span class="cm">  * @brief  Retargets the C library printf function to the USART.</span>
+<span class="cm">  * @param  None</span>
+<span class="cm">  * @retval None</span>
+<span class="cm">  */</span><span class="w"></span>
+<span class="n">PUTCHAR_PROTOTYPE</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* Place your implementation of fputc here */</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* e.g. write a character to the EVAL_COM1 and Loop until the end of transmission */</span><span class="w"></span>
+<span class="w">    </span><span class="n">HAL_UART_Transmit</span><span class="p">(</span><span class="o">&amp;</span><span class="n">huart1</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">ch</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mh">0xFFFF</span><span class="p">);</span><span class="w"></span>
+<span class="w">	</span><span class="c1">//HAL_UART_Transmit(&amp;huart2, (uint8_t *)&amp;ch, 1, 0xFFFF);	//串口2</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">ch</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+<span class="cm">/* USER CODE END 1 */</span><span class="w"></span>
+</pre></div>
+</div>
+<p>可以发现，这段代码最终也是调用 HAL_UART_Transmit()，因此这里的 printf() 也是阻塞式发送数据。</p>
+<ul class="simple">
+<li><p>在~/Core/Src/main.c中添加头文件</p></li>
+</ul>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/* USER CODE BEGIN Includes */</span><span class="w"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;stdio.h&quot;</span><span class="cp"></span>
+<span class="cm">/* USER CODE END Includes */</span><span class="w"></span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>在~/Core/Src/main.c的 while(1) 循环中添加以下代码</p></li>
+</ul>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/* USER CODE BEGIN 3 */</span><span class="w"></span>
+<span class="n">printf</span><span class="p">(</span><span class="s">&quot;hello, pansiwen!(#^.^#)</span><span class="se">\r\n</span><span class="s">&quot;</span><span class="p">);</span><span class="w"> </span><span class="c1">//必须要以\r\n结尾</span>
+<span class="n">HAL_Delay</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>编译下载程序后，终端打印出字符串，非常方便 :watermelon:！</p></li>
+</ul>
+<p><img alt="image-20220729164151875" src="../_images/image-20220729164151875.png" /></p>
+</section>
+<section id="id10">
+<h5>UART中断式接收数据<a class="headerlink" href="#id10" title="Permalink to this heading">#</a></h5>
+<p>因为中断接收函数 HAL_UART_Receive_IT() 只能触发一次接收中断，所以我们需要在中断回调函数中再调用一次中断接收函数</p>
+<p>具体流程：</p>
+<ol class="arabic simple">
+<li><p>初始化串口（相关调用代码已经通过 STM32CubeMX 自动生成）</p></li>
+<li><p>在 main 中第一次调用接收中断函数</p></li>
+<li><p>进入接收中断，接收完数据  进入中断回调函数</p></li>
+<li><p>修改 HAL_UART_RxCpltCallback() 中断回调函数，处理接收的数据</p></li>
+<li><p>回调函数中要调用一次 HAL_UART_Receive_IT() 函数，使得程序可以重新触发接收中断</p></li>
+</ol>
+<p>函数流程图：</p>
+<p>HAL_UART_Receive_IT(中断接收函数) :point_right::point_right: USART1_IRQHandler(中断服务函数) :point_right::point_right: HAL_UART_IRQHandler(中断处理函数) :point_right::point_right: UART_Receive_IT(接收函数) :point_right::point_right: HAL_UART_RxCpltCallback(中断回调函数)</p>
+<p>HAL_UART_RxCpltCallback() 函数就是用户要重写在main.c里的回调函数。（关于回调函数的定义请自行了解）</p>
+<ul class="simple">
+<li><p>main.c 文件中添加需要的 c 库头文件，定义变量</p></li>
+</ul>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/* Private includes ----------------------------------------------------------*/</span><span class="w"></span>
+<span class="cm">/* USER CODE BEGIN Includes */</span><span class="w"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;stdio.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;string.h&gt;</span><span class="cp"></span>
+
+<span class="cp">#define RXBUFFERSIZE  256     </span><span class="c1">//最大接收字节数</span>
+<span class="kt">char</span><span class="w"> </span><span class="n">RxBuffer</span><span class="p">[</span><span class="n">RXBUFFERSIZE</span><span class="p">];</span><span class="w">   </span><span class="c1">//接收数据</span>
+<span class="kt">uint8_t</span><span class="w"> </span><span class="n">aRxBuffer</span><span class="p">;</span><span class="w">			</span><span class="c1">//接收中断缓冲</span>
+<span class="kt">uint8_t</span><span class="w"> </span><span class="n">Uart1_Rx_Cnt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">		</span><span class="c1">//接收缓冲计数</span>
+<span class="cm">/* USER CODE END Includes */</span><span class="w"></span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>在 mian.c 文件中的 main() 主函数里的串口初始化后，while() 循环开始前，先调用一次 HAL_UART_Receive_IT() 中断接收函数</p></li>
+</ul>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/* USER CODE BEGIN 2 */</span><span class="w"></span>
+<span class="n">HAL_UART_Receive_IT</span><span class="p">(</span><span class="o">&amp;</span><span class="n">huart1</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">aRxBuffer</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="cm">/* USER CODE END 2 */</span><span class="w"></span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>在 main.c 文件下方添加 HAL_UART_RxCpltCallback() 中断回调函数</p></li>
+</ul>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/* USER CODE BEGIN 4 */</span><span class="w"></span>
+<span class="c1">//可接收不定长度的数据，以\r\n为结束位，收到的数据存在RxBuffer中</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">HAL_UART_RxCpltCallback</span><span class="p">(</span><span class="n">UART_HandleTypeDef</span><span class="w"> </span><span class="o">*</span><span class="n">huart</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* Prevent unused argument(s) compilation warning */</span><span class="w"></span>
+<span class="w">    </span><span class="n">UNUSED</span><span class="p">(</span><span class="n">huart</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* NOTE: This function Should not be modified, when the callback is needed,</span>
+<span class="cm">             the HAL_UART_TxCpltCallback could be implemented in the user file</span>
+<span class="cm">     */</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">Uart1_Rx_Cnt</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">255</span><span class="p">)</span><span class="w">  </span><span class="c1">//溢出判断</span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">Uart1_Rx_Cnt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">memset</span><span class="p">(</span><span class="n">RxBuffer</span><span class="p">,</span><span class="mh">0x00</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">RxBuffer</span><span class="p">));</span><span class="w"></span>
+<span class="w">        </span><span class="n">HAL_UART_Transmit</span><span class="p">(</span><span class="o">&amp;</span><span class="n">huart1</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="s">&quot;数据溢出&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="mh">0xFFFF</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="k">else</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">RxBuffer</span><span class="p">[</span><span class="n">Uart1_Rx_Cnt</span><span class="o">++</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">aRxBuffer</span><span class="p">;</span><span class="w">   </span><span class="c1">//接收数据转存</span>
+<span class="w">		</span><span class="c1">//0x0A 是 \r 的 ASCII码，0x0D 是 \n 的 ASCII码</span>
+<span class="w">        </span><span class="k">if</span><span class="p">((</span><span class="n">RxBuffer</span><span class="p">[</span><span class="n">Uart1_Rx_Cnt</span><span class="mi">-1</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mh">0x0A</span><span class="p">)</span><span class="o">&amp;&amp;</span><span class="p">(</span><span class="n">RxBuffer</span><span class="p">[</span><span class="n">Uart1_Rx_Cnt</span><span class="mi">-2</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mh">0x0D</span><span class="p">))</span><span class="w"> </span><span class="c1">//判断结束位，以\r\n结尾为一组数据</span>
+<span class="w">        </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="n">HAL_UART_Transmit</span><span class="p">(</span><span class="o">&amp;</span><span class="n">huart1</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">RxBuffer</span><span class="p">,</span><span class="w"> </span><span class="n">Uart1_Rx_Cnt</span><span class="p">,</span><span class="mh">0xFFFF</span><span class="p">);</span><span class="w"> </span><span class="c1">//将收到的信息发送出去</span>
+<span class="w">            </span><span class="k">while</span><span class="p">(</span><span class="n">HAL_UART_GetState</span><span class="p">(</span><span class="o">&amp;</span><span class="n">huart1</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">HAL_UART_STATE_BUSY_TX</span><span class="p">);</span><span class="c1">//检测UART发送结束</span>
+<span class="w">            </span><span class="n">Uart1_Rx_Cnt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">            </span><span class="n">memset</span><span class="p">(</span><span class="n">RxBuffer</span><span class="p">,</span><span class="mh">0x00</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">RxBuffer</span><span class="p">));</span><span class="w"> </span><span class="c1">//清空数组</span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">HAL_UART_Receive_IT</span><span class="p">(</span><span class="o">&amp;</span><span class="n">huart1</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">aRxBuffer</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span><span class="w">   </span><span class="c1">//再次调用中断接收函数</span>
+<span class="p">}</span><span class="w"></span>
+<span class="cm">/* USER CODE END 4 */</span><span class="w"></span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>编译下载程序后，在终端输入想要发送给 STM32 的字符串，点击 <strong>Send</strong></p></li>
+</ul>
+<p><img alt="image-20220729170953171" src="../_images/image-20220729170953171.png" /></p>
+<blockquote>
+<div><p>:exclamation:注意</p>
+<p>要在 CLion的 SerialMonitor 中，右边选择 Both NL &amp; CR，即自动添加回车换行，也可以在要发送的字符串后面添加 \r\n，例如：123\r\n</p>
+</div></blockquote>
+</section>
+</section>
+</section>
+<section id="i2c">
+<h3>I2C获取传感器数据<a class="headerlink" href="#i2c" title="Permalink to this heading">#</a></h3>
+<section id="id11">
+<h4>STM32CubeMX创建工程<a class="headerlink" href="#id11" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p>创建过程与:link:<a href="#1">UART与电脑通信</a>部分一致</p></li>
+<li><p>在工程中完成:link:<a href="#1">重定向printf()函数</a>部分</p></li>
+</ul>
+<blockquote>
+<div><p>:exclamation:注意</p>
+<p>在这一步同学们通常会有三种选择，一是直接用上面完成的工程，二是完全新创建一个工程，三是复制一份上面的工程，然后编辑复制后的工程。如果是第三种情况，可能会有编译错误问题，解决方法：</p>
+<ol class="arabic simple">
+<li><p>如果移动了工程文件夹或者复制了工程文件夹，最好打开.ioc文件重新 <strong>Generate</strong> 一下再编译，可以解决很多错误</p></li>
+<li><p>遇到任何 CMake 相关的报错，一般是由于缓存没有更新引起的，可以在 CLion 中选 <strong>工具-CMake-重置缓存并重新加载项目</strong> 即可解决:ok_hand:。</p></li>
+</ol>
+</div></blockquote>
+</section>
+<section id="id12">
+<h4>代码编写及运行结果<a class="headerlink" href="#id12" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p>添加 BSP 源文件</p></li>
+</ul>
+<p>在工程中新建~/sensor_test/Drivers/BSP文件夹，将/home/lmx/STM32Cube/Repository/STM32Cube_FW_L4_V1.17.2/Drivers/BSP中的B-L475E-IOT01和Components文件夹复制到新建的文件夹中。</p>
+<ul class="simple">
+<li><p>添加对应头文件和函数</p></li>
+</ul>
+<p>在工程中的 ~Core/Inc/main.h 文件夹中添加用到的头文件和函数</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/* Includes ------------------------------------------------------------------*/</span><span class="w"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;stm32l4xx_hal.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;stm32l475e_iot01.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;stm32l475e_iot01_accelero.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;stm32l475e_iot01_magneto.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;stm32l475e_iot01_gyro.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;stm32l475e_iot01_tsensor.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;stm32l475e_iot01_psensor.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;stm32l475e_iot01_hsensor.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;stm32l475e_iot01_qspi.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
+<span class="cm">/* Private includes ----------------------------------------------------------*/</span><span class="w"></span>
+
+
+
+<span class="cm">/* Exported functions prototypes ---------------------------------------------*/</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">QSPI_demo</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">QSPI_MemoryMapped_demo</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">Temperature_Test</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">Humidity_Test</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">Pressure_Test</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">Gyro_Test</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">Magneto_Test</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">Accelero_Test</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span><span class="w"></span>
+
+<span class="kt">uint32_t</span><span class="w"> </span><span class="nf">Serial_Scanf</span><span class="p">(</span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">value</span><span class="p">);</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">Error_Handler</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span><span class="w"></span>
+
+<span class="cm">/* USER CODE BEGIN EFP */</span><span class="w"></span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>修改工程目录下的 CMakeLists.txt 文件</p></li>
+</ul>
+<p>在文件最后增加以下代码，然后 <strong>点击重新加载变更</strong></p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">include_directories</span><span class="p">(</span>
+<span class="w">        </span><span class="s">Drivers/BSP/B-L475E-IOT01</span>
+<span class="w">        </span><span class="s">Drivers/BSP/Components/Common</span>
+<span class="w">        </span><span class="s">//</span><span class="w"> </span><span class="s">其他include目录</span>
+<span class="w">        </span><span class="s">//</span><span class="w"> </span><span class="s">需要哪个外设就包含进去，例如用于相对湿度和温度测量的电容式数字传感器：Drivers/BSP/Components/hts221</span>
+<span class="p">)</span>
+
+
+<span class="nb">file</span><span class="p">(</span><span class="s">GLOB_RECURSE</span><span class="w"> </span><span class="s">SOURCES</span>
+<span class="w">        </span><span class="s2">&quot;Drivers/BSP/B-L475E-IOT01/*.*&quot;</span>
+<span class="w">        </span><span class="s2">&quot;Drivers/BSP/Components/Common/*.*&quot;</span>
+<span class="w">        </span><span class="s">//</span><span class="w"> </span><span class="s">*.*表示通配符，也就是这个文件夹里的所有文件都会被编译</span>
+<span class="w">        </span><span class="s">//</span><span class="w"> </span><span class="s">需要哪个外设就包含进去，例如用于相对湿度和温度测量的电容式数字传感器：</span><span class="s2">&quot;Drivers/BSP/Components/hts221/*.*&quot;</span>
+<span class="w">        </span><span class="p">)</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p>:exclamation: 注意</p>
+<p>在 Keil 中，我们需要哪个 .c 或 .h文件，通常是直接添加进工程文件夹中，然后在软件的图形化界面中手动选择即可。在 CLion 是基于 CMake 来管理项目的，组织编译规则都是基于 CMakeLists.txt 文件。如果熟悉 CMake 会觉得很方便很强大，不熟悉的也没事，CLion 会自动生成 CMakeLists.txt 文件，基本不需要额外修改什么，只需要知道怎么在这个文件里面添加源码目录和 include 文件夹的路径就行了（感兴趣的同学可以自行了解 CMake 以及 CMake 与Makefile 的区别和联系:smiley:）。</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>添加 ~User/sensor.c 文件</p></li>
+</ul>
+<p>在实际开发中，为了方便管理，通常将完全由用户编写的代码独立成一个文件夹，新建~/sensor_test/User 文件夹，在该文件夹中新建 sensor.c 文件。</p>
+<ol class="arabic simple">
+<li><p>新建 User 目录</p></li>
+</ol>
+<p><img alt="image-20220801135833074" src="../_images/image-20220801135833074.png" /></p>
+<ol class="arabic simple" start="2">
+<li><p>新建 .c 文件</p></li>
+</ol>
+<p><img alt="image-20220801135926264" src="../_images/image-20220801135926264.png" /></p>
+<ol class="arabic simple" start="3">
+<li><p>选择 .c 文件，输入名称，取消勾选</p></li>
+</ol>
+<p><img alt="image-20220801140131115" src="../_images/image-20220801140131115.png" /></p>
+<ol class="arabic simple" start="4">
+<li><p>sensor.c 文件中输入以下代码</p></li>
+</ol>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/* Includes ------------------------------------------------------------------*/</span><span class="w"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;main.h&quot;</span><span class="cp"></span>
+
+<span class="cm">/* Private typedef -----------------------------------------------------------*/</span><span class="w"></span>
+<span class="cm">/* Private define ------------------------------------------------------------*/</span><span class="w"></span>
+<span class="cm">/* Private macro -------------------------------------------------------------*/</span><span class="w"></span>
+<span class="cm">/* Private variables ---------------------------------------------------------*/</span><span class="w"></span>
+<span class="kt">int16_t</span><span class="w"> </span><span class="n">pDataXYZ</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">0</span><span class="p">};</span><span class="w"></span>
+<span class="kt">float</span><span class="w"> </span><span class="n">pGyroDataXYZ</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">0</span><span class="p">};</span><span class="w"></span>
+
+<span class="cm">/* Private function prototypes -----------------------------------------------*/</span><span class="w"></span>
+<span class="cm">/* Private functions ---------------------------------------------------------*/</span><span class="w"></span>
+
+<span class="cm">/**</span>
+<span class="cm">  * @brief  Test of LPS22HB pressure sensor.</span>
+<span class="cm">  */</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">Pressure_Test</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">press_value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">BSP_PSENSOR_Init</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">press_value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">BSP_PSENSOR_ReadPressure</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;PRESSURE is = %.2f mBar </span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">press_value</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="cm">/**</span>
+<span class="cm">  * @brief  Test of HTS221 humidity sensor.</span>
+<span class="cm">  */</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">Humidity_Test</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">humidity_value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">BSP_HSENSOR_Init</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">humidity_value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">BSP_HSENSOR_ReadHumidity</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;HUMIDITY is = %.2f %%</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">humidity_value</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="cm">/**</span>
+<span class="cm">  * @brief  Test of HTS221 and LPS22HB temperature sensors.</span>
+<span class="cm">  */</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">Temperature_Test</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">temp_value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">BSP_TSENSOR_Init</span><span class="p">();</span><span class="w"></span>
+<span class="cp">#ifdef USE_LPS22HB_TEMP</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">*** Type n or N to get a first Temperature data from LPS22HB sensor ***</span><span class="se">\n\n</span><span class="s">&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="cp">#else </span><span class="cm">/* USE_HTS221_TEMP */</span><span class="cp"></span>
+<span class="w">    </span><span class="c1">//printf(&quot;\n*** Type n or N to get a first Temperature data from HTS221 sensor ***\n\n&quot;);</span>
+<span class="cp">#endif</span>
+<span class="w">    </span><span class="c1">//printf(&quot;\n*** Type q or Q to quit Temperature Test ***\n\n&quot;);</span>
+<span class="w">    </span><span class="n">temp_value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">BSP_TSENSOR_ReadTemp</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;TEMPERATURE is = %.2f </span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">temp_value</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="cm">/**</span>
+<span class="cm">  * @brief  Test of LSM6DSL accelerometer sensor.</span>
+<span class="cm">  */</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">Accelero_Test</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">BSP_ACCELERO_Init</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">BSP_ACCELERO_AccGetXYZ</span><span class="p">(</span><span class="n">pDataXYZ</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;ACCELERO_X = %d </span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">pDataXYZ</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span><span class="w"></span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;ACCELERO_Y = %d </span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">pDataXYZ</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span><span class="w"></span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;ACCELERO_Z = %d </span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">pDataXYZ</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="cm">/**</span>
+<span class="cm">  * @brief  Test of LIS3MDL gyroscope sensor.</span>
+<span class="cm">  */</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">Gyro_Test</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">BSP_GYRO_Init</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">BSP_GYRO_GetXYZ</span><span class="p">(</span><span class="n">pGyroDataXYZ</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;GYRO_X = %.2f </span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">pGyroDataXYZ</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span><span class="w"></span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;GYRO_Y = %.2f </span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">pGyroDataXYZ</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span><span class="w"></span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;GYRO_Z = %.2f </span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">pGyroDataXYZ</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="cm">/**</span>
+<span class="cm">  * @brief  Test of LIS3MDL magnetometer sensor.</span>
+<span class="cm">  */</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">Magneto_Test</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">BSP_MAGNETO_Init</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">BSP_MAGNETO_GetXYZ</span><span class="p">(</span><span class="n">pDataXYZ</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;MAGNETO_X = %d </span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">pDataXYZ</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span><span class="w"></span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;MAGNETO_Y = %d </span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">pDataXYZ</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span><span class="w"></span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;MAGNETO_Z = %d </span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">pDataXYZ</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="5">
+<li><p>修改 CMakeLists.txt 文件</p></li>
+</ol>
+<p><img alt="image-20220801140745026" src="../_images/image-20220801140745026.png" /></p>
+<ol class="arabic simple" start="6">
+<li><p>修改 main.c 文件</p></li>
+</ol>
+<p>在while() 循环中添加以下代码</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/* USER CODE BEGIN 3 */</span><span class="w"></span>
+<span class="n">printf</span><span class="p">(</span><span class="s">&quot;.......................</span><span class="se">\r\n</span><span class="s">&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="n">Temperature_Test</span><span class="p">();</span><span class="w"></span>
+<span class="n">Humidity_Test</span><span class="p">();</span><span class="w"></span>
+<span class="n">Pressure_Test</span><span class="p">();</span><span class="w"></span>
+<span class="n">Magneto_Test</span><span class="p">();</span><span class="w"></span>
+<span class="n">Gyro_Test</span><span class="p">();</span><span class="w"></span>
+<span class="n">Accelero_Test</span><span class="p">();</span><span class="w"></span>
+<span class="n">HAL_Delay</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>编译下载程序后，打开 Serial Monitor 终端</p></li>
+</ul>
+<p><img alt="image-20220801141751640" src="../_images/image-20220801141751640.png" /></p>
+<p>可适当晃动实验箱，让数据明显变化:smirk:。</p>
+</section>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="debug-flow.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">上一页</p>
+        <p class="prev-next-title">基本调试流程</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="ble/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">下一页</p>
+        <p class="prev-next-title">BLE低功耗蓝牙实验</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 目录
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">实验目的</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">准备工作</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">硬件</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">软件</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">相关电路原理</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#api">引脚定义与相关API</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uartapi">UART实验引脚定义与相关API</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#i2capi">I2C实验引脚定义与相关API</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">实验步骤</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#uart"><a id="1">UART与电脑通信</a></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#stm32cubemx">STM32CubeMX创建工程</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">代码编写及运行结果</a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">UART阻塞式发送数据</a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#printf"><a id="2">重定向printf()函数</a></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">UART中断式接收数据</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#i2c">I2C获取传感器数据</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">STM32CubeMX创建工程</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">代码编写及运行结果</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+作者： Lemon.Go，谭文龙，罗明雄
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022, Lemon.Go@gdpu.edu.cn.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,738 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="zh-CN" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>TCP over WiFi &#8212; IoT-Devkit 实验手册 0.2 文档</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../../_static/translations.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'exp-stm32/wifi/tcp-over-wifi';</script>
+    <link rel="author" title="关于这些文档" href="../../about.html" />
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" />
+    <link rel="next" title="HTTP over WiFi" href="http-over-wifi.html" />
+    <link rel="prev" title="wifi实验" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="zh-CN"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">IoT-Devkit 实验手册 0.2 文档</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../dev-board/index.html">实验箱概述与理论准备</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../dev-board/arch.html">实验系统构成</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../dev-board/ide.html">开发环境概览</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../dev-board/mcu.html">MCU基础</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../dev-board/esp32.html">ESP32</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../dev-board/stm32l475.html">STM32L475</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../dev-board/clion.html">Clion 项目工程基础</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../dev-board/cmake.html">Cmake 构建系统</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../dev-board/esp-idf.html">ESP-IDF SDK基础</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../index.html">STM32实验篇</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../ide-setup.html">IDE环境搭建</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../debug-flow.html">基本调试流程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../peripherals-and-sensors.html">外设与传感器</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../ble/index.html">BlueTooth</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../ble/ble-gatt.html"> GATT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ble/ble-p2p.html"> BLE点对点(P2P)通信</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ble/Profiles.html"> 蓝牙Profiles</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../nfc.html">NFC</a></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="index.html">WiFi</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l3 current active"><a class="current reference internal" href="#"> TCP over WiFi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="http-over-wifi.html"> HTTP over WiFi</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../mqtt.html">MQTT</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../exp-esp32/index.html">ESP32实验篇</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../exp-esp32/ide/index.html">IDE集成开发环境搭建</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../exp-esp32/ide/esp-idf-setup.html"> ESP-IDF环境配置</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../exp-esp32/ide/esp-idf-cli.html"> ESP-IDF命令行基本流程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../exp-esp32/ide/esp-idf-cli-debug.html"> ESP-IDF JTAG调试流程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../exp-esp32/ide/esp-idf-clion-dev.html"> Clion下ESP-IDF的配置与开发</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../exp-esp32/peripherals/index.html">外设接口与传感器</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../exp-esp32/peripherals/uart.html"> UART</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../exp-esp32/peripherals/lcd%26spi.html"> LCD&amp;SPI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../exp-esp32/peripherals/i2c.html"> I2C</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../exp-esp32/peripherals/camera.html"> 摄像头</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../exp-esp32/peripherals/touch.html"> 触摸传感器</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../exp-esp32/peripherals/dht11.html"> 温湿度传感器采集</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../exp-esp32/peripherals/light.html"> 光照传感器采集</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../exp-esp32/peripherals/gesture.html"> 手势识别</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../exp-esp32/bluetooth/index.html">BlueTooth</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../exp-esp32/bluetooth/blufi.html"> BluFi配置实验</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../exp-esp32/bluetooth/hci.html"> BlueTooth HCI主机控制接口</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../exp-esp32/bluetooth/hid-gap.html"> 基于GAP的BlueTooth HID人机接口</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../exp-esp32/bluetooth/hid-device-gatt.html"> 基于GATT的BLE HID设备</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../exp-esp32/wifi/index.html">WiFi</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../exp-esp32/wifi/station.html"> Station 模式</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../exp-esp32/wifi/ap.html"> AP模式</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../exp-esp32/wifi/esp-now.html"> ESP_NOW 协议</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../exp-esp32/wifi/ftm.html"> WiFi测距FTM</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../exp-esp32/socket/index.html">Socket over WiFi</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../exp-esp32/socket/tcp.html"> TCP Server and Client</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../exp-esp32/socket/udp.html"> UDP Server and Client</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-esp32/websocket.html">WebSocket over WiFi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-esp32/http.html">HTTP over WiFi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-esp32/mqtt.html">MQTT over WiFi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-esp32/coap.html">CoAP over WiFi</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../exp-lora/index.html">LoRa实验篇</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-lora/at-command.html">LoRa AT指令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-lora/p2p-stm32.html">LoRa P2P @STM32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-lora/lorawan-stm32.html">LoRaWan @STM32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-lora/mqtt-stm32.html">MQTT over LoRaWan @STM32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-lora/p2p-esp32.html">LoRa P2P @ESP32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-lora/lorawan-esp32.html">LoRaWan @ESP32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-lora/mqtt-esp32.html">MQTT over LoRaWan @ESP32</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../exp-advanced/index.html">提高篇-Mesh与AIoT</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-advanced/wifi-mesh.html">WiFi Mesh网</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-advanced/ble-mesh.html">BLE Mesh网</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-advanced/code-recognition.html">二维码识别</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-advanced/ai-face-detection.html">AI人脸识别</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-advanced/ai-motion-detection.html">AI运动检测</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-advanced/ai-tensor-flow-light.html">AI Tensor Flow Light</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference.html">参考资料</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">关于我们</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="下载此页面">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/exp-stm32/wifi/tcp-over-wifi.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="下载源文件"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="列印成 PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="全屏模式"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>TCP over WiFi</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> 目录 </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">实验目的</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">准备工作</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">硬件</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">软件</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">相关电路原理</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#api">引脚定义与相关API</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">实验步骤</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stm32cubemx">STM32CubeMX创建工程</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">代码编写及运行结果</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="tcp-over-wifi">
+<h1>TCP over WiFi<a class="headerlink" href="#tcp-over-wifi" title="Permalink to this heading">#</a></h1>
+<p>B-L475E-IOT01A 板载的 WiFi 模块为 ISM43362-M3G-L44，其内部集成了 TCP/IP 协议栈，只需简单的 AT 指令即可建立无线连接。ISM43362-M3G-L44 可通过 UART 或 SPI 接口与单片机通信。那这个时候同学们就会有疑问了:thinking:，平时在单片机上用的 WiFi 透传模块几乎都是 UART 的，这款为什么有个 SPI 接口呢？</p>
+<p>众所周知啊，单片机高速 WiFi 通信传输，是难以实现的，原因一般在于：</p>
+<ol class="arabic simple">
+<li><p>支持高速通信的 WiFi 模块，一般是 USB、SDIO、或PCIE 接口，这些接口一般出现在 Cortex-A 系列的芯片，大多数 Cortex-M 系列的普通单片机是没有这种接口的。</p></li>
+<li><p>即使某些单片机提供了这些接口，单片机和 WiFi模块的通信编程也会变得非常复杂，并造成单片机选型的成本增加。</p></li>
+<li><p>普通单片机因资源（性能和存储）有限，难以支持实用的、较好性能的单片机 WiFi 方案。</p></li>
+</ol>
+<p>所以，大多数用在单片机系统上的 WiFi 模块，要么是以 UART 为主的，只能做一些基本的低速控制命令的传输，或者费了九牛二虎之力，集成了 USB、 SDIO、或 PCIE 接口的 WIFI 模块，但效果也很一般，且造价昂贵。因此，在普通单片机上做高速 WiFi  通信（类似 ESP32 这种自带 WiFi 的芯片不在讨论范围内）是难以实现的，而通过 SPI 方式传输，就可以改变这种情况。原因在于 SPI 为全双工通信，传输速率可达几 Mbps，并且大部分单片机上都有 SPI 外设。</p>
+<section id="id1">
+<h2>实验目的<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>了解 SPI 通信协议</p></li>
+<li><p>实现 TCP over WiFi</p></li>
+</ul>
+</section>
+<section id="id2">
+<h2>准备工作<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>:iphone:安装 TCP Server 软件</p></li>
+</ul>
+<section id="id3">
+<h3>硬件<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>物联网实验箱</p></li>
+<li><p>USB 数据线</p></li>
+<li><p>:iphone:</p></li>
+</ul>
+</section>
+<section id="id4">
+<h3>软件<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>CLion</p></li>
+<li><p>STM32CubeMX</p></li>
+<li><p>TCP Server</p></li>
+</ul>
+</section>
+</section>
+<section id="id5">
+<h2>相关电路原理<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>STM32 与 WiFi 模块的硬件连接</p></li>
+</ul>
+<p><img alt="image-20220805114113309" src="../../_images/image-20220805114113309.png" /></p>
+<blockquote>
+<div><p>:exclamation: 注意</p>
+<p>开发板将 wifi 模块的 spi 和 uart 都引出来了，但官方的驱动代码默认使用 spi 通信，可以在程序中修改宏定义的值，从而使用 uart 通信，后面会讲在哪个文件里修改。</p>
+</div></blockquote>
+</section>
+<section id="api">
+<h2>引脚定义与相关API<a class="headerlink" href="#api" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>引脚定义</p></li>
+<li><p>相关API</p></li>
+</ul>
+</section>
+<section id="id6">
+<h2>实验步骤<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h2>
+<section id="stm32cubemx">
+<h3>STM32CubeMX创建工程<a class="headerlink" href="#stm32cubemx" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>以开发板为模板生成工程，保持默认设置，不修改任何引脚配置和时钟配置</p></li>
+</ul>
+</section>
+<section id="id7">
+<h3>代码编写及运行结果<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>添加需要的源文件和板级支持包（BSP）</p></li>
+</ul>
+<ol class="arabic simple">
+<li><p>添加 BSP（步骤跟前面的章节相同），创建 ~User/wifi 文件夹</p></li>
+<li><p>将以下路径中的四个 .h 文件添加到新建的 ~User/wifi 目录下，并将 es_wifi_conf_template.h 的文件名修改为 es_wifi_conf.h <img alt="image-20220805143154915" src="../../_images/image-20220805143154915.png" /></p></li>
+<li><p>将以下路径中的三个 .c 文件添加到新建的 ~User/wifi 目录下<img alt="image-20220805143407206" src="../../_images/image-20220805143407206.png" /></p></li>
+</ol>
+<p>完成后是这样的</p>
+<p><img alt="image-20220805144509757" src="../../_images/image-20220805144509757.png" /></p>
+<ul class="simple">
+<li><p>修改 CMakeLists.txt 文件</p></li>
+</ul>
+<p>第56行添加 User</p>
+<p><img alt="image-20220805145141169" src="../../_images/image-20220805145141169.png" /></p>
+<p>添加以下 include_directories 和 file 路径</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">include_directories</span><span class="p">(</span>
+<span class="w">        </span><span class="s">Drivers/BSP/B-L475E-IOT01</span>
+<span class="w">        </span><span class="s">User/wifi</span>
+<span class="w">        </span><span class="s">//</span><span class="w"> </span><span class="s">其他include目录</span>
+<span class="p">)</span>
+
+
+<span class="nb">file</span><span class="p">(</span><span class="s">GLOB_RECURSE</span><span class="w"> </span><span class="s">SOURCES</span>
+<span class="w">        </span><span class="s2">&quot;User/wifi/*.*&quot;</span>
+<span class="w">        </span><span class="s2">&quot;Drivers/BSP/B-L475E-IOT01/*.*&quot;</span>
+<span class="w">        </span><span class="s">//</span><span class="w"> </span><span class="s">*.*表示通配符，也就是这个文件夹里的所有文件都会被编译</span>
+<span class="w">        </span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>修改 es_wifi_conf.h 文件，将原有的代码替换成以下代码</p></li>
+</ul>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/**</span>
+<span class="cm">  ******************************************************************************</span>
+<span class="cm">  * @file    es_wifi_conf.h</span>
+<span class="cm">  * @author  MCD Application Team</span>
+<span class="cm">  * @brief   ES-WIFI configuration.</span>
+<span class="cm">  ******************************************************************************</span>
+<span class="cm">  * @attention</span>
+<span class="cm">  *</span>
+<span class="cm">  * Copyright (c) 2017 STMicroelectronics.</span>
+<span class="cm">  * All rights reserved.</span>
+<span class="cm">  *</span>
+<span class="cm">  * This software is licensed under terms that can be found in the LICENSE file</span>
+<span class="cm">  * in the root directory of this software component.</span>
+<span class="cm">  * If no LICENSE file comes with this software, it is provided AS-IS.</span>
+<span class="cm">  *</span>
+<span class="cm">  ******************************************************************************</span>
+<span class="cm">  */</span><span class="w"></span>
+
+<span class="cp">#ifndef ES_WIFI_CONF_H</span>
+<span class="cp">#define ES_WIFI_CONF_H</span>
+
+<span class="cp">#ifdef __cplusplus</span>
+<span class="w"> </span><span class="k">extern</span><span class="w"> </span><span class="s">&quot;C&quot;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="cp">#endif  </span>
+
+<span class="c1">//#define WIFI_USE_CMSIS_OS</span>
+
+<span class="cp">#ifdef WIFI_USE_CMSIS_OS</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;cmsis_os.h&quot;</span><span class="cp"></span>
+
+<span class="k">extern</span><span class="w"> </span><span class="n">osMutexId</span><span class="w"> </span><span class="n">es_wifi_mutex</span><span class="p">;</span><span class="w"></span>
+
+<span class="cp">#define LOCK_SPI()              osMutexWait(spi_mutex, 0)</span>
+<span class="cp">#define UNLOCK_SPI()            osMutexRelease(spi_mutex)</span>
+<span class="cp">#define LOCK_WIFI()             osMutexWait(es_wifi_mutex, 0)</span>
+<span class="cp">#define UNLOCK_WIFI()           osMutexRelease(es_wifi_mutex)</span>
+<span class="cp">#define SEM_SIGNAL(a)           osSemaphoreRelease(a)</span>
+<span class="cp">#define SEM_WAIT(a,timeout)     osSemaphoreWait(a,timeout)</span>
+<span class="cp">#define SPI_INTERFACE_PRIO              configMAX_SYSCALL_INTERRUPT_PRIORITY</span>
+<span class="cp">#else</span>
+
+<span class="cp">#define LOCK_WIFI()</span>
+<span class="cp">#define UNLOCK_WIFI()</span>
+<span class="cp">#define LOCK_SPI()</span>
+<span class="cp">#define UNLOCK_SPI()</span>
+<span class="cp">#define SEM_SIGNAL(a)</span>
+<span class="cp">#define SPI_INTERFACE_PRIO              0</span>
+<span class="cp">#endif</span>
+
+<span class="cp">#define ES_WIFI_MAX_SSID_NAME_SIZE                  32</span>
+<span class="cp">#define ES_WIFI_MAX_PSWD_NAME_SIZE                  32</span>
+<span class="cp">#define ES_WIFI_PRODUCT_ID_SIZE                     32</span>
+<span class="cp">#define ES_WIFI_PRODUCT_NAME_SIZE                   32</span>
+<span class="cp">#define ES_WIFI_FW_REV_SIZE                         24</span>
+<span class="cp">#define ES_WIFI_API_REV_SIZE                        16</span>
+<span class="cp">#define ES_WIFI_STACK_REV_SIZE                      16</span>
+<span class="cp">#define ES_WIFI_RTOS_REV_SIZE                       16</span>
+
+<span class="cp">#define ES_WIFI_DATA_SIZE                           2000  </span><span class="cm">/*Increased from 1400 to fit scan result.*/</span><span class="cp"></span>
+<span class="cp">#define ES_WIFI_MAX_DETECTED_AP                     10</span>
+<span class="w">   </span>
+<span class="cp">#define ES_WIFI_TIMEOUT                             30000</span>
+<span class="w">                                                    </span>
+<span class="cp">#define ES_WIFI_USE_PING                            1</span>
+<span class="cp">#define ES_WIFI_USE_AWS                             0</span>
+<span class="cp">#define ES_WIFI_USE_FIRMWAREUPDATE                  0</span>
+<span class="cp">#define ES_WIFI_USE_WPS                             0</span>
+<span class="w">                                                    </span>
+<span class="cp">#define ES_WIFI_USE_SPI                             1</span>
+<span class="cp">#define ES_WIFI_USE_UART                            (!ES_WIFI_USE_SPI)</span>
+<span class="w">   </span>
+
+
+<span class="cp">#ifdef __cplusplus</span>
+<span class="p">}</span><span class="w"></span>
+<span class="cp">#endif</span>
+<span class="cp">#endif </span><span class="cm">/* ES_WIFI_CONF_H */</span><span class="cp"></span>
+</pre></div>
+</div>
+<blockquote>
+<div><p>:exclamation: 注意</p>
+<p>若要使用 uart 通信，可以通过 es_wifi_conf.h 文件中的宏定义修改</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#define ES_WIFI_USE_SPI                             1	</span><span class="c1">// 1为SPI，0为uart</span>
+<span class="cp">#define ES_WIFI_USE_UART                            (!ES_WIFI_USE_SPI)</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>如果修改为 uart 通信，编译的时候会报错，这时候就要修改 es_wifi.c 文件，添加 <code class="docutils literal notranslate"><span class="pre">char</span> <span class="pre">*ptr;</span></code>。很多官方的代码偶尔会有一些小错误，根据实际情况修改并编译成功就行了。</p>
+<p><img alt="image-20220805150940641" src="../../_images/image-20220805150940641.png" /></p>
+<p><img alt="image-20220805150916024" src="../../_images/image-20220805150916024.png" /></p>
+<ul class="simple">
+<li><p>修改 stm32l4xx_it.c 文件，添加以下代码</p></li>
+</ul>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/* USER CODE BEGIN 1 */</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">EXTI1_IRQHandler</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">HAL_GPIO_EXTI_IRQHandler</span><span class="p">(</span><span class="n">GPIO_PIN_1</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+<span class="cm">/* USER CODE END 1 */</span><span class="w"></span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>修改 main.c 文件，让手机和开发板连接上同一个wifi</p></li>
+</ul>
+<p>手机连接 wifi 后，打开 TCP Server 软件，会出现手机 IP 地址，修改 mian.c 中的 IP 地址。</p>
+<img src="tcp-over-wifi.assets/image-20220805151834432.png" alt="image-20220805151834432" style="zoom:25%;" />
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/* Update SSID and PASSWORD with own Access point settings */</span><span class="w"></span>
+<span class="cp">#define SSID     &quot;LMX&quot;      </span><span class="c1">//wifi名称</span>
+<span class="cp">#define PASSWORD &quot;luo010607&quot;    </span><span class="c1">//wifi密码</span>
+
+<span class="kt">uint8_t</span><span class="w"> </span><span class="n">RemoteIP</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">192</span><span class="p">,</span><span class="mi">168</span><span class="p">,</span><span class="mi">137</span><span class="p">,</span><span class="mi">32</span><span class="p">};</span><span class="w">  </span><span class="c1">//手机IP地址，注意是 , 不是 .</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>编译下载代码后，等待开发板连接上 wifi，然后点击 APP 的 <strong>CREATE</strong> 创建 TCP 连接</p></li>
+</ul>
+<ol class="arabic simple">
+<li><p>右上角出现提示，此时开发板与手机通过 wifi 进行 TCP 通信</p></li>
+</ol>
+<img src="tcp-over-wifi.assets/image-20220805152025175.png" alt="image-20220805152025175" style="zoom:25%;" />
+<ol class="arabic simple" start="2">
+<li><p>手机发送”hello, pxh!”到单片机:grin:，单片机接收到（可通过串口查看单片机接收到的信息）并回复”Hello!”</p></li>
+</ol>
+<p><img alt="image-20220805153035459" src="../../_images/image-20220805153035459.png" /></p>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">上一页</p>
+        <p class="prev-next-title">wifi实验</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="http-over-wifi.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">下一页</p>
+        <p class="prev-next-title">HTTP over WiFi</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 目录
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">实验目的</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">准备工作</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">硬件</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">软件</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">相关电路原理</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#api">引脚定义与相关API</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">实验步骤</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stm32cubemx">STM32CubeMX创建工程</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">代码编写及运行结果</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+作者： Lemon.Go，谭文龙，罗明雄
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022, Lemon.Go@gdpu.edu.cn.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,242 @@
+
+
+# Clion下ESP-IDF的配置与开发
+
+## 引言
+
+- 编程环境：指代码编写的人机交互环境，例如使Clion IDE或者VS Code等工具对开发环境的耦合和优化。
+
+- 开发环境：指ESP-IDF工程的建立，配置，编译，调试，量产等基础操作的环境。开发环境不包含编程环境
+
+一个优秀的编程环境可以让开发体验直线上升，工作事半功倍，而Clion恰是我们C语言开发的优秀编程环境！
+
+- 代码辅助
+
+  使用对 C 和 C++ 有深刻理解的编辑器，您便可以高效地读写代码。 可在智能补全功能中按类型筛选出补全结果。 使用路径导航来跟踪您在范围层次结构内的位置。 借助参数名称提示，深入了解函数调用。 查找符号的上下文用法，或通过键入其名称直接跳转到该符号。 CLion 甚至可以确保您的代码符合编码指南，包括格式、命名等要求。
+
+  ![](../IMG/image-20220728105523027.png)
+
+
+
+- 代码生成
+
+  立即生成大量样板代码。 使用简单的快捷键重写和实现函数。 生成构造函数和析构函数、getter 和 setter 以及相等、相关和流输出运算符。 使用语句包装代码块，或者从用法生成声明。 创建自定义活动模板以在整个代码库中重用典型代码块，从而节省时间并使样式保持一致。		![](../IMG/image-20220728105547240.png)
+
+
+
+- 安全重构
+
+  重命名符号，内联函数、变量或宏，在层次结构中移动成员，更改函数签名，以及提取函数、变量、参数或 typedef。 无论您使用哪种自动重构，都请放心，CLion 能够安全地在整个代码中传播相关变更。
+
+  ![](../IMG/image-20220728105623134.png)
+
+
+
+- 快速文档
+
+  检查脱字符号下的代码即可了解任何信息：函数签名详细信息、审查评论、预览 Doxygen 样式文档、检查针对缺少显式类型的符号推断出的类型，以及查看正确格式化的最终宏替换。
+
+  ![](../IMG/image-20220728105704105.png)
+
+
+
+## 第一步：安装Clion
+
+1. 命令行安装
+
+   ```bash
+   sudo snap install clion --classic
+   ```
+
+2. 在Ubuntu自带应用商店snap中搜索一键安装
+
+   ![image-20220728104733457](../IMG/image-20220728104733457.png)
+
+## 第二步：添加插件
+
+1. 在插件处搜索Chinese，选择 中文语言包 并下载安装 
+   - 安装完成后会提示重启IDE，重启后便显示中文
+2. 在插件处搜索Serial，选择 Serial Port Monitor 并下载安装
+   - 这是串口调试器插件，集成在IED内非常好用
+
+![image-20220728112238437](../IMG/image-20220728112238437.png)
+
+## 第三步：打开一个ESP示例项目工程
+
+在ESP32的 外设接口与传感器 文件夹中找到 hello_world 文件夹，右键点击文件夹，选择 使用其他程序打开，在弹出的界面中选择使用Clion打开
+
+此时会弹出如下界面，选择CMake项目并确定
+
+<img src="../IMG/image-20220728114640697.png" alt="image-20220728114640697" style="zoom:67%;" />
+
+1. 勾选 在编辑CMakeLists.txt或其他CMake配置文件时重新加载CMake项目
+
+2. 点击环境栏旁边的小图标打开环境变量窗口
+
+   在上方用户环境变量处点 ＋ 号添加变量
+
+   | 名称     | 值                             |
+   | -------- | ------------------------------ |
+   | ESPBAUD  | 115200                         |
+   | ESPPORT  | /dev/ttyUSB1                   |
+   | IDF_PATH | /home/Ubuntu用户名/esp/esp-idf |
+
+> ❗注意
+>
+> ESPBAUD是波特率，默认115200；ESPPORT是串口的引脚，一般为数字较大的那个，具体根据实际情况填写，一般为1或2
+>
+> IDF_PATH一般默认如上表填写，实际上是安装的 ESP-IDF 的目录，自行构建环境的同学目录还可能带有-4.4.1这种版本号
+
+❗注意
+
+以下1～3步骤配置环境变量的方法是早期的方法，比较繁杂，容易出错，下给出一个简单的做法，同样实现环境变量的正确配置
+
+![config-env](../IMG/config-env.gif)
+
+如看不清GIF动图，请下载MOV文件播放。
+
+<video src=“../IMG/config-env.mov"></video>
+
+**注意：在环境文件名下些export.sh所在的真实目录**
+
+- 如视频中：$HOME/esp/esp32/export.sh
+- 如果你设置了IDF_PATH这个环境变量的话，那么你也可以设为：$IDF_PATH/export.sh
+
+按照如上发作，可以跳过下面的三个步骤，直接到运行配置部分。
+
+
+
+1. 打开一个终端，输入如下内容
+
+   ```bash
+   get-idf
+   echo $PATH
+   
+   此时系统会输出类似下方的环境变量，请根据自己输出的复制，不要复制此处的！
+   /home/closure/esp/esp-idf/components/esptool_py/esptool:/home/closure/esp/esp-idf/components/espcoredump:/home/closure/esp/esp-idf/components/partition_table:/home/closure/esp/esp-idf/components/app_update:/home/closure/.espressif/tools/xtensa-esp32-elf/esp-2021r2-patch3-8.4.0/xtensa-esp32-elf/bin:/home/closure/.espressif/tools/xtensa-esp32s2-elf/esp-2021r2-patch3-8.4.0/xtensa-esp32s2-elf/bin:/home/closure/.espressif/tools/xtensa-esp32s3-elf/esp-2021r2-patch3-8.4.0/xtensa-esp32s3-elf/bin:/home/closure/.espressif/tools/riscv32-esp-elf/esp-2021r2-patch3-8.4.0/riscv32-esp-elf/bin:/home/closure/.espressif/tools/esp32ulp-elf/2.28.51-esp-20191205/esp32ulp-elf-binutils/bin:/home/closure/.espressif/tools/esp32s2ulp-elf/2.28.51-esp-20191205/esp32s2ulp-elf-binutils/bin:/home/closure/.espressif/tools/openocd-esp32/v0.11.0-esp32-20211220/openocd-esp32/bin:/home/closure/.espressif/python_env/idf4.4_py3.8_env/bin:/home/closure/esp/esp-idf/tools:/home/closure/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+   ```
+
+2. 复制获取到的一长串环境变量，在下方框内拖动滑条找到名称：PATH，粘贴进 值 里面（图中蓝色部分）
+
+3. 按确定保存
+
+![](../IMG/115915.png)
+
+
+
+> ❗注意
+>
+> 不小心关闭窗口的同学可以在右上角点齿轮图标打开设置 - 构建、执行、部署 - 工具链 - CMake 打开上述界面
+>
+> 同时可以点击环境的框 按下Ctrl+A（全选）然后 Ctrl+C （复制）把这一长串环境变量保存到txt文本中，后续使用配置时直接粘贴即可。
+
+![image-20220728141135563](../IMG/image-20220728141135563.png)
+
+## 第四步：运行/调试配置
+
+### 烧录与监视器
+
+在右上区域的绿色三角（运行）旁边有可下拉选项，点击下拉后选择 编辑配置，在 运行/调试配置 框中找到flash选择可执行文件如下图
+
+同理找到monitor，也进行相同选择，点击应用并确定
+
+目前我们一般只用到 `hello_world(工程名).elf`、`flash`、`monitor`，其余同学们可以点击相应名字再点框内左上的 － 号删去
+
+每次更换后请点应用与确定！
+
+![image-20220728143215219](../IMG/image-20220728143215219.png)
+
+### menuconfig
+
+点 运行/调试配置 框左上角添加新配置，找到 Shell Script 进行添加
+
+名称：menuconfig         执行：脚本文本
+
+脚本文本填写如下
+
+```bash
+get-idf;idf.py menuconfig
+```
+
+![image-20220728144355596](../IMG/image-20220728144355596.png)
+
+### JATG调试
+
+点 运行/调试配置 框左上角添加新配置，找到 嵌入式GDB服务器 进行添加
+
+- 名称 默认不用更改，也可改为自己想要的名称；
+- 目标 默认不用更改；
+- 可执行二进制文件选择对应工程名的elf文件。
+- 调试器
+
+```bash
+/home/Ubuntu用户名/.espressif/tools/xtensa-esp32-elf/esp-2021r2-patch3-8.4.0/xtensa-esp32-elf/bin/xtensa-esp32-elf-gdb
+```
+
+- 下载可执行文件：**无** 
+
+- 'target remote':
+
+```bash
+tcp:127.0.0.1:3333
+```
+
+- GDB服务器：
+
+```bash
+/home/Ubuntu用户名/.espressif/tools/openocd-esp32/v0.11.0-esp32-20211220/openocd-esp32/bin/openocd
+```
+
+- GDB服务器实参：
+
+```bash
+-f board/esp32-wrover-kit-3.3v.cfg -c "init;reset halt;" 
+```
+
+![image-20220728145749085](../IMG/image-20220728145749085.png)
+
+## 第五步：烧录与串口监视
+
+### 运行工程配置工具 menuconfig
+
+编译前先进行设置，选择`menuconfig`并运行，终端框会如下图所示：
+
+因为本次为hello_world工程，不需要设置，直接按下  ESC 返回即可。
+
+![image-20220728151042596](../IMG/image-20220728151042596.png)
+
+### 编译工程文件
+
+然后选择`hello_world.elf`运行编译，如果一切正常，编译完成后将生成 .elf文件。
+
+### 烧录到设备
+
+选择`flash`运行，跟在终端烧录一样，当下方消息框出现如图所示连接中的情况的时候，请按下板子的boot按键直到烧录开始再松开。
+
+![image-20220728152106428](../IMG/image-20220728152106428.png)
+
+### 运行监视器查看串口日志输出
+
+选择`monitor`运行，就能看到如下图的日志输出啦！
+
+点击 红色方块 即可终止退出。
+
+![image-20220728152512423](../IMG/image-20220728152512423.png)
+
+## 第六步：JTAGDebug
+
+先在希望程序中断运行的语句所在行打上断点，在所在行行数数字旁边空的区域单击，即可看见该行高亮并且带有红点
+
+再选择设置好的JTAGDebug并点旁边的 ‘’小虫子‘’ 按键进行Debug，执行后会如下图所示：
+
+![image-20220728152832656](../IMG/image-20220728152832656.png)
+
+我们能清楚的看到变量的情况以及类型等，更复杂的语句还有更多显示。
+
+调试框边上的各个按键同学们可自行查看并学习用法。
+
+点击 红色方块 即可终止退出。
+
+
+
+**至此Clion下ESP-IDF的配置与开发已经完成！**

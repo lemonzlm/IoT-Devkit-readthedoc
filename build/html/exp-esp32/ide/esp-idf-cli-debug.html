@@ -1,0 +1,790 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="zh-CN" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>ESP-IDF JTAG 调试流程 &#8212; IoT-Devkit 实验手册 0.2 文档</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../../_static/translations.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'exp-esp32/ide/esp-idf-cli-debug';</script>
+    <link rel="author" title="关于这些文档" href="../../about.html" />
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" />
+    <link rel="next" title="Clion 下 ESP-IDF 的配置与开发" href="esp-idf-clion-dev.html" />
+    <link rel="prev" title="使用命令行创建项目的完整流程" href="esp-idf-cli.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="zh-CN"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">IoT-Devkit 实验手册 0.2 文档</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../dev-board/index.html">实验箱概述与理论准备</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../dev-board/arch.html">实验系统构成</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../dev-board/ide.html">开发环境概览</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../dev-board/mcu.html">MCU基础</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../dev-board/esp32.html">ESP32</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../dev-board/stm32l475.html">STM32L475</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../dev-board/clion.html">Clion 项目工程基础</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../dev-board/cmake.html">Cmake 构建系统</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../dev-board/esp-idf.html">ESP-IDF SDK基础</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../exp-stm32/index.html">STM32实验篇</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-stm32/ide-setup.html">IDE环境搭建</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-stm32/debug-flow.html">基本调试流程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-stm32/peripherals-and-sensors.html">外设与传感器</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../exp-stm32/ble/index.html">BlueTooth</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../exp-stm32/ble/ble-gatt.html"> GATT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../exp-stm32/ble/ble-p2p.html"> BLE点对点(P2P)通信</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../exp-stm32/ble/Profiles.html"> 蓝牙Profiles</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-stm32/nfc.html">NFC</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../exp-stm32/wifi/index.html">WiFi</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../exp-stm32/wifi/tcp-over-wifi.html"> TCP over WiFi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../exp-stm32/wifi/http-over-wifi.html"> HTTP over WiFi</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-stm32/mqtt.html">MQTT</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../index.html">ESP32实验篇</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="index.html">IDE集成开发环境搭建</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="esp-idf-setup.html"> ESP-IDF环境配置</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp-idf-cli.html"> ESP-IDF命令行基本流程</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#"> ESP-IDF JTAG调试流程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp-idf-clion-dev.html"> Clion下ESP-IDF的配置与开发</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../peripherals/index.html">外设接口与传感器</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../peripherals/uart.html"> UART</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../peripherals/lcd%26spi.html"> LCD&amp;SPI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../peripherals/i2c.html"> I2C</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../peripherals/camera.html"> 摄像头</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../peripherals/touch.html"> 触摸传感器</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../peripherals/dht11.html"> 温湿度传感器采集</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../peripherals/light.html"> 光照传感器采集</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../peripherals/gesture.html"> 手势识别</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../bluetooth/index.html">BlueTooth</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../bluetooth/blufi.html"> BluFi配置实验</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../bluetooth/hci.html"> BlueTooth HCI主机控制接口</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../bluetooth/hid-gap.html"> 基于GAP的BlueTooth HID人机接口</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../bluetooth/hid-device-gatt.html"> 基于GATT的BLE HID设备</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../wifi/index.html">WiFi</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../wifi/station.html"> Station 模式</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../wifi/ap.html"> AP模式</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../wifi/esp-now.html"> ESP_NOW 协议</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../wifi/ftm.html"> WiFi测距FTM</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../socket/index.html">Socket over WiFi</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../socket/tcp.html"> TCP Server and Client</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../socket/udp.html"> UDP Server and Client</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket.html">WebSocket over WiFi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../http.html">HTTP over WiFi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mqtt.html">MQTT over WiFi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../coap.html">CoAP over WiFi</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../exp-lora/index.html">LoRa实验篇</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-lora/at-command.html">LoRa AT指令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-lora/p2p-stm32.html">LoRa P2P @STM32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-lora/lorawan-stm32.html">LoRaWan @STM32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-lora/mqtt-stm32.html">MQTT over LoRaWan @STM32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-lora/p2p-esp32.html">LoRa P2P @ESP32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-lora/lorawan-esp32.html">LoRaWan @ESP32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-lora/mqtt-esp32.html">MQTT over LoRaWan @ESP32</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../exp-advanced/index.html">提高篇-Mesh与AIoT</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-advanced/wifi-mesh.html">WiFi Mesh网</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-advanced/ble-mesh.html">BLE Mesh网</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-advanced/code-recognition.html">二维码识别</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-advanced/ai-face-detection.html">AI人脸识别</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-advanced/ai-motion-detection.html">AI运动检测</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-advanced/ai-tensor-flow-light.html">AI Tensor Flow Light</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference.html">源代码与参考资料</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">关于我们</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="下载此页面">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/exp-esp32/ide/esp-idf-cli-debug.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="下载源文件"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="列印成 PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="全屏模式"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>ESP-IDF JTAG 调试流程</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> 目录 </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">引言</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">工作原理</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#jtag">选择 JTAG 适配器</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#openocd">安装 OpenOCD</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">配置并连接 JTAG 接口</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#usb">配置 USB 驱动</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">运行 OpenOCD</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">上传待调试的应用程序</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">启动调试器</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">命令行模式</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#idf-py">idf.py 模式</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ide">IDE 模式</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="esp-idf-jtag">
+<h1>ESP-IDF JTAG 调试流程<a class="headerlink" href="#esp-idf-jtag" title="Permalink to this heading">#</a></h1>
+<section id="id1">
+<h2>引言<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
+<p>ESP32 具有两个强大的 Xtensa 内核，支持多种程序架构。ESP-IDF 自带的 FreeRTOS 操作系统支持多核抢占式调度，允许用户以更加直观的方式编写软件。</p>
+<p>与此相对地，由于缺乏合适的工具，简便的编程方式也会给程序的调试带来困难，比如找出由两个线程引起的错误，并且这两个线程在单独的 CPU 核上同时运行，那么仅凭 printf 语句会花费很长时间来定位该错误。调试此类问题更好(往往也更快)的方法是使用调试器，将其连接到处理器的调试端口。</p>
+<p>乐鑫已完成 OpenOCD 移植，以支持 ESP32 处理器和多核 FreeRTOS 架构（此作为大多数 ESP32 应用程序的基础）。此外，乐鑫还提供了一些 OpenOCD 本身并不支持的工具，以进一步丰富调试功能。</p>
+</section>
+<section id="id2">
+<h2>工作原理<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h2>
+<p>通过 JTAG（Joint Test Action Group）接口使用 OpenOCD 调试 ESP32 时所需要的关键软件和硬件:</p>
+<ul class="simple">
+<li><p>包括 xtensa-esp32-elf-gdb 调试器</p></li>
+<li><p>OpenOCD 片上调试器</p></li>
+<li><p>连接到 ESP32 目标的 JTAG 适配器，</p></li>
+</ul>
+<p>如下图 “Application Loading and Monitoring” 标志所示。</p>
+<p><img alt="" src="../../_images/3.png" />
+JTAG 调试 - 概述图</p>
+<p>“Application Loading and Monitoring” 标志显示一组关键的软件和硬件组件，可用于编译、构建和烧写应用程序到 ESP32 上，以及监视来自 ESP32 的运行诊断信息。</p>
+<p>我们使用的 ESP-WROVER-KIT 开发板，由于其板载 FT232H 芯片，仅需一根 USB 线即可连接 PC 与 ESP32。FT232H 提供了两路 USB 通道，一路连接到 JTAG，另一路连接到 UART。</p>
+<p>根据喜好，除了使用 Eclipse 集成开发环境，还可以直接在命令行终端运行 debugger 和 idf.py build。</p>
+</section>
+<section id="jtag">
+<h2>选择 JTAG 适配器<a class="headerlink" href="#jtag" title="Permalink to this heading">#</a></h2>
+<p>我们使用的 ESP-WROVER-KIT 开发板，它板载了 JTAG 调试接口，无需使用外部 JTAG 硬件适配器和额外线缆来连接 JTAG 与 ESP32。ESP-WROVER-KIT 采用 FT2232H 提供的 JTAG 接口，可以稳定运行在 20 MHz 的时钟频率，外接的适配器很难达到这个速度。</p>
+<p>在软件方面，OpenOCD 支持相当多数量的 JTAG 适配器，请自行在网络上寻找并参阅 OpenOCD 支持的适配器列表 （请注意这一列表并不完整），其中还列出了兼容 SWD 接口的适配器，但请注意，ESP32 目前并不支持 SWD。此外，被硬编码为只支持特定产品线的 JTAG 适配器也无法在 ESP32 上工作，例如仅针对 STM32 系列产品的 ST-LINK 适配器。</p>
+<p>JTAG 正常工作至少需要连接的信号线有：TDI、TDO、TCK、TMS 和 GND。一些 JTAG 适配器还需要 ESP32 提供一路电源到适配器的某个管脚上（比如 Vtar），用于设置适配器的工作电压。您也可以选择将 SRST 信号线连接到 ESP32 的 CH_PD 管脚上，但请注意，目前 OpenOCD 对该信号线提供的支持相当有限。</p>
+</section>
+<section id="openocd">
+<h2>安装 OpenOCD<a class="headerlink" href="#openocd" title="Permalink to this heading">#</a></h2>
+<p>如果您已经按照前面的章节完成了 ESP-IDF 及其 CMake 构建系统的安装，那么 OpenOCD 已经被默认安装到了您的开发系统中。在设置开发环境 结束后，在终端中运行如下 OpenOCD 命令:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>openocd --version
+</pre></div>
+</div>
+<p>终端会输出类似以下内容的信息（实际版本号可能会更新）:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Open On-Chip Debugger  v0.10.0-esp32-20190708 <span class="o">(</span><span class="m">2019</span>-07-08-11:04<span class="o">)</span>
+Licensed under GNU GPL v2
+For bug reports, <span class="nb">read</span>
+    http://openocd.org/doc/doxygen/bugs.html
+</pre></div>
+</div>
+<p>您还可以检查 OPENOCD_SCRIPTS 环境变量的值，以确认 OpenOCD 配置文件的路径，Linux 和 macOS 用户可以在终端输入 echo $OPENOCD_SCRIPTS。如果终端输出了有效路径，则表明您已经正确安装 OpenOCD。</p>
+</section>
+<section id="id3">
+<h2>配置并连接 JTAG 接口<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h2>
+<p>确保实验箱上的 JTAG 引脚已经使用跳线帽连接</p>
+<p>检查 ESP32 上用于 JTAG 通信的引脚是否被接到了其它硬件上，这可能会影响 JTAG 的工作。</p>
+<p>ESP32 引脚和 JTAG 接口信号</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>ESP32 引脚</p></th>
+<th class="head"><p>JTAG 信号</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>MTDO / GPIO15</p></td>
+<td><p>TDO</p></td>
+</tr>
+<tr class="row-odd"><td><p>MTDI / GPIO12</p></td>
+<td><p>TDI</p></td>
+</tr>
+<tr class="row-even"><td><p>MTCK / GPIO13</p></td>
+<td><p>TCK</p></td>
+</tr>
+<tr class="row-odd"><td><p>MTMS / GPIO14</p></td>
+<td><p>TMS</p></td>
+</tr>
+<tr class="row-even"><td><p>GND</p></td>
+<td><p>GND</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="usb">
+<h2>配置 USB 驱动<a class="headerlink" href="#usb" title="Permalink to this heading">#</a></h2>
+<ol class="arabic">
+<li><p>使用标准 USB A / micro USB B 线将 ESP-WROVER-KIT 与计算机相连接，并打开开发板的电源。</p></li>
+<li><p>打开终端，输入 <code class="docutils literal notranslate"><span class="pre">ls</span> <span class="pre">-l</span> <span class="pre">/dev/ttyUSB*</span></code> 命令检查操作系统是否能够识别板子的 USB 端口。类似识别结果如下：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls -l /dev/ttyUSB*
+crw-rw---- <span class="m">1</span> root dialout <span class="m">188</span>, <span class="m">0</span> Jul <span class="m">10</span> <span class="m">19</span>:04 /dev/ttyUSB0
+crw-rw---- <span class="m">1</span> root dialout <span class="m">188</span>, <span class="m">1</span> Jul <span class="m">10</span> <span class="m">19</span>:04 /dev/ttyUSB1
+</pre></div>
+</div>
+</li>
+<li><p>根据 OpenOCD README 文档 中 “Permissions delegation” 小节的介绍，设置这两个 USB 端口的访问权限。</p>
+<p>在命令行中修改 USB 权限（单次生效）</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo chmod <span class="m">777</span> /dev/ttyUSB0
+sudo chmod <span class="m">777</span> /dev/ttyUSB1
+</pre></div>
+</div>
+<p>添加用户组到 plugdev（永久生效）</p>
+<p>对于大多数 Linux 发行版（如 Ubuntu 等），我们需要将 openocd-esp32 提供的<code class="docutils literal notranslate"><span class="pre">.rules</span></code>文件放到<code class="docutils literal notranslate"><span class="pre">/etc/udev/rules.d/</span></code>下（具体请参考自己操作系统的文档）</p>
+<p>.rules 文件目录：<code class="docutils literal notranslate"><span class="pre">/$HOME/.espressif/tools/openocd-esp32/v0.11.0-esp32-20211220/openocd-esp32/share/openocd/contrib</span></code></p>
+<p>其中.espressif 是隐藏文件夹</p>
+<p>之后需要将你的用户添加到 plugdev 组中</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo usermod -a -G plugdev <span class="nv">$USER</span>
+</pre></div>
+</div>
+</li>
+<li><p>注销并重新登录 Linux 系统，然后重新插拔板子的电源使之前的改动生效。在终端再次输入 <code class="docutils literal notranslate"><span class="pre">ls</span> <span class="pre">-l</span> <span class="pre">/dev/ttyUSB*</span></code> 命令进行验证，查看这两个设备的组所有者是否已经从 dialout 更改为 plugde</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls -l /dev/ttyUSB*
+crw-rw-r-- <span class="m">1</span> root plugdev <span class="m">188</span>, <span class="m">0</span> Jul <span class="m">10</span> <span class="m">19</span>:07 /dev/ttyUSB0
+crw-rw-r-- <span class="m">1</span> root plugdev <span class="m">188</span>, <span class="m">1</span> Jul <span class="m">10</span> <span class="m">19</span>:07 /dev/ttyUSB1
+</pre></div>
+</div>
+</li>
+<li><p>使用标准 USB A / micro USB B 线将 ESP-WROVER-KIT 与计算机相连接，并打开板子的电源。打开终端，输入 <code class="docutils literal notranslate"><span class="pre">ls</span> <span class="pre">-l</span> <span class="pre">/dev/ttyUSB*</span></code> 命令检查操作系统是否能够识别板子的 USB 端口。类似识别结果如下：</p></li>
+</ol>
+<p>​ 如果看到类似的输出结果，并且你也是 plugdev 组的成员， 那么设置工作就完成了。</p>
+<p>​ 具有较低编号的 /dev/ttyUSBn 接口用于 JTAG 通信，另一路接口被连接到 ESP32 的串口（UART），用于上传应用程序映像给 ESP32 进行烧写。</p>
+<p>现在，ESP-WROVER-KIT 的 JTAG 接口应该可以被 OpenOCD 使用。</p>
+</section>
+<section id="id4">
+<h2>运行 OpenOCD<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h2>
+<p>配置完目标并将其连接到电脑后，即可启动 OpenOCD。</p>
+<p>打开终端，按照快速入门指南中的 设置好开发环境 章节进行操作，然后运行如下命令，以启动 OpenOCD（该命令适用于 Windows、Linux 和 macOS）:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>openocd -f board/esp32-wrover-kit-3.3v.cfg
+</pre></div>
+</div>
+<p>现在您应该可以看到如下输出（此日志来自板载 ESP32-WROOM-32 模组的 ESP-WROVER-KIT 开发板）:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>user-name@computer-name:~/esp/esp-idf$ openocd -f board/esp32-wrover-kit-3.3v.cfg
+Open On-Chip Debugger  v0.10.0-esp32-20190708 <span class="o">(</span><span class="m">2019</span>-07-08-11:04<span class="o">)</span>
+Licensed under GNU GPL v2
+For bug reports, <span class="nb">read</span>
+        http://openocd.org/doc/doxygen/bugs.html
+none separate
+adapter speed: <span class="m">20000</span> kHz
+force hard breakpoints
+Info : ftdi: <span class="k">if</span> you experience problems at higher adapter clocks, try the <span class="nb">command</span> <span class="s2">&quot;ftdi_tdo_sample_edge falling&quot;</span>
+Info : clock speed <span class="m">20000</span> kHz
+Info : JTAG tap: esp32.cpu0 tap/device found: 0x120034e5 <span class="o">(</span>mfg: 0x272 <span class="o">(</span>Tensilica<span class="o">)</span>, part: 0x2003, ver: 0x1<span class="o">)</span>
+Info : JTAG tap: esp32.cpu1 tap/device found: 0x120034e5 <span class="o">(</span>mfg: 0x272 <span class="o">(</span>Tensilica<span class="o">)</span>, part: 0x2003, ver: 0x1<span class="o">)</span>
+Info : esp32: Debug controller was reset <span class="o">(</span><span class="nv">pwrstat</span><span class="o">=</span>0x5F, after clear 0x0F<span class="o">)</span>.
+Info : esp32: Core was reset <span class="o">(</span><span class="nv">pwrstat</span><span class="o">=</span>0x5F, after clear 0x0F<span class="o">)</span>.
+</pre></div>
+</div>
+<p>如果出现指示权限问题的错误，请打开 <code class="docutils literal notranslate"><span class="pre">~/esp/openocd-esp32</span></code> 目录，参阅 OpenOCD README 文件中关于 “Permissions delegation” 的说明。</p>
+<p>如果遇到无法找到配置文件的错误，例如 Can’t find board/esp32-wrover-kit-3.3v.cfg，请检查 <code class="docutils literal notranslate"><span class="pre">OPENOCD_SCRIPTS</span></code> 环境变量是否设置正确，OpenOCD 根据此变量来查找 -f 指定的文件，详见 安装 OpenOCD。此外，还需要检查配置文件是否确实位于该路径下。</p>
+<p>如果出现 JTAG 错误（例如输出为 …all ones 或 …all zeroes），请检查硬件连接是否正确，除了 ESP32 的管脚之外是否还有其他信号连接到了 JTAG，并查看是否所有器件都已经上电。</p>
+</section>
+<section id="id5">
+<h2>上传待调试的应用程序<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h2>
+<p>按照正常步骤构建并上传 ESP32 应用程序，具体请参阅 ESP-IDF 命令行基本流程 章节。</p>
+<p>除此以外，您还可以使用 OpenOCD 通过 JTAG 接口将应用程序镜像烧写到闪存中，命令如下:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>openocd -f board/esp32-wrover-kit-3.3v.cfg -c <span class="s2">&quot;program_esp filename.bin 0x10000 verify exit&quot;</span>
+</pre></div>
+</div>
+<p>其中 OpenOCD 的烧写命令 program_esp 格式如下：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>program_esp &lt;image_file&gt; &lt;offset&gt; <span class="o">[</span>verify<span class="o">]</span> <span class="o">[</span>reset<span class="o">]</span> <span class="o">[</span>exit<span class="o">]</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>image_file - 程序镜像文件存放的路径</p></li>
+<li><p>offset - 镜像烧写到闪存中的偏移地址</p></li>
+<li><p>verify - 烧写完成后校验闪存中的内容（可选）</p></li>
+<li><p>reset - 烧写完成后重启目标（可选）</p></li>
+<li><p>exit - 烧写完成后退出 OpenOCD（可选）</p></li>
+</ul>
+</section>
+<section id="id6">
+<h2>启动调试器<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h2>
+<p>ESP32 的工具链中带有 GNU 调试器（简称 GDB），它和其它工具链软件共同存放于 xtensa-esp32-elf-gdb 中。现在我们在命令行环境下，实现 GDB 的调试</p>
+<section id="id7">
+<h3>命令行模式<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h3>
+<ol class="arabic">
+<li><p>为了能够启动调试会话，需要先启动并运行目标，如果还没有完成，请按照 <a class="reference external" href="https://docs.espressif.com/projects/esp-idf/zh_CN/latest/esp32/api-guides/jtag-debugging/index.html#jtag-debugging-configuring-target">配置 ESP32 目标板</a> 中的介绍进行操作。</p></li>
+<li><p>打开一个新的终端会话并前往待调试的项目目录，比如：</p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">~/</span><span class="n">esp</span><span class="o">/</span><span class="n">blink</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>当启动调试器时，通常需要提供几个配置参数和命令，为了避免每次都在命令行中逐行输入这些命令，您可以新建一个配置文件，并将其命名为 <code class="docutils literal notranslate"><span class="pre">gdbinit</span></code>:</p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">target</span> <span class="n">remote</span> <span class="p">:</span><span class="mi">3333</span>
+<span class="nb">set</span> <span class="n">remote</span> <span class="n">hardware</span><span class="o">-</span><span class="n">watchpoint</span><span class="o">-</span><span class="n">limit</span> <span class="mi">2</span>
+<span class="n">mon</span> <span class="n">reset</span> <span class="n">halt</span>
+<span class="n">flushregs</span>
+<span class="n">thb</span> <span class="n">app_main</span>
+<span class="n">c</span>
+</pre></div>
+</div>
+<p>将此文件保存在当前目录中。</p>
+<p>有关 <code class="docutils literal notranslate"><span class="pre">gdbinit</span></code> 文件内部的更多详细信息，请参阅 <a class="reference external" href="https://docs.espressif.com/projects/esp-idf/zh_CN/latest/esp32/api-guides/jtag-debugging/tips-and-quirks.html#jtag-debugging-tip-debugger-startup-commands">调试器的启动命令的含义</a> 章节。</p>
+</div></blockquote>
+</li>
+<li><p>准备好启动 GDB，请在终端中输入以下内容：</p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">xtensa</span><span class="o">-</span><span class="n">esp32</span><span class="o">-</span><span class="n">elf</span><span class="o">-</span><span class="n">gdb</span> <span class="o">-</span><span class="n">x</span> <span class="n">gdbinit</span> <span class="n">build</span><span class="o">/</span><span class="n">blink</span><span class="o">.</span><span class="n">elf</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>如果前面的步骤已经正确完成，您会看到如下所示的输出日志，在日志的最后会出现 <code class="docutils literal notranslate"><span class="pre">(gdb)</span></code> 提示符：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>user-name@computer-name:~/esp/blink$ xtensa-esp32-elf-gdb -x gdbinit build/blink.elf
+GNU gdb (crosstool-NG crosstool-ng-1.22.0-61-gab8375a) 7.10
+Copyright (C) 2015 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later &lt;http://gnu.org/licenses/gpl.html&gt;
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.  Type &quot;show copying&quot;
+and &quot;show warranty&quot; for details.
+This GDB was configured as &quot;--host=x86_64-build_pc-linux-gnu --target=xtensa-esp32-elf&quot;.
+Type &quot;show configuration&quot; for configuration details.
+For bug reporting instructions, please see:
+&lt;http://www.gnu.org/software/gdb/bugs/&gt;.
+Find the GDB manual and other documentation resources online at:
+&lt;http://www.gnu.org/software/gdb/documentation/&gt;.
+For help, type &quot;help&quot;.
+Type &quot;apropos word&quot; to search for commands related to &quot;word&quot;...
+Reading symbols from build/blink.elf...done.
+0x400d10d8 in esp_vApplicationIdleHook () at /home/user-name/esp/esp-idf/components/esp32/./freertos_hooks.c:52
+52          asm(&quot;waiti 0&quot;);
+JTAG tap: esp32.cpu0 tap/device found: 0x120034e5 (mfg: 0x272 (Tensilica), part: 0x2003, ver: 0x1)
+JTAG tap: esp32.slave tap/device found: 0x120034e5 (mfg: 0x272 (Tensilica), part: 0x2003, ver: 0x1)
+esp32: Debug controller was reset (pwrstat=0x5F, after clear 0x0F).
+esp32: Core was reset (pwrstat=0x5F, after clear 0x0F).
+esp32 halted. PRO_CPU: PC=0x5000004B (active)    APP_CPU: PC=0x00000000
+esp32: target state: halted
+esp32: Core was reset (pwrstat=0x1F, after clear 0x0F).
+Target halted. PRO_CPU: PC=0x40000400 (active)    APP_CPU: PC=0x40000400
+esp32: target state: halted
+Hardware assisted breakpoint 1 at 0x400db717: file /home/user-name/esp/blink/main/./blink.c, line 43.
+0x0:    0x00000000
+Target halted. PRO_CPU: PC=0x400DB717 (active)    APP_CPU: PC=0x400D10D8
+[New Thread 1073428656]
+[New Thread 1073413708]
+[New Thread 1073431316]
+[New Thread 1073410672]
+[New Thread 1073408876]
+[New Thread 1073432196]
+[New Thread 1073411552]
+[Switching to Thread 1073411996]
+
+Temporary breakpoint 1, app_main () at /home/user-name/esp/blink/main/./blink.c:43
+43      xTaskCreate(&amp;blink_task, &quot;blink_task&quot;, 512, NULL, 5, NULL);
+(gdb)
+</pre></div>
+</div>
+</li>
+</ol>
+<p>注意上面日志的倒数第三行显示了调试器已经在 <code class="docutils literal notranslate"><span class="pre">app_main()</span></code>函数的断点处停止，该断点在 <code class="docutils literal notranslate"><span class="pre">gdbinit</span></code> 文件中设定。由于处理器已经暂停运行，LED 也不会闪烁。如果这也是您看到的现象，您可以开始调试了。</p>
+<p>如果您不太了解 GDB 的常用方法，请查阅 <a class="reference external" href="https://docs.espressif.com/projects/esp-idf/zh_CN/latest/esp32/api-guides/jtag-debugging/debugging-examples.html#jtag-debugging-examples-command-line">使用命令行的调试示例</a> 文章中的调试示例章节 <a class="reference external" href="https://docs.espressif.com/projects/esp-idf/zh_CN/latest/esp32/api-guides/jtag-debugging/index.html#jtag-debugging-examples">调试范例</a>。</p>
+</section>
+<section id="idf-py">
+<h3>idf.py 模式<a class="headerlink" href="#idf-py" title="Permalink to this heading">#</a></h3>
+<p>您还可以使用 <code class="docutils literal notranslate"><span class="pre">idf.py</span></code> 更方便地执行上述提到的调试命令，可以使用以下命令：</p>
+<ol class="arabic">
+<li><p><code class="docutils literal notranslate"><span class="pre">idf.py</span> <span class="pre">openocd</span></code></p>
+<p>在终端中运行 OpenOCD，其配置信息来源于环境变量或者命令行。默认会使用 <code class="docutils literal notranslate"><span class="pre">OPENOCD_SCRIPTS</span></code> 环境变量中指定的脚本路径，它是由 ESP-IDF 项目仓库中的导出脚本（<code class="docutils literal notranslate"><span class="pre">export.sh</span></code> or <code class="docutils literal notranslate"><span class="pre">export.bat</span></code>）添加到系统环境变量中的。 当然，您可以在命令行中通过 <code class="docutils literal notranslate"><span class="pre">--openocd-scripts</span></code> 参数来覆盖这个变量的值。</p>
+<p>至于当前开发板的 JTAG 配置，请使用环境变量 <code class="docutils literal notranslate"><span class="pre">OPENOCD_COMMANDS</span></code> 或命令行参数 <code class="docutils literal notranslate"><span class="pre">--openocd-commands</span></code>。如果这两者都没有被定义，那么 OpenOCD 会使用 <code class="docutils literal notranslate"><span class="pre">-fboard/esp32-wrover-kit-3.3v.cfg</span></code> 参数来启动。</p>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">idf.py</span> <span class="pre">gdb</span></code></p>
+<p>根据当前项目的 elf 文件自动生成 GDB 启动脚本，然后会按照 <a class="reference external" href="https://docs.espressif.com/projects/esp-idf/zh_CN/latest/esp32/api-guides/jtag-debugging/using-debugger.html#jtag-debugging-using-debugger-command-line">使用命令行调试</a> 中所描述的步骤启动 GDB。</p>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">idf.py</span> <span class="pre">gdbtui</span></code></p>
+<p>和步骤 2 相同，但是会在启动 GDB 的时候传递 <code class="docutils literal notranslate"><span class="pre">tui</span></code> 参数，这样可以方便在调试过程中查看源代码。</p>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">idf.py</span> <span class="pre">gdbgui</span></code></p>
+<p>启动 <a class="reference external" href="https://www.gdbgui.com/">gdbgui</a>，在浏览器中打开调试器的前端界面。请在运行安装脚本时添加 “–enable-gdbgui” 参数，即运行 <code class="docutils literal notranslate"><span class="pre">install.sh</span> <span class="pre">--enable-gdbgui</span></code>，从而确保支持 “gdbgui” 选项。</p>
+<p>上述这些命令也可以合并到一起使用，<code class="docutils literal notranslate"><span class="pre">idf.py</span></code> 会自动将后台进程（比如 openocd）最先运行，交互式进程（比如 GDB，monitor）最后运行。</p>
+<p>常用的组合命令如下所示:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">idf</span><span class="o">.</span><span class="n">py</span> <span class="n">openocd</span> <span class="n">gdbgui</span> <span class="n">monitor</span>
+</pre></div>
+</div>
+<p>上述命令会将 OpenOCD 运行至后台，然后启动 <a class="reference external" href="https://www.gdbgui.com/">gdbgui</a> 打开一个浏览器窗口，显示调试器的前端界面，最后在活动终端打开串口监视器。</p>
+</li>
+</ol>
+</section>
+<section id="ide">
+<h3>IDE 模式<a class="headerlink" href="#ide" title="Permalink to this heading">#</a></h3>
+<p>实际应用中，我们并不直接在命令行终端中调用和操作 GDB ，而是在 IDE (例如 Eclipse、Visual Studio Code, cLion 等）中进行调用，使用图形用户界面间接操作 GDB，这一方法无需在终端中输入任何命令。本手册选择在 Clion 中进行 Debug 调试。</p>
+<p>Clion 下的调试器配置与使用将在下一章 Clion 下 ESP-IDF 的配置与开发 中进行讲解。</p>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="esp-idf-cli.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">上一页</p>
+        <p class="prev-next-title">使用命令行创建项目的完整流程</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="esp-idf-clion-dev.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">下一页</p>
+        <p class="prev-next-title">Clion 下 ESP-IDF 的配置与开发</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 目录
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">引言</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">工作原理</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#jtag">选择 JTAG 适配器</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#openocd">安装 OpenOCD</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">配置并连接 JTAG 接口</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#usb">配置 USB 驱动</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">运行 OpenOCD</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">上传待调试的应用程序</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">启动调试器</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">命令行模式</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#idf-py">idf.py 模式</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ide">IDE 模式</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+作者： Lemon.Go，谭文龙，罗明雄
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022, Lemon.Go@gdpu.edu.cn.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

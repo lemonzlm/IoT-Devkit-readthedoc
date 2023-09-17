@@ -1,0 +1,768 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="zh-CN" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Clion 项目工程基础 &#8212; IoT-Devkit 实验手册 0.2 文档</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../_static/translations.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'dev-board/clion';</script>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title=":link:Cmake 速成" href="cmake.html" />
+    <link rel="prev" title="STM32L475" href="stm32l475.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="zh-CN"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">IoT-Devkit 实验手册 0.2 文档</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">实验箱概述与理论准备</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="arch.html">实验系统构成</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ide.html">开发环境概览</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="mcu.html">MCU基础</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="esp32.html">ESP32</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stm32l475.html">STM32L475</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Clion 项目工程基础</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cmake.html">Cmake 构建系统</a></li>
+<li class="toctree-l2"><a class="reference internal" href="esp-idf.html">ESP-IDF SDK基础</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../exp-stm32/index.html">STM32实验篇</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../exp-stm32/ide-setup.html">IDE环境搭建</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-stm32/debug-flow.html">基本调试流程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-stm32/peripherals-and-sensors.html">外设与传感器</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../exp-stm32/ble/index.html">BlueTooth</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../exp-stm32/ble/ble-gatt.html"> GATT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-stm32/ble/ble-p2p.html"> BLE点对点(P2P)通信</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-stm32/ble/Profiles.html"> 蓝牙Profiles</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-stm32/nfc.html">NFC</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../exp-stm32/wifi/index.html">WiFi</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../exp-stm32/wifi/tcp-over-wifi.html"> TCP over WiFi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-stm32/wifi/http-over-wifi.html"> HTTP over WiFi</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-stm32/mqtt.html">MQTT</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../exp-esp32/index.html">ESP32实验篇</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../exp-esp32/ide/index.html">IDE集成开发环境搭建</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/ide/esp-idf-setup.html"> ESP-IDF环境配置</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/ide/esp-idf-cli.html"> ESP-IDF命令行基本流程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/ide/esp-idf-cli-debug.html"> ESP-IDF JTAG调试流程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/ide/esp-idf-clion-dev.html"> Clion下ESP-IDF的配置与开发</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../exp-esp32/peripherals/index.html">外设接口与传感器</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/peripherals/uart.html"> UART</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/peripherals/lcd%26spi.html"> LCD&amp;SPI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/peripherals/i2c.html"> I2C</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/peripherals/camera.html"> 摄像头</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/peripherals/touch.html"> 触摸传感器</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/peripherals/dht11.html"> 温湿度传感器采集</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/peripherals/light.html"> 光照传感器采集</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/peripherals/gesture.html"> 手势识别</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../exp-esp32/bluetooth/index.html">BlueTooth</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/bluetooth/blufi.html"> BluFi配置实验</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/bluetooth/hci.html"> BlueTooth HCI主机控制接口</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/bluetooth/hid-gap.html"> 基于GAP的BlueTooth HID人机接口</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/bluetooth/hid-device-gatt.html"> 基于GATT的BLE HID设备</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../exp-esp32/wifi/index.html">WiFi</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/wifi/station.html"> Station 模式</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/wifi/ap.html"> AP模式</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/wifi/esp-now.html"> ESP_NOW 协议</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/wifi/ftm.html"> WiFi测距FTM</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../exp-esp32/socket/index.html">Socket over WiFi</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/socket/tcp.html"> TCP Server and Client</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-esp32/socket/udp.html"> UDP Server and Client</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-esp32/websocket.html">WebSocket over WiFi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-esp32/http.html">HTTP over WiFi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-esp32/mqtt.html">MQTT over WiFi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-esp32/coap.html">CoAP over WiFi</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../exp-lora/index.html">LoRa实验篇</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../exp-lora/at-command.html">LoRa AT指令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-lora/p2p-stm32.html">LoRa P2P @STM32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-lora/lorawan-stm32.html">LoRaWan @STM32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-lora/mqtt-stm32.html">MQTT over LoRaWan @STM32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-lora/p2p-esp32.html">LoRa P2P @ESP32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-lora/lorawan-esp32.html">LoRaWan @ESP32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-lora/mqtt-esp32.html">MQTT over LoRaWan @ESP32</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../exp-advanced/index.html">提高篇-Mesh与AIoT</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../exp-advanced/wifi-mesh.html">WiFi Mesh网</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-advanced/ble-mesh.html">BLE Mesh网</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-advanced/code-recognition.html">二维码识别</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-advanced/ai-face-detection.html">AI人脸识别</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-advanced/ai-motion-detection.html">AI运动检测</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-advanced/ai-tensor-flow-light.html">AI Tensor Flow Light</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../reference.html">参考资料</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">关于我们</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="下载此页面">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/dev-board/clion.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="下载源文件"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="列印成 PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="全屏模式"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Clion 项目工程基础</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> 目录 </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1"><code class="docutils literal notranslate"><span class="pre">Clion</span></code> 特点</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2"><code class="docutils literal notranslate"><span class="pre">Clion</span></code> 对嵌入式开发支持</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cmake-makefile">Cmake 与 <code class="docutils literal notranslate"><span class="pre">makefile</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#make">Make 构建工具</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">预处理：</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">编译：</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">汇编：</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">链接：</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#makefile"><code class="docutils literal notranslate"><span class="pre">makefile</span></code> 书写</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">make 命令执行</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">简易版本的 <code class="docutils literal notranslate"><span class="pre">makefile</span></code> 编写</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cmake">Cmake 基本概念</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">Cmake 快速入门与相关书籍</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10"><code class="docutils literal notranslate"><span class="pre">Clion</span></code> 项目结构</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="clion">
+<h1><code class="docutils literal notranslate"><span class="pre">Clion</span></code> 项目工程基础<a class="headerlink" href="#clion" title="Permalink to this heading">#</a></h1>
+<section id="id1">
+<h2><code class="docutils literal notranslate"><span class="pre">Clion</span></code> 特点<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">CLion</span></code> 是一款跨平台的集成开发环境（IDE），专为 C 和 C++编程语言开发而设计。它由 JetBrains 公司开发，该公司也是创建 IntelliJ IDEA、PyCharm 等流行 IDE 的公司。</p>
+<p><code class="docutils literal notranslate"><span class="pre">CLion</span></code> 的代码分析能力非常强大，它能够帮助开发人员识别不同类型的错误和警告，并提供改进代码的建议。这反过来可以帮助开发人员及早发现错误，提高代码质量。</p>
+<p>除了代码分析，<code class="docutils literal notranslate"><span class="pre">CLion</span></code> 还提供了一系列调试工具，帮助开发人员在其代码中查找和修复错误。它支持本地和远程调试，并允许您同时调试多个线程，可以省大量时间。</p>
+<p>此外，<code class="docutils literal notranslate"><span class="pre">CLion</span></code> 还提供了集成的版本控制系统（VCS）支持，使您可以轻松管理代码更改并与其他开发人员协作。它支持 Git、SVN、Mercurial 等流行的 VCS 系统。这确保了开发人员可以无缝高效地协作。</p>
+<p>同是它是提供跨平台支持的。它在 Windows、macOS 和 Linux 上可以无缝运行，因此您可以使用您喜欢的操作系统而不会出现任何兼容性问题。尽管如此，我们仍建议使用 Linux 平台为基础进行 cion 的相关开发。</p>
+<p><strong><code class="docutils literal notranslate"><span class="pre">CLion</span></code> 对于嵌入式开发提供了广泛的支持</strong>。它能够轻松地与嵌入式开发工具链集成，并支持多种嵌入式平台和微控制器。</p>
+<p>首先，<code class="docutils literal notranslate"><span class="pre">CLion</span></code> 支持嵌入式开发的调试。它能够与 GDB 和 LLDB 等调试器集成，支持本地和远程调试，并允许您在嵌入式设备上调试应用程序。此外，<code class="docutils literal notranslate"><span class="pre">CLion</span></code> 还支持 J-Link，ST-Link 和 OpenOCD 等常用的调试器。</p>
+<p>其次，<code class="docutils literal notranslate"><span class="pre">CLion</span></code> 提供了对嵌入式开发环境的良好支持。它能够自动识别嵌入式编译器和工具链，并自动配置工程。它还能够在单个工程中管理多个嵌入式平台，以及自动检测和安装缺失的工具和库。</p>
+</section>
+<section id="id2">
+<h2><code class="docutils literal notranslate"><span class="pre">Clion</span></code> 对嵌入式开发支持<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h2>
+<p>除此之外，<code class="docutils literal notranslate"><span class="pre">CLion</span></code> 还提供了嵌入式开发的代码分析和代码完成功能。它支持针对嵌入式编程的特定代码检查，以帮助您在代码中发现和解决错误。同时，它还提供了代码完成和自动代码重构功能，以提高开发效率。</p>
+<p>最后，<code class="docutils literal notranslate"><span class="pre">CLion</span></code> 还提供了对跨平台嵌入式开发的支持。它支持嵌入式 Linux 平台和各种常见的嵌入式操作系统，例如<strong>FreeRTOS</strong>和 Zephyr。<strong><code class="docutils literal notranslate"><span class="pre">CLion</span></code> 还能够集成 CMake</strong>，以简化跨平台嵌入式开发的构建和配置。</p>
+<p>综上所述，<code class="docutils literal notranslate"><span class="pre">CLion</span></code> 是一款功能强大且易于使用的集成开发环境，特别适用于嵌入式开发。</p>
+</section>
+<section id="cmake-makefile">
+<h2>Cmake 与 <code class="docutils literal notranslate"><span class="pre">makefile</span></code><a class="headerlink" href="#cmake-makefile" title="Permalink to this heading">#</a></h2>
+<p><strong>Cmake</strong>是 <code class="docutils literal notranslate"><span class="pre">Clion</span></code> 所采用的自动化构建工具，因此在了解 <code class="docutils literal notranslate"><span class="pre">Clion</span></code> 之前，有必要掌握 Cmake 的基础知识。</p>
+<p>CMake 是由 Kitware 公司的 Bill Hoffman 在 2000 年开发的一款跨平台自动化构建工具。<strong>它是基于早期的 Make 工具和 CMake 的前身 cmake 1.x 版本发展而来</strong>，目的是提供一个更强大、更易于使用和跨平台的自动化构建工具。CMake 最初是为了构建 VTK（Visualization ToolKit）和 ITK（Image Registration and Segmentation Toolkit）等项目而开发的，但现在已成为许多开源项目的构建工具，如 Boost、KDE、OpenCV 等等。</p>
+<p>CMake 的主要优势包括：</p>
+<ol class="arabic simple">
+<li><p>跨平台支持：CMake 可以自动生成适合不同操作系统和编译器的构建系统文件，使得开发人员可以在 Windows、Linux、MacOS 等不同平台上轻松构建项目。</p></li>
+<li><p>灵活性：CMake 提供了丰富的配置选项，使得开发人员可以自由地控制编译器选项、链接选项、预处理器定义等。</p></li>
+<li><p>可扩展性：CMake 提供了模块化的插件系统，允许开发人员编写自定义命令、函数、模块等，以满足不同项目的需求。</p></li>
+<li><p>自动化构建：CMake 可以自动检测源文件、头文件和库文件等，从而自动构建项目。</p></li>
+<li><p>与 IDE 的集成：CMake 可以与各种常见的 IDE 集成，如 Visual Studio、Eclipse、Qt Creator 等，使得开发人员可以在自己熟悉的开发环境中使用 CMake。</p></li>
+</ol>
+<p>CMake 可以用于生成各种不同类型的构建系统，如 <code class="docutils literal notranslate"><span class="pre">Makefile</span></code>、Visual Studio Solution、Xcode 项目等等。CMake 的目标是简化软件开发过程中的构建和配置，尤其是在跨平台和复杂项目中。</p>
+<p>为了更深入的了解 cmake 的基础，就必须要从早期的构建工具 Make 说起。</p>
+<section id="make">
+<h3>Make 构建工具<a class="headerlink" href="#make" title="Permalink to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">Makefile</span></code> 是一种用于构建（build）软件的工具，通常用于编译源代码、链接库文件和生成可执行程序。以下是 make 的编译链接过程简图：</p>
+<p>:arrow_right_hook: 预处理 —&gt; 编译 —&gt; 汇编 —&gt; 连接</p>
+<p><img alt="编译构建流程" src="../_images/compile-flow.png" /></p>
+<section id="id3">
+<h4>预处理：<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p>任务：处理宏定义，文件包含，条件编译（加#开头的，命令）</p></li>
+<li><p>name.c(源代码)—-&gt;name.i(改装后的)
+<code class="docutils literal notranslate"><span class="pre">gcc</span> <span class="pre">-E</span> <span class="pre">name.c</span> <span class="pre">-o</span> <span class="pre">name.i</span></code></p></li>
+</ul>
+</section>
+<section id="id4">
+<h4>编译：<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p>任务：检查语法</p></li>
+<li><p>name.i(改装后的)—-&gt;name.s(汇编代码)
+<code class="docutils literal notranslate"><span class="pre">gcc</span> <span class="pre">-S</span> <span class="pre">name.i</span> <span class="pre">-o</span> <span class="pre">name.s</span></code></p></li>
+</ul>
+</section>
+<section id="id5">
+<h4>汇编：<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h4>
+<ul>
+<li><p>任务：汇编代码转机器码</p></li>
+<li><p>name.s(汇编代码)—&gt;name.o(二进制目标文件)</p>
+<p><code class="docutils literal notranslate"><span class="pre">gcc</span> <span class="pre">-c</span> <span class="pre">name.s</span> <span class="pre">-o</span> <span class="pre">name.o</span></code></p>
+</li>
+</ul>
+</section>
+<section id="id6">
+<h4>链接：<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h4>
+<ul class="simple">
+<li><p>任务：将经过编译的若干个中间文件（二进制目标文件）和系统库（.a/.lib）链接为可执行文件</p></li>
+<li><p>name.o—-&gt;a.out/name.exe（可执行程序）</p></li>
+<li><p>静态链接：整个拷贝库文件进可执行程序</p></li>
+<li><p>动态链接：可执行文件中加入了所调用函数的描述信息，运行时再去链接动态库（DLL），根据链接产生的重定位信息，去寻找和执行 DLL 中相应的函数代码。
+<code class="docutils literal notranslate"><span class="pre">gcc</span> <span class="pre">name.o</span> <span class="pre">-o</span> <span class="pre">name</span></code></p></li>
+</ul>
+</section>
+<section id="makefile">
+<h4><code class="docutils literal notranslate"><span class="pre">makefile</span></code> 书写<a class="headerlink" href="#makefile" title="Permalink to this heading">#</a></h4>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span>target... : dependency...
+command
+...
+...
+
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>target：目标文件(.o)/可执行文件/标签(Label)</p></li>
+<li><p>dependency：生成 target 需要的依赖</p></li>
+<li><p>command：make 真正要执行的命令（任意的 shell 命令）
+<strong>检查，dependency 中文件若更新，此 make 命令就会被执行，会引起链式反应</strong></p></li>
+</ul>
+</section>
+<section id="id7">
+<h4>make 命令执行<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h4>
+<p><code class="docutils literal notranslate"><span class="pre">make</span></code>
+执行第一个 target，根据依赖性向后寻找并执行
+<code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">Label</span></code>
+去 Label 处开始执行，如 clean（clean 无依赖，不用检查）</p>
+<ul class="simple">
+<li><p>删除所有中间文件</p></li>
+</ul>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span>clean :
+rm -f \*.o
+
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">clean</span></code>执行</p>
+</section>
+</section>
+<section id="id8">
+<h3>简易版本的 <code class="docutils literal notranslate"><span class="pre">makefile</span></code> 编写<a class="headerlink" href="#id8" title="Permalink to this heading">#</a></h3>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="c"># `Makefile`示例</span>
+
+<span class="c"># 目标：依赖</span>
+<span class="nf">hello</span><span class="o">:</span> <span class="n">main</span>.<span class="n">o</span> <span class="n">hello</span>.<span class="n">o</span>
+        gcc -o hello main.o hello.o
+
+<span class="c"># 目标：依赖</span>
+<span class="nf">main.o</span><span class="o">:</span> <span class="n">main</span>.<span class="n">c</span>
+        gcc -c main.c
+
+<span class="c"># 目标：依赖</span>
+<span class="nf">hello.o</span><span class="o">:</span> <span class="n">hello</span>.<span class="n">c</span>
+        gcc -c hello.c
+
+<span class="nf">clean </span><span class="o">:</span>
+    rm -f *.o
+</pre></div>
+</div>
+<p>在上面的 <code class="docutils literal notranslate"><span class="pre">Makefile</span></code> 中，我们定义了三个目标：<code class="docutils literal notranslate"><span class="pre">hello</span></code>、<code class="docutils literal notranslate"><span class="pre">main.o</span></code>和<code class="docutils literal notranslate"><span class="pre">hello.o</span></code>。<code class="docutils literal notranslate"><span class="pre">hello</span></code>目标依赖于<code class="docutils literal notranslate"><span class="pre">main.o</span></code>和<code class="docutils literal notranslate"><span class="pre">hello.o</span></code>两个文件，<code class="docutils literal notranslate"><span class="pre">main.o</span></code>和<code class="docutils literal notranslate"><span class="pre">hello.o</span></code>分别依赖于对应的源代码文件。</p>
+<p>当我们在命令行上输入<code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">hello</span></code>命令时，Make 会读取 <code class="docutils literal notranslate"><span class="pre">Makefile</span></code> 文件并根据依赖关系来构建<code class="docutils literal notranslate"><span class="pre">hello</span></code>目标文件。由于<code class="docutils literal notranslate"><span class="pre">hello</span></code>目标文件依赖于<code class="docutils literal notranslate"><span class="pre">main.o</span></code>和<code class="docutils literal notranslate"><span class="pre">hello.o</span></code>两个文件，Make 会检查它们的时间戳来确定是否需要重新构建。如果<code class="docutils literal notranslate"><span class="pre">main.o</span></code>和<code class="docutils literal notranslate"><span class="pre">hello.o</span></code>的时间戳比<code class="docutils literal notranslate"><span class="pre">hello</span></code>文件的时间戳新，则需要重新构建<code class="docutils literal notranslate"><span class="pre">hello</span></code>文件。</p>
+<p>如果需要重新构建，Make 会执行所定义的命令来生成<code class="docutils literal notranslate"><span class="pre">hello</span></code>文件。在本例中，我们使用 gcc 编译器将<code class="docutils literal notranslate"><span class="pre">main.o</span></code>和<code class="docutils literal notranslate"><span class="pre">hello.o</span></code>链接起来生成可执行文件<code class="docutils literal notranslate"><span class="pre">hello</span></code>。</p>
+<p>以上是一个简单的例子，但是，当项目规模变大时，<code class="docutils literal notranslate"><span class="pre">makefile</span></code> 就变得越来越复杂，像魔鬼一样令人恐怖。此外，还有其他的严重问题构成了 makefile 的障碍，如下：</p>
+<ol class="arabic simple">
+<li><p><strong>学习曲线较陡峭</strong>：相比于其他构建工具，Makefile 的语法和规则比较复杂，需要一定的学习成本。</p></li>
+<li><p><strong>难以维护</strong>：当项目规模变大，Makefile 会变得越来越复杂，不易于维护和扩展。</p></li>
+<li><p><strong>平台依赖</strong>：Makefile 是一种平台依赖性很强的构建工具，同一个 Makefile 文件可能在不同的操作系统上需要进行不同的修改。</p></li>
+<li><p><strong>不适用于所有项目</strong>：Makefile 适用于 C/C++等编译型语言的构建，但不适用于其他类型的项目，如 Java、Python 等。</p></li>
+<li><p><strong>缺乏依赖管理</strong>：Makefile 的依赖关系是通过文件时间戳来检测的，但如果依赖关系过于复杂，Makefile 就难以处理。</p></li>
+</ol>
+<p>此外，除了 GNU Make ，还有 QT 的 qmake ，微软的 MS nmake，BSD Make（pmake），Makepp，等等。这些 Make 工具遵循着不同的规范和标准，所执行的 Makefile 格式也千差万别。这样就带来了一个严峻的问题：<strong>如果软件想跨平台</strong>，必须要保证能够在不同平台编译。而如果使用上面的 Make 工具，就得为每一种标准写一次 Makefile ，这将是一件让人抓狂的工作。</p>
+<p>居于上述理由，人们可是制作更为简单易行，跨平台的构建工具，这时 cmake 就孕育而生了。</p>
+</section>
+</section>
+<section id="cmake">
+<h2>Cmake 基本概念<a class="headerlink" href="#cmake" title="Permalink to this heading">#</a></h2>
+<p>CMake 就是针对上面问题所设计的工具：它首先允许开发者编写一种平台无关的 CMakeList.txt 文件来定制整个编译流程，然后再根据目标用户的平台进一步生成所需的本地化 Makefile 和工程文件，如 Unix 的 Makefile 或 Windows 的 Visual Studio 工程。从而做到“Write once, run everywhere”。显然，CMake 是一个比上述几种 make 更高级的编译配置工具。一些使用 CMake 作为项目架构系统的知名开源项目有 VTK、ITK、KDE、OpenCV、OSG 等 。在 linux 平台下使用 CMake 生成 Makefile 并编译的流程如下：</p>
+<ol class="arabic simple">
+<li><p>写 CMake 配置文件 CMakeLists.txt 。</p></li>
+<li><p>执行命令 <code class="docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">PATH</span></code> 或者 <code class="docutils literal notranslate"><span class="pre">ccmake</span> <span class="pre">PATH</span></code> 生成 Makefile（<code class="docutils literal notranslate"><span class="pre">ccmake</span></code> 和 <code class="docutils literal notranslate"><span class="pre">cmake</span></code> 的区别在于前者提供了一个交互式的界面）。其中， <code class="docutils literal notranslate"><span class="pre">PATH</span></code> 是 CMakeLists.txt 所在的目录。</p></li>
+<li><p>使用 <code class="docutils literal notranslate"><span class="pre">make</span></code> 命令进行编译。</p></li>
+</ol>
+<p>以下是 CMake 的一些基本概念：</p>
+<ol class="arabic simple">
+<li><p>CMakeLists.txt 文件：CMakeLists.txt 是 CMake 项目的核心配置文件，它包含了项目的名称、源文件、目标文件等信息。</p></li>
+<li><p>源目录和构建目录：源目录是项目源代码的根目录，而构建目录是指生成构建系统文件的目录。CMake 建议将构建目录与源目录分离，以便于保持源目录的干净和整洁。</p></li>
+<li><p>CMake 命令：CMake 使用命令来定义项目的构建过程。CMake 命令可以用来定义项目的名称、源文件、编译器选项、链接选项等信息。</p></li>
+<li><p>变量：变量在 CMake 中用于存储和传递值。CMake 支持三种类型的变量：字符串变量、列表变量和缓存变量。</p></li>
+<li><p>宏：宏是一种定义重复代码的方式。在 CMake 中，可以使用宏来定义和调用函数。</p></li>
+<li><p>模块：CMake 模块是一组可重用的 CMake 命令和函数，它们可以在多个项目中共享和使用。</p></li>
+<li><p>CMake 的常用命令和函数：常用命令和函数包括 add_executable、add_library、target_link_libraries、include_directories、find_package 等等。</p></li>
+</ol>
+<p>cmake 的处理过程如下：</p>
+<p><img alt="img" src="../_images/cmake-flow.png" /></p>
+<p>可以 cmake 是一种项目构建的生成工具，不但用与 make 生成 <code class="docutils literal notranslate"><span class="pre">makefile</span></code>，同时可以和其他构建工具，如 ninja，gradle 等一同工作。</p>
+</section>
+<section id="id9">
+<h2>Cmake 快速入门与相关书籍<a class="headerlink" href="#id9" title="Permalink to this heading">#</a></h2>
+<ul>
+<li><p><a class="reference external" href="https://cmake.org">:link:官方参考文档</a></p></li>
+<li><p><a class="reference internal" href="cmake.html"><span class="std std-doc">:link:Cmake 快速入门</span></a></p></li>
+<li><p>相关书籍推荐</p>
+<ul>
+<li><p>《CMake 实践指南》 作者：熊英飞、彭泽源</p>
+<p>该书内容详实，从 CMake 基础语法、常用命令、函数和变量到实际项目实践都有涉及，适合初学者入门以及实际项目开发者参考。</p>
+</li>
+<li><p>《跟我一起写 <code class="docutils literal notranslate"><span class="pre">Makefile</span></code>》作者：韩天峰</p>
+<p>该书介绍了 <code class="docutils literal notranslate"><span class="pre">Makefile</span></code> 的基本语法和使用方法，同时也有对比 CMake 的介绍。对于初学者来说，可用来作为入门的学习资料。</p>
+</li>
+<li><p>《CMake 入门实战》作者：李海峰</p>
+<p>该书内容包括 CMake 的基本语法、变量和函数、项目构建、跨平台构建等方面，并配有大量实战案例，适合实际项目开发者参考。</p>
+</li>
+<li><p>《深入浅出 CMake》作者：李泽阳</p>
+<p>该书从 CMake 的基础语法和常用命令入手，深入探讨了 CMake 的内部机制和实现原理，适合对 CMake 深入理解和研究的开发者参考。</p>
+</li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="id10">
+<h2><code class="docutils literal notranslate"><span class="pre">Clion</span></code> 项目结构<a class="headerlink" href="#id10" title="Permalink to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">CLion</span></code> 项目结构与其他 C 和 C++ 项目结构非常相似，但有一些特定于 <code class="docutils literal notranslate"><span class="pre">CLion</span></code> 的功能。</p>
+<p>在 <code class="docutils literal notranslate"><span class="pre">CLion</span></code> 中，一个项目包含以下内容：</p>
+<ol class="arabic simple">
+<li><p>项目文件夹：包含项目文件、源代码和其他文件。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> 文件：<code class="docutils literal notranslate"><span class="pre">CLion</span></code> 使用 CMake 构建系统来管理项目构建。CMakeLists.txt` 文件描述了项目的构建过程。它指定源代码文件、可执行文件的名称和位置、库的名称和位置等。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">.idea</span></code> 文件夹：包含 <code class="docutils literal notranslate"><span class="pre">CLion</span></code> 的项目配置文件。这些文件包括编译器选项、代码样式设置、调试设置等。这个文件夹是可选的，如果不存在，<code class="docutils literal notranslate"><span class="pre">CLion</span></code> 会在打开项目时自动生成它。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bin</span></code> 文件夹：包含编译后的可执行文件。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">build</span></code> 文件夹：包含构建系统生成的临时文件和中间文件。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">include</span></code> 文件夹：包含项目使用的头文件。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lib</span></code> 文件夹：包含项目使用的库文件。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">src</span></code> 文件夹：包含项目的源代码文件。</p></li>
+</ol>
+<p><code class="docutils literal notranslate"><span class="pre">CLion</span></code> 的项目结构可以根据项目的需要进行调整和扩展。例如，可以在项目中添加子目录，将源文件分组为不同的目录，或者将库和头文件分开放置。</p>
+<p>假设有一个名为 <code class="docutils literal notranslate"><span class="pre">MyProject</span></code> 的 C++ 项目，该项目包含以下文件和文件夹：</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">MyProject/</span></code>：项目文件夹。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MyProject/CMakeLists.txt</span></code>：描述项目构建过程的 CMake 文件。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MyProject/.idea/</span></code>：<code class="docutils literal notranslate"><span class="pre">CLion</span></code> 的项目配置文件夹。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MyProject/bin/</span></code>：包含可执行文件。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MyProject/build/</span></code>：包含构建系统生成的临时文件和中间文件。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MyProject/include/</span></code>：包含头文件。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MyProject/lib/</span></code>：包含库文件。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MyProject/src/</span></code>：包含源代码文件。</p></li>
+</ul>
+<p>下面是一个示例 <code class="docutils literal notranslate"><span class="pre">**CMakeLists.txt**</span></code>文件，它描述了一个简单的 <code class="docutils literal notranslate"><span class="pre">MyProject</span></code> 项目的构建过程：</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nb">cmake_minimum_required</span><span class="p">(</span><span class="s">VERSION</span><span class="w"> </span><span class="s">3.10</span><span class="p">)</span>
+
+<span class="nb">project</span><span class="p">(</span><span class="s">MyProject</span><span class="p">)</span>
+
+<span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_STANDARD</span><span class="w"> </span><span class="s">11</span><span class="p">)</span>
+
+<span class="c"># 指定源文件</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">SOURCE_FILES</span>
+<span class="w">    </span><span class="s">src/main.cpp</span>
+<span class="w">    </span><span class="s">src/foo.cpp</span>
+<span class="w">    </span><span class="s">src/bar.cpp</span>
+<span class="p">)</span>
+
+<span class="c"># 指定头文件</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">HEADER_FILES</span>
+<span class="w">    </span><span class="s">include/foo.h</span>
+<span class="w">    </span><span class="s">include/bar.h</span>
+<span class="p">)</span>
+
+<span class="c"># 添加可执行文件</span>
+<span class="nb">add_executable</span><span class="p">(</span><span class="s">MyProject</span><span class="w"> </span><span class="o">${</span><span class="nv">SOURCE_FILES</span><span class="o">}</span><span class="w"> </span><span class="o">${</span><span class="nv">HEADER_FILES</span><span class="o">}</span><span class="p">)</span>
+
+<span class="c"># 指定库文件路径</span>
+<span class="nb">link_directories</span><span class="p">(</span><span class="s">lib</span><span class="p">)</span>
+
+<span class="c"># 指定需要链接的库</span>
+<span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">MyProject</span><span class="w"> </span><span class="s">libfoo.a</span><span class="w"> </span><span class="s">libbar.a</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>在上面的示例中，<code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> 文件指定了项目的源代码文件和头文件。它还定义了一个可执行文件 <code class="docutils literal notranslate"><span class="pre">MyProject</span></code>，它由源代码文件和头文件组成。项目中使用的库文件位于 <code class="docutils literal notranslate"><span class="pre">lib/</span></code> 文件夹中。通过使用 <code class="docutils literal notranslate"><span class="pre">link_directories()</span></code> 和 <code class="docutils literal notranslate"><span class="pre">target_link_libraries()</span></code> 函数，可以将库文件链接到可执行文件中。</p>
+<p><code class="docutils literal notranslate"><span class="pre">CLion</span></code> 会读取这个 <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> 文件，并根据它来构建项目。 <code class="docutils literal notranslate"><span class="pre">CLion</span></code> 还会自动创建一个 <code class="docutils literal notranslate"><span class="pre">.idea</span></code> 文件夹，并在其中生成一些配置文件。当您打开 <code class="docutils literal notranslate"><span class="pre">MyProject</span></code> 项目时，<code class="docutils literal notranslate"><span class="pre">CLion</span></code> 会读取这些配置文件，并应用它们来设置项目的编译器选项、代码样式设置、调试设置等。</p>
+<p><code class="docutils literal notranslate"><span class="pre">clion</span></code> 的图形化过程我们将在 esp-idf 中，以及具体实验内容中一并介绍。</p>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="stm32l475.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">上一页</p>
+        <p class="prev-next-title">STM32L475</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="cmake.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">下一页</p>
+        <p class="prev-next-title">:link:Cmake 速成</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 目录
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1"><code class="docutils literal notranslate"><span class="pre">Clion</span></code> 特点</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2"><code class="docutils literal notranslate"><span class="pre">Clion</span></code> 对嵌入式开发支持</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cmake-makefile">Cmake 与 <code class="docutils literal notranslate"><span class="pre">makefile</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#make">Make 构建工具</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">预处理：</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">编译：</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">汇编：</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">链接：</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#makefile"><code class="docutils literal notranslate"><span class="pre">makefile</span></code> 书写</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">make 命令执行</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">简易版本的 <code class="docutils literal notranslate"><span class="pre">makefile</span></code> 编写</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cmake">Cmake 基本概念</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">Cmake 快速入门与相关书籍</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10"><code class="docutils literal notranslate"><span class="pre">Clion</span></code> 项目结构</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+作者： Lemon.Go，谭文龙，罗明雄
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022, Lemon.Go@gdpu.edu.cn.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,175 @@
+
+# ESP_NOW 协议
+
+## 概述
+
+ESP-NOW 是一种由乐鑫公司定义的无连接 Wi-Fi 通信协议。在 ESP-NOW 中，应用程序数据被封装在各个供应商的动作帧中，然后在无连接的情况下，从一个 Wi-Fi 设备传输到另一个 Wi-Fi 设备。 CTR 与 CBC-MAC 协议 (CCMP) 可用来保护动作帧的安全。ESP-NOW 广泛应用于智能照明、远程控制、传感器等领域。
+
+## 帧格式
+
+ESP-NOW 使用各个供应商的动作帧传输数据，默认比特率为 1 Mbps。各个供应商的动作帧格式为：
+
+| MAC 报头 | 分类代码 | 组织标识符 | 随机值 | 供应商特定内容 |  FCS   |
+| :------: | :------: | :--------: | :----: | :------------: | :----: |
+| 24 字节  |  1 字节  |   3 字节   | 4 字节 |   7~255 字节   | 4 字节 |
+
+- 分类代码：分类代码字段可用于指示各个供应商的类别（比如 127）。
+- 组织标识符：组织标识符包含一个唯一标识符 (比如 0x18fe34)，为乐鑫指定的 MAC 地址的前三个字节。
+
+- 随机值：防止重放攻击。
+
+- 供应商特定内容：供应商特定内容包含供应商特定字段，如下所示：
+
+
+| 元素 ID |  长度  | 组织标识符 |  类型  |  版本  |    正文     |
+| :-----: | :----: | :--------: | :----: | :----: | :---------: |
+| 1 字节  | 1 字节 |   3 字节   | 1 字节 | 1 字节 | 0～250 字节 |
+
+- 元素 ID：元素 ID 字段可用于指示特定于供应商的元素。
+- 长度：长度是组织标识符、类型、版本和正文的总长度。
+
+- 组织标识符：组织标识符包含一个唯一标识符 (比如 0x18fe34)，为乐鑫指定的 MAC 地址的前三个字节。
+
+- 类型：类型字段设置为 4，代表 ESP-NOW。
+
+- 版本：版本字段设置为 ESP-NOW 的版本。
+
+- 正文：正文包含 ESP-NOW 数据。
+
+
+由于 ESP-NOW 是无连接的，因此 MAC 报头与标准帧略有不同。FrameControl 字段的 FromDS 和 ToDS 位均为 0。第一个地址字段用于配置目标地址。第二个地址字段用于配置源地址。第三个地址字段用于配置广播地址 (0xff:0xff:0xff:0xff:0xff:0xff)。
+
+## 安全
+
+**ESP-NOW 采用 CCMP 方法保护供应商特定动作帧的安全，具体可参考 IEEE Std. 802.11-2012。Wi-Fi 设备维护一个初始主密钥 (PMK) 和若干本地主密钥 (LMK)，长度均为 16 个字节。**
+
+- PMK 可使用 AES-128 算法加密 LMK。请调用 esp_now_set_pmk() 设置 PMK。如果未设置 PMK，将使用默认 PMK。
+
+- LMK 可通过 CCMP 方法对供应商特定的动作帧进行加密，最多拥有 6 个不同的 LMK。如果未设置配对设备的 LMK，则动作帧不进行加密。
+
+
+目前，不支持加密组播供应商特定的动作帧。
+
+## 初始化和反初始化
+
+调用 esp_now_init() 初始化 ESP-NOW，调用 esp_now_deinit() 反初始化 ESP-NOW。ESP-NOW 数据必须在 Wi-Fi 启动后传输，因此建议在初始化 ESP-NOW 之前启动 Wi-Fi，并在反初始化 ESP-NOW 之后停止 Wi-Fi。 当调用 esp_now_deinit() 时，配对设备的所有信息都将被删除。
+
+## 添加配对设备
+
+在将数据发送到其他设备之前，请先调用 esp_now_add_peer() 将其添加到配对设备列表中。配对设备的最大数量是 20。如果启用了加密，则必须设置 LMK。ESP-NOW 数据可以从 Station 或 Softap 接口发送。 确保在发送 ESP-NOW 数据之前已启用该接口。在发送广播数据之前必须添加具有广播 MAC 地址的设备。配对设备的信道范围是从 0 ～14。如果信道设置为 0，数据将在当前信道上发送。否则，必须使用本地设备所在的通道。
+
+## 发送 ESP-NOW 数据
+
+调用 esp_now_send() 发送 ESP-NOW 数据，调用 esp_now_register_send_cb 注册发送回调函数。如果 MAC 层成功接收到数据，则该函数将返回 ESP_NOW_SEND_SUCCESS 事件。否则，它将返回 ESP_NOW_SEND_FAIL。ESP-NOW 数据发送失败可能有几种原因，比如目标设备不存在、设备的信道不相同、动作帧在传输过程中丢失等。应用层并不一定可以总能接收到数据。如果需要，应用层可在接收 ESP-NOW 数据时发回一个应答 (ACK) 数据。如果接收 ACK 数据超时，则将重新传输 ESP-NOW 数据。可以为 ESP-NOW 数据设置序列号，从而删除重复的数据。
+
+如果有大量 ESP-NOW 数据要发送，则调用 esp_now_send() 一次性发送不大于 250 字节的数据。 请注意，两个 ESP-NOW 数据包的发送间隔太短可能导致回调函数返回混乱。因此，建议在等到上一次回调函数返回 ACK 后再发送下一个 ESP-NOW 数据。发送回调函数从高优先级的 Wi-Fi 任务中运行。因此，不要在回调函数中执行冗长的操作。相反，将必要的数据发布到队列，并交给优先级较低的任务处理。
+
+## 接收 ESP-NOW 数据
+
+调用 esp_now_register_recv_cb 注册接收回调函数。当接收 ESP-NOW 数据时，需要调用接收回调函数。接收回调函数也在 Wi-Fi 任务任务中运行。因此，不要在回调函数中执行冗长的操作。 相反，将必要的数据发布到队列，并交给优先级较低的任务处理。
+
+## ESPNOW 示例
+
+这个例子展示了如何使用 ESPNOW 的 wifi。示例执行以下步骤：
+
+- 启动无线网络。
+- 初始化 ESPNOW。
+- 注册 ESPNOW 发送或接收回调函数。
+- 添加 ESPNOW 对等信息。
+- 发送和接收 ESPNOW 数据。
+
+此示例至少需要两个 ESP 设备：
+
+- 为了获取另一台设备的 MAC 地址，Device1 首先发送广播 ESPNOW 数据，并将 'state' 设置为 0。
+- 当 Device2 从 Device1 接收到 'state' 为 0 的广播 ESPNOW 数据时，将 Device1 添加到对等列表中。然后开始发送“状态”设置为 1 的广播 ESPNOW 数据。
+- 当 Device1 接收到 'state' 为 1 的广播 ESPNOW 数据时，将本地幻数与数据中的幻数进行比较。如果本地大于那个，停止发送广播 ESPNOW 数据并开始向 Device2 发送单播 ESPNOW 数据。
+- 如果 Device2 收到单播 ESPNOW 数据，也停止发送广播 ESPNOW 数据。
+
+在实际应用中，如果其他设备的 MAC 地址已知，则不需要先发送/接收广播 ESPNOW 数据，只需将设备添加到对等列表并发送/接收单播 ESPNOW 数据即可。
+
+在这个例子中，ESPNOW 数据之上还有很多“附加”，例如类型、状态、序列号、CRC 和魔术。使用 ESPNOW 不需要这些“额外内容”。它们仅用于使此示例正确运行。但是，建议用户添加一些“附加功能”，以使 ESPNOW 数据更安全、更可靠。
+
+## 配置项目
+
+```bash
+idf.py menuconfig
+```
+
+在示例配置选项下设置 WiFi 模式（站或 SoftAP）。
+在示例配置选项下设置 ESPNOW 主主密钥。对于发送设备和接收设备，此参数必须设置为相同的值。
+在示例配置选项下设置 ESPNOW 本地主密钥。对于发送设备和接收设备，此参数必须设置为相同的值。
+在示例配置选项下设置通道。发送设备和接收设备必须在同一通道上。
+在示例配置选项下设置发送计数和发送延迟。
+在示例配置选项下设置发送 len。
+设置启用远程选项。启用此参数后，ESP32 设备将以 512Kbps 或 256Kbps 的 PHY 速率发送数据，从而可以在两个 ESP32 设备之间远距离传输数据。
+
+## 构建和烧录
+
+构建项目并将其烧写到板上，然后运行监控工具查看串行输出：
+
+命令行界面：
+
+idf.py -p PORT flash monitor （要退出串行监视器，请键入Ctrl-]。）
+
+Clion界面：
+
+选择 flash 并运行
+
+选择 monitor 并运行
+
+## 示例输出
+
+这是 ESPNOW 接收设备控制台输出的示例。
+
+```bash
+I (898) phy: phy_version: 3960, 5211945, Jul 18 2018, 10:40:07, 0, 0
+I (898) wifi: mode : sta (30:ae:a4:80:45:68)
+I (898) espnow_example: WiFi started
+I (898) ESPNOW: espnow [version: 1.0] init
+I (5908) espnow_example: Start sending broadcast data
+I (6908) espnow_example: send data to ff:ff:ff:ff:ff:ff
+I (7908) espnow_example: send data to ff:ff:ff:ff:ff:ff
+I (52138) espnow_example: send data to ff:ff:ff:ff:ff:ff
+I (52138) espnow_example: Receive 0th broadcast data from: 30:ae:a4:0c:34:ec, len: 200
+I (53158) espnow_example: send data to ff:ff:ff:ff:ff:ff
+I (53158) espnow_example: Receive 1th broadcast data from: 30:ae:a4:0c:34:ec, len: 200
+I (54168) espnow_example: send data to ff:ff:ff:ff:ff:ff
+I (54168) espnow_example: Receive 2th broadcast data from: 30:ae:a4:0c:34:ec, len: 200
+I (54168) espnow_example: Receive 0th unicast data from: 30:ae:a4:0c:34:ec, len: 200
+I (54678) espnow_example: Receive 1th unicast data from: 30:ae:a4:0c:34:ec, len: 200
+I (55668) espnow_example: Receive 2th unicast data from: 30:ae:a4:0c:34:ec, len: 200
+```
+
+这是 ESPNOW 发送设备控制台输出的示例。
+
+```bash
+I (915) phy: phy_version: 3960, 5211945, Jul 18 2018, 10:40:07, 0, 0
+I (915) wifi: mode : sta (30:ae:a4:0c:34:ec)
+I (915) espnow_example: WiFi started
+I (915) ESPNOW: espnow [version: 1.0] init
+I (5915) espnow_example: Start sending broadcast data
+I (5915) espnow_example: Receive 41th broadcast data from: 30:ae:a4:80:45:68, len: 200
+I (5915) espnow_example: Receive 42th broadcast data from: 30:ae:a4:80:45:68, len: 200
+I (5925) espnow_example: Receive 44th broadcast data from: 30:ae:a4:80:45:68, len: 200
+I (5935) espnow_example: Receive 45th broadcast data from: 30:ae:a4:80:45:68, len: 200
+I (6965) espnow_example: send data to ff:ff:ff:ff:ff:ff
+I (6965) espnow_example: Receive 46th broadcast data from: 30:ae:a4:80:45:68, len: 200
+I (7975) espnow_example: send data to ff:ff:ff:ff:ff:ff
+I (7975) espnow_example: Receive 47th broadcast data from: 30:ae:a4:80:45:68, len: 200
+I (7975) espnow_example: Start sending unicast data
+I (7975) espnow_example: send data to 30:ae:a4:80:45:68
+I (9015) espnow_example: send data to 30:ae:a4:80:45:68
+I (9015) espnow_example: Receive 48th broadcast data from: 30:ae:a4:80:45:68, len: 200
+I (10015) espnow_example: send data to 30:ae:a4:80:45:68
+I (16075) espnow_example: send data to 30:ae:a4:80:45:68
+I (17075) espnow_example: send data to 30:ae:a4:80:45:68
+I (24125) espnow_example: send data to 30:ae:a4:80:45:68
+```
+
+
+
+## 故障排除
+
+如果无法从其他设备接收到 ESPNOW 数据，可能是两个设备不在同一个频道上，或者主秘钥和本地秘钥不同。
+
+在实际应用中，如果接收设备仅处于工作站模式并且连接到 AP，则应禁用调制解调器睡眠。否则，它可能无法从其他设备接收 ESPNOW 数据。

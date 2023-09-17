@@ -1,0 +1,108 @@
+
+# WiFi测距FTM
+
+> ❗注意
+>
+> ​	本实验为选做!!!
+>
+> ​	目前只支持ESP32-C3	ESP32-S2	ESP32-S3 这三款ESP芯片
+>
+> ​	我们平时使用的ESP-WROVER-KIT开发板是ESP32芯片，无法进行此实验
+
+## 介绍
+
+启用 WiFi 的设备可以测量其与接入点的距离的方法之一是测量 Wi-Fi 往返时间 (Wi-Fi RTT)。Wi-Fi RTT 是 WiFi 信号从 Station 传输到 AP 所需的时间。这个时间与它们之间的实际距离成正比。给定 RTT，可以使用以下简单公式计算距离
+
+> 距离 = RTT * c / 2（其中 c 是光速）
+
+Wi-Fi RTT 是使用称为精细定时测量 (FTM) 的程序计算的。在 FTM 过程中，一个动作帧的突发由一个设备（FTM 响应者）传输到另一个（FTM 发起者），并且每个设备都被确认。两个设备中的硬件都标记动作帧及其 ACK 的到达时间 (TOA) 和离开时间 (TOD)。最后，FTM Initiator 收集所有 Action frame 和 ACK 对的数据，并使用以下公式计算每对的 RTT -
+
+> RTT[i] = (T4[i] - T1[i]) - (T3[i] - T2[i]) 其中 T1[i] ：来自响应者的第 i 个动作帧的 TOD T2[i] ：TOA 的发起者 T3[i] 处的第 i 个动作帧：来自发起者 T4[i] 的第 i 个 ACK 的 TOD：响应者处的第 i 个 ACK 的 TOA
+
+计算所有此类对的平均 RTT 以获得更准确的结果。使用此示例在 Station 和 SoftAP 或支持 FTM Responder 模式的外部 AP 之间执行 FTM。Station 和 SoftAP 都需要在支持 FTM 的受支持的 ESP 目标上运行并启用它。
+
+## 如何使用示例
+
+通过此示例，用户可以扫描支持 FTM Responder 角色的 AP，并使用不同的配置执行 FTM 程序。以下步骤显示了如何在 Station 和 SoftAP 模式下使用 2 个设备来执行此操作。首先确保WiFi FTM在项目配置菜单 ( idf.py menuconfig) 中启用。此选项位于Component config -> Wi-Fi. FTM Initiator supportStation侧FTM Responder support需要开启，SoftAP侧需要开启，默认开启。此外，要获取有关 FTM 会话的详细报告，FTM Report logging请启用Example Configuration. 在支持的设备上构建并刷新示例以查看以下输出 -
+
+```bash
+ ==========================================================
+ |                      Steps to test FTM                 |
+ |                                                        |
+ |  1. Use 'help' for detailed information on parameters  |
+ |  2. Start SoftAP with command 'ap <SSID> <password>'   |
+ |                          OR                            |
+ |  2. Use 'scan' command to search for external AP's     |
+ |  3. On second device initiate FTM with an AP using     |
+
+ |     command 'ftm -I -s <SSID>'                         |
+
+ftm>
+```
+
+用于help获取可用命令和选项的列表。使用scan命令扫描支持 FTM Responder 模式的 AP。在使用外部 AP 启动 FTM 之前，请确保该FTM Responder标签在相应的扫描结果条目中可见。或者，使用命令在另一台设备上启动 SoftAP ap，它默认支持 FTM Responder。如果外部 FTM 启动器在使用 SoftAP 的距离读数中出现较大误差，请记下以厘米为单位的零距离读数，例如cm0. 可以使用命令偏移此距离，以便通过ftm -R -o <cm0>Initiator 提供准确的读数。
+
+```bash
+ftm> scan
+I (476765) ftm_station: sta start to scan
+ftm> I (478805) ftm_station: [Abeeys Palace][rssi=84]
+I (478805) ftm_station: [privateproperty][rssi=76]
+I (478805) ftm_station: [C904][rssi=69]
+I (478815) ftm_station: [FTM][rssi=-94][FTM Responder]
+I (478815) ftm_station: [Velop][rssi=-115]
+I (478825) ftm_station: sta scan done
+```
+
+在扫描结果中可以看到支持 FTM Responder 模式的 AP。或者使用以下命令在另一台设备上设置 SoftAP ap-
+
+```bash
+ftm> ap FTM password
+I (91271) ftm_ap: Starting SoftAP with FTM Responder support, SSID - FTM, Password - password
+ftm>
+```
+
+使用 32 FTMftm -I帧的默认配置启动会话。如需更多配置，可使用以下选项 - ftm [-I] [-c <0/8/16/24/32/64>] [-p <2-255 (x 100 mSec)>] [-s SSID] 其中 -
+
+- -I或--ftm_initiator：FTM 发起者模式
+- -cOR --frm_count：要交换的 FTM 帧（有效值：0=无偏好，8、16、24、32、64，默认值：32）
+- -p或--burst_period：FTM 以 100 毫秒为单位的周期性突发（0：无偏好，默认值：2）
+- -sOR --ssid=SSID: 支持 FTM Responder 模式的 AP 的 SSID
+
+目前仅在以下配置中支持 FTM -
+
+在受支持的 ESP 设备上，Station 作为发起者，SoftAP 作为响应者
+作为发起者的站和在响应者模式下支持 FTM 的外部 AP 应首选第一个选项，因为 ESP 设备已针对高分辨率测量进行了自我校准。
+
+## 构建和烧录
+
+构建项目并将其烧写到板上，然后运行监控工具查看串行输出：
+
+命令行界面：
+
+idf.py -p PORT flash monitor （要退出串行监视器，请键入Ctrl-]。）
+
+Clion界面：
+
+选择 flash 并运行
+
+选择 monitor 并运行
+
+## 示例输出
+
+FTM 程序的示例输出 -
+
+```bash
+ftm> scan
+I (356414) ftm_station: sta start to scan
+I (358514) ftm_station: [DigitalFortress][rssi=114]
+I (358524) ftm_station: [TEST][rssi=-96][FTM Responder]
+I (358524) ftm_station: sta scan done
+ftm> ftm -I -s TEST
+Starting FTM with 18:fe:34:72:50:c9 on channel 1
+I (391824) ftm_station: Starting FTM Initiator with Frm Count 32, Burst Period - 200mSec
+W (391834) wifi:Starting FTM session in 0.200 Sec
+W (393564) wifi:FTM session ends with 26 valid readings out of 31, Avg raw RTT: 49.218 nSec, Avg RSSI: -1
+I (393564) ftm_station: Estimated RTT - 33 nSec, Estimated Distance - 5.07 meters
+```
+
+最后的语句给出了平均计算的 RTT 以及站点和 AP 之间的估计距离。通过首先使用任何物理模拟延迟和校准增量调整 RTT 来测量此距离。使用 RTT 测量的距离并不完全准确，并且会受到各种误差的影响，例如射频干扰、多路径、路径损耗、方向等。该设计需要具有直接传播路径且 RSSI 不低于 -70dBm 的视距以获得更好的结果。

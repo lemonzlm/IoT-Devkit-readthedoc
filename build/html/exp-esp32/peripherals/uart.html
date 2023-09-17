@@ -1,0 +1,706 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="zh-CN" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>UART &#8212; IoT-Devkit 实验手册 0.2 文档</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../../_static/translations.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'exp-esp32/peripherals/uart';</script>
+    <link rel="author" title="关于这些文档" href="../../about.html" />
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" />
+    <link rel="next" title="LCD&amp;SPI" href="lcd%26spi.html" />
+    <link rel="prev" title="外设接口与传感器" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="zh-CN"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">IoT-Devkit 实验手册 0.2 文档</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../dev-board/index.html">实验箱概述与理论准备</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../dev-board/arch.html">实验系统构成</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../dev-board/ide.html">开发环境概览</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../dev-board/mcu.html">MCU基础</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../dev-board/esp32.html">ESP32</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../dev-board/stm32l475.html">STM32L475</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../dev-board/clion.html">Clion 项目工程基础</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../dev-board/cmake.html">Cmake 构建系统</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../dev-board/esp-idf.html">ESP-IDF SDK基础</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../exp-stm32/index.html">STM32实验篇</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-stm32/ide-setup.html">IDE环境搭建</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-stm32/debug-flow.html">基本调试流程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-stm32/peripherals-and-sensors.html">外设与传感器</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../exp-stm32/ble/index.html">BlueTooth</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../exp-stm32/ble/ble-gatt.html"> GATT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../exp-stm32/ble/ble-p2p.html"> BLE点对点(P2P)通信</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../exp-stm32/ble/Profiles.html"> 蓝牙Profiles</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-stm32/nfc.html">NFC</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../exp-stm32/wifi/index.html">WiFi</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../exp-stm32/wifi/tcp-over-wifi.html"> TCP over WiFi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../exp-stm32/wifi/http-over-wifi.html"> HTTP over WiFi</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-stm32/mqtt.html">MQTT</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../index.html">ESP32实验篇</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="../ide/index.html">IDE集成开发环境搭建</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../ide/esp-idf-setup.html"> ESP-IDF环境配置</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ide/esp-idf-cli.html"> ESP-IDF命令行基本流程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ide/esp-idf-cli-debug.html"> ESP-IDF JTAG调试流程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ide/esp-idf-clion-dev.html"> Clion下ESP-IDF的配置与开发</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="index.html">外设接口与传感器</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l3 current active"><a class="current reference internal" href="#"> UART</a></li>
+<li class="toctree-l3"><a class="reference internal" href="lcd%26spi.html"> LCD&amp;SPI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="i2c.html"> I2C</a></li>
+<li class="toctree-l3"><a class="reference internal" href="camera.html"> 摄像头</a></li>
+<li class="toctree-l3"><a class="reference internal" href="touch.html"> 触摸传感器</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dht11.html"> 温湿度传感器采集</a></li>
+<li class="toctree-l3"><a class="reference internal" href="light.html"> 光照传感器采集</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gesture.html"> 手势识别</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../bluetooth/index.html">BlueTooth</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../bluetooth/blufi.html"> BluFi配置实验</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../bluetooth/hci.html"> BlueTooth HCI主机控制接口</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../bluetooth/hid-gap.html"> 基于GAP的BlueTooth HID人机接口</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../bluetooth/hid-device-gatt.html"> 基于GATT的BLE HID设备</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../wifi/index.html">WiFi</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../wifi/station.html"> Station 模式</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../wifi/ap.html"> AP模式</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../wifi/esp-now.html"> ESP_NOW 协议</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../wifi/ftm.html"> WiFi测距FTM</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../socket/index.html">Socket over WiFi</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../socket/tcp.html"> TCP Server and Client</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../socket/udp.html"> UDP Server and Client</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket.html">WebSocket over WiFi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../http.html">HTTP over WiFi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mqtt.html">MQTT over WiFi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../coap.html">CoAP over WiFi</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../exp-lora/index.html">LoRa实验篇</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-lora/at-command.html">LoRa AT指令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-lora/p2p-stm32.html">LoRa P2P @STM32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-lora/lorawan-stm32.html">LoRaWan @STM32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-lora/mqtt-stm32.html">MQTT over LoRaWan @STM32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-lora/p2p-esp32.html">LoRa P2P @ESP32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-lora/lorawan-esp32.html">LoRaWan @ESP32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-lora/mqtt-esp32.html">MQTT over LoRaWan @ESP32</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../exp-advanced/index.html">提高篇-Mesh与AIoT</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-advanced/wifi-mesh.html">WiFi Mesh网</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-advanced/ble-mesh.html">BLE Mesh网</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-advanced/code-recognition.html">二维码识别</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-advanced/ai-face-detection.html">AI人脸识别</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-advanced/ai-motion-detection.html">AI运动检测</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-advanced/ai-tensor-flow-light.html">AI Tensor Flow Light</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference.html">源代码与参考资料</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">关于我们</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="下载此页面">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/exp-esp32/peripherals/uart.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="下载源文件"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="列印成 PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="全屏模式"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>UART</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> 目录 </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">概述</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">基本步骤</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">设置通讯参数</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">设置通信引脚</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">驱动安装</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">传输</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">接收</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">软件流控制</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">通讯方式选择</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">使用中断</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">宏</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">删除驱动程序</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">实验内容</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">所需硬件</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">硬件接线</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">源代码参考</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id17">代码调试与示例输出</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#api">API 参考</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="uart">
+<h1>UART<a class="headerlink" href="#uart" title="Permalink to this heading">#</a></h1>
+<section id="id1">
+<h2>概述<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
+<p>通用异步接收器/发送器 (UART) 是一种硬件功能，它使用广泛采用的异步串行通信接口（例如 RS232、RS422、RS485）来处理通信（即时序要求和数据帧）。</p>
+<p>ESP32 芯片具有三个 UART 控制器（UART0、UART1 和 UART2），每个控制器都具有一组相同的寄存器，以简化编程并提高灵活性。</p>
+<p>每个 UART 控制器可独立配置波特率、数据位长度、位顺序、停止位数量、奇偶校验位等参数。所有控制器都兼容不同制造商的 UART 设备，还可以支持红外数据关联协议（红外线）。</p>
+</section>
+<section id="id2">
+<h2>基本步骤<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h2>
+<p>以下步骤描述了如何使用 UART 驱动程序的功能和数据类型在 ESP32 和其他 UART 设备之间建立通信。</p>
+<ol class="arabic simple">
+<li><p>设置通讯参数- 设置波特率、数据位、停止位等。</p></li>
+<li><p>设置通信引脚- 分配用于连接到设备的引脚。</p></li>
+<li><p>驱动程序安装- 为 UART 驱动程序分配 ESP32 的资源。</p></li>
+<li><p>运行 UART 通信- 发送/接收数据</p></li>
+<li><p>使用中断- 触发特定通信事件的中断</p></li>
+<li><p>删除驱动程序- 如果不再需要 UART 通信，则释放分配的资源</p></li>
+</ol>
+<p>步骤 1 到 3 包括配置阶段。第 4 步是 UART 开始运行的地方。步骤 5 和 6 是可选的。</p>
+<section id="id3">
+<h3>设置通讯参数<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h3>
+<p>调用函数<code class="docutils literal notranslate"><span class="pre">uart_param_config()</span></code>并将结构体<code class="docutils literal notranslate"><span class="pre">uart_config_t</span></code>传递给它<code class="docutils literal notranslate"><span class="pre">uart_config_t</span></code>。该<code class="docutils literal notranslate"><span class="pre">uart_config_t</span></code>结构应包含所有必需的参数。示例代码如下。</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">const</span><span class="w"> </span><span class="n">uart_config_t</span><span class="w"> </span><span class="n">uart_config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="p">.</span><span class="n">baud_rate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">115200</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="p">.</span><span class="n">data_bits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UART_DATA_8_BITS</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="p">.</span><span class="n">parity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UART_PARITY_DISABLE</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="p">.</span><span class="n">stop_bits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UART_STOP_BITS_1</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="p">.</span><span class="n">flow_ctrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UART_HW_FLOWCTRL_DISABLE</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="p">.</span><span class="n">source_clk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UART_SCLK_APB</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="c1">//从上到下分别为：波特率、数据位、奇偶校验控制、停止位、硬件流控模式、时钟选择</span>
+<span class="p">};</span><span class="w"></span>
+
+<span class="n">uart_param_config</span><span class="p">(</span><span class="n">UART_NUM_1</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">uart_config</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h3>设置通信引脚<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h3>
+<p>设置通信参数后，配置 UART 设备将连接到的物理 GPIO 引脚。调用该函数<code class="docutils literal notranslate"><span class="pre">uart_set_pin()</span></code>并指定驱动程序应将 Tx、Rx、(RTS 和 CTS) 信号到的 GPIO 引脚号。</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">//定义UART引脚</span>
+<span class="cp">#define TXD_PIN (GPIO_NUM_4)</span>
+<span class="cp">#define RXD_PIN (GPIO_NUM_5)</span>
+
+<span class="n">uart_set_pin</span><span class="p">(</span><span class="n">UART_NUM_1</span><span class="p">,</span><span class="w"> </span><span class="n">TXD_PIN</span><span class="p">,</span><span class="w"> </span><span class="n">RXD_PIN</span><span class="p">,</span><span class="w"> </span><span class="n">UART_PIN_NO_CHANGE</span><span class="p">,</span><span class="w"> </span><span class="n">UART_PIN_NO_CHANGE</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h3>驱动安装<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h3>
+<p>设置好通信引脚后，通过调用安装驱动程序<code class="docutils literal notranslate"><span class="pre">uart_driver_install()</span></code>并指定以下参数：</p>
+<ul class="simple">
+<li><p>Tx 环形缓冲区的大小</p></li>
+<li><p>Rx 环形缓冲区的大小</p></li>
+<li><p>事件队列句柄和大小</p></li>
+<li><p>分配中断的标志</p></li>
+</ul>
+<p>该函数将为 UART 驱动程序分配所需的内部资源。</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">uart_driver_install</span><span class="p">(</span><span class="n">UART_NUM_1</span><span class="p">,</span><span class="w"> </span><span class="n">RX_BUF_SIZE</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+<section id="id6">
+<h3>传输<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h3>
+<p>准备好要传输的数据后，调用函数<code class="docutils literal notranslate"><span class="pre">uart_write_bytes()</span></code>并将数据缓冲区的地址和数据长度传递给它。该函数会将数据复制到 Tx 环形缓冲区（立即或在有足够空间可用后），然后退出。当 Tx FIFO 缓冲区中有可用空间时，中断服务程序 (ISR) 将数据从 Tx 环形缓冲区移动到后台的 Tx FIFO 缓冲区。下面的代码演示了这个函数的使用。</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// 将数据写入 UART。</span>
+<span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">test_str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;This is a test string.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">;</span><span class="w"></span>
+<span class="n">uart_write_bytes</span><span class="p">(</span><span class="n">uart_num</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">test_str</span><span class="p">,</span><span class="w"> </span><span class="n">strlen</span><span class="p">(</span><span class="n">test_str</span><span class="p">));</span><span class="w"></span>
+</pre></div>
+</div>
+<p>功能<code class="docutils literal notranslate"><span class="pre">uart_write_bytes_with_break()</span></code>类似于<code class="docutils literal notranslate"><span class="pre">uart_write_bytes()</span></code>但在传输结束时增加了一个串行中断信号。“串行中断信号”意味着将 Tx 线保持在低电平的时间超过一个数据帧。</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// 向 UART 写入数据，以中断信号结束。</span>
+<span class="n">uart_write_bytes_with_break</span><span class="p">(</span><span class="n">uart_num</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;test break</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">strlen</span><span class="p">(</span><span class="s">&quot;test break</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">),</span><span class="w"> </span><span class="mi">100</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>将数据写入 Tx FIFO 缓冲区的另一个函数是<code class="docutils literal notranslate"><span class="pre">uart_tx_chars()</span></code>。与 不同<code class="docutils literal notranslate"><span class="pre">uart_write_bytes()</span></code>，此函数在空间可用之前不会阻塞。相反，它将写入所有可以立即放入硬件 Tx FIFO 的数据，然后返回写入的字节数。</p>
+<p>有一个“伴侣”功能<code class="docutils literal notranslate"><span class="pre">uart_wait_tx_done()</span></code>可以监控 Tx FIFO 缓冲区的状态，并在它为空时返回。</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// 等待数据包发送</span>
+<span class="k">const</span><span class="w"> </span><span class="n">uart_port_t</span><span class="w"> </span><span class="n">uart_num</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UART_NUM_2</span><span class="p">;</span><span class="w"></span>
+<span class="n">ESP_ERROR_CHECK</span><span class="p">(</span><span class="n">uart_wait_tx_done</span><span class="p">(</span><span class="n">uart_num</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">));</span><span class="w"> </span><span class="c1">// wait timeout is 100 RTOS ticks (TickType_t)</span>
+</pre></div>
+</div>
+</section>
+<section id="id7">
+<h3>接收<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h3>
+<p>一旦 UART 接收到数据并保存在 Rx FIFO 缓冲区中，就需要使用 函数检索数据<code class="docutils literal notranslate"><span class="pre">uart_read_bytes()</span></code>。在读取数据之前，您可以通过调用来检查 Rx FIFO 缓冲区中可用的字节数<code class="docutils literal notranslate"><span class="pre">uart_get_buffeed_data_len()</span></code>。下面给出了使用这些函数的示例。</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// 从 UART 读取数据。</span>
+<span class="k">const</span><span class="w"> </span><span class="n">uart_port_t</span><span class="w"> </span><span class="n">uart_num</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UART_NUM_2</span><span class="p">;</span><span class="w"></span>
+<span class="kt">uint8_t</span><span class="w"> </span><span class="n">data</span><span class="p">[</span><span class="mi">128</span><span class="p">];</span><span class="w"></span>
+<span class="kt">int</span><span class="w"> </span><span class="n">length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="n">ESP_ERROR_CHECK</span><span class="p">(</span><span class="n">uart_get_buffered_data_len</span><span class="p">(</span><span class="n">uart_num</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="kt">size_t</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">length</span><span class="p">));</span><span class="w"></span>
+<span class="n">length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">uart_read_bytes</span><span class="p">(</span><span class="n">uart_num</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">length</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>如果不再需要 Rx FIFO 缓冲区中的数据，您可以通过调用清除缓冲区 uart_flush()。</p>
+</section>
+<section id="id8">
+<h3>软件流控制<a class="headerlink" href="#id8" title="Permalink to this heading">#</a></h3>
+<p>如果硬件流控关闭，可以分别使用 和 函数手动设置 RTS 和 DTR 信号电<code class="docutils literal notranslate"><span class="pre">uart_set_rts()</span></code>平<code class="docutils literal notranslate"><span class="pre">uart_set_dtr()</span></code>。</p>
+</section>
+<section id="id9">
+<h3>通讯方式选择<a class="headerlink" href="#id9" title="Permalink to this heading">#</a></h3>
+<p>UART 控制器支持多种通信模式。可以使用该功能选择模式<code class="docutils literal notranslate"><span class="pre">uart_set_mode()</span></code>。选择特定模式后，UART 驱动程序将相应地处理连接的 UART 设备的行为。例如，它可以使用 RTS 线控制 RS485 驱动芯片，实现半双工 RS485 通信。</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// 将 UART 设置为 rs485 半双工模式</span>
+<span class="n">ESP_ERROR_CHECK</span><span class="p">(</span><span class="n">uart_set_mode</span><span class="p">(</span><span class="n">uart_num</span><span class="p">,</span><span class="w"> </span><span class="n">UART_MODE_RS485_HALF_DUPLEX</span><span class="p">));</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+<section id="id10">
+<h3>使用中断<a class="headerlink" href="#id10" title="Permalink to this heading">#</a></h3>
+<p>在特定的 UART 状态或检测到的错误之后，可以生成许多中断。<code class="docutils literal notranslate"><span class="pre">ESP32</span> <span class="pre">技术参考手册&gt;</span> <span class="pre">UART</span> <span class="pre">控制器</span> <span class="pre">(UART)</span> <span class="pre">&gt;</span> <span class="pre">UART</span> <span class="pre">中断和UHCI</span> <span class="pre">中断[</span> <span class="pre">PDF</span> <span class="pre">]</span></code>中提供了可用中断的完整列表。<code class="docutils literal notranslate"><span class="pre">uart_enable_intr_mask()</span></code>您可以通过调用或<code class="docutils literal notranslate"><span class="pre">uart_disable_intr_mask()</span></code>分别启用或禁用特定的中断。所有中断的掩码都可以作为<code class="docutils literal notranslate"><span class="pre">UART_INTR_MASK</span></code>.</p>
+<p>默认情况下，该<code class="docutils literal notranslate"><span class="pre">uart_driver_install()</span></code>函数安装驱动程序的内部中断处理程序来管理 Tx 和 Rx 环形缓冲区，并提供高级 API 函数，如事件（见下文）。也可以使用 注册一个较低级别的中断处理程序<code class="docutils literal notranslate"><span class="pre">uart_isr_register()</span></code>，并使用 再次释放它<code class="docutils literal notranslate"><span class="pre">uart_isr_free()</span></code>。在这种情况下，一些使用 Tx 和 Rx 环形缓冲区、事件等的 UART 驱动程序函数将不会自动工作 - 必须直接在 ISR 中处理中断。在自定义处理程序实现中，使用清除中断状态位<code class="docutils literal notranslate"><span class="pre">uart_clear_intr_status()</span></code>。</p>
+<p>API 提供了一种方便的方法来处理本文档中讨论的特定中断，方法是将它们包装到专用函数中：</p>
+<ul class="simple">
+<li><p>事件检测：其中定义了几个事件<code class="docutils literal notranslate"><span class="pre">uart_event_type_t</span></code>，可以使用 FreeRTOS 队列功能向用户应用程序报告。您可以在驱动程序安装<code class="docutils literal notranslate"><span class="pre">uart_driver_install()</span></code>中描述的调用时启用此功能。在 peripherals/uart/uart_events 中可以找到使用事件检测的示例。</p></li>
+<li><p>FIFO 空间阈值或传输超时：当 Tx 和 Rx FIFO 缓冲区填充特定数量的字符或发送或接收数据超时时，它们会触发中断。要使用这些中断，请执行以下操作：</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">uart_intr_config_t</span></code>通过在结构中输入并调用来配置缓冲区长度和超时的各个阈值<code class="docutils literal notranslate"><span class="pre">uart_intr_config()</span></code></p></li>
+<li><p>使用函数启用中断<code class="docutils literal notranslate"><span class="pre">uart_enable_tx_intr()</span></code>和<code class="docutils literal notranslate"><span class="pre">uart_enable_rx_intr()</span></code></p></li>
+<li><p>使用相应的函数禁用这些中断<code class="docutils literal notranslate"><span class="pre">uart_disable_tx_intr()</span></code>或<code class="docutils literal notranslate"><span class="pre">uart_disable_rx_intr()</span></code></p></li>
+</ul>
+</li>
+<li><p>模式检测：在检测到相同字符的“模式”被重复接收/发送多次时触发的中断。此功能在示例<code class="docutils literal notranslate"><span class="pre">peripherals/uart/uart_events</span></code>中演示。例如，它可用于检测命令字符串后跟在命令字符串末尾添加的特定数量的相同字符（“模式”）。可以使用以下功能：</p>
+<ul>
+<li><p>使用配置和启用此中断<code class="docutils literal notranslate"><span class="pre">uart_enable_pattern_det_intr()</span></code></p></li>
+<li><p>使用禁用中断<code class="docutils literal notranslate"><span class="pre">uart_disable_pattern_det_intr()</span></code></p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="id11">
+<h3>宏<a class="headerlink" href="#id11" title="Permalink to this heading">#</a></h3>
+<p>API 还定义了几个宏。例如，<code class="docutils literal notranslate"><span class="pre">UART_FIFO_LEN</span></code>定义硬件 FIFO 缓冲区的长度；<code class="docutils literal notranslate"><span class="pre">UART_BITRATE_MAX</span></code>给出 UART 控制器等支持的最大波特率。</p>
+</section>
+<section id="id12">
+<h3>删除驱动程序<a class="headerlink" href="#id12" title="Permalink to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">uart_driver_install()</span></code>如果不再需要与之建立的通信，可以通过调用来删除驱动程序以释放分配的资源<code class="docutils literal notranslate"><span class="pre">uart_driver_delete()</span></code>。</p>
+</section>
+</section>
+<section id="id13">
+<h2>实验内容<a class="headerlink" href="#id13" title="Permalink to this heading">#</a></h2>
+<p>示例演示两个异步任务如何使用相同的 UART 接口进行通信。可以使用此示例为串行通信开发更复杂的应用程序。</p>
+<p>该示例启动了两个 FreeRTOS 任务：</p>
+<ol class="arabic simple">
+<li><p>第一个任务<code class="docutils literal notranslate"><span class="pre">Hello</span> <span class="pre">world</span></code>通过 UART 定期发送。</p></li>
+<li><p>第二个任务任务监听、接收和打印来自 UART 的数据。</p></li>
+</ol>
+<section id="id14">
+<h3>所需硬件<a class="headerlink" href="#id14" title="Permalink to this heading">#</a></h3>
+<p>ESP32 开发板、microUSB 线、电脑，一根母对母头杜邦线。</p>
+</section>
+<section id="id15">
+<h3>硬件接线<a class="headerlink" href="#id15" title="Permalink to this heading">#</a></h3>
+<p>代码中可配置的<code class="docutils literal notranslate"><span class="pre">RXD_PIN</span></code>和<code class="docutils literal notranslate"><span class="pre">TXD_PIN</span></code>（默认情况下是 GPIO4 和 GPIO5）需要使用杜邦线进行<strong>短接</strong>。</p>
+</section>
+<section id="id16">
+<h3>源代码参考<a class="headerlink" href="#id16" title="Permalink to this heading">#</a></h3>
+<p>参见<a class="reference internal" href="../../reference.html"><span class="std std-doc">参考资料与源代码</span></a></p>
+</section>
+<section id="id17">
+<h3>代码调试与示例输出<a class="headerlink" href="#id17" title="Permalink to this heading">#</a></h3>
+<p>使用 idf.py 以及 clion 管理项目，编码，build, flash, 以及 monitor。</p>
+<p>运行 monitor 后，你将从监控控制台收到以下串口打印输出：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>...
+I <span class="o">(</span><span class="m">3261</span><span class="o">)</span> TX_TASK: Wrote <span class="m">11</span> bytes
+I <span class="o">(</span><span class="m">4261</span><span class="o">)</span> RX_TASK: Read <span class="m">11</span> bytes: <span class="s1">&#39;Hello world&#39;</span>
+I <span class="o">(</span><span class="m">4261</span><span class="o">)</span> RX_TASK: 0x3ffb821c   <span class="m">48</span> <span class="m">65</span> 6c 6c 6f <span class="m">20</span> <span class="m">77</span> 6f  <span class="m">72</span> 6c <span class="m">64</span>                 <span class="p">|</span>Hello world<span class="p">|</span>
+...
+</pre></div>
+</div>
+</section>
+</section>
+<section id="api">
+<h2>API 参考<a class="headerlink" href="#api" title="Permalink to this heading">#</a></h2>
+<p><a class="reference external" href="https://docs.espressif.com/projects/esp-idf/zh_CN/latest/esp32/api-reference/peripherals/uart.html">UART API</a></p>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">上一页</p>
+        <p class="prev-next-title">外设接口与传感器</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="lcd%26spi.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">下一页</p>
+        <p class="prev-next-title">LCD&amp;SPI</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 目录
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">概述</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">基本步骤</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">设置通讯参数</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">设置通信引脚</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">驱动安装</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">传输</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">接收</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">软件流控制</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">通讯方式选择</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">使用中断</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">宏</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">删除驱动程序</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">实验内容</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">所需硬件</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">硬件接线</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">源代码参考</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id17">代码调试与示例输出</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#api">API 参考</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+作者： Lemon.Go，谭文龙，罗明雄
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022, Lemon.Go@gdpu.edu.cn.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

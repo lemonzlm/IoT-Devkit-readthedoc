@@ -1,0 +1,745 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="zh-CN" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>CoAP over WiFi &#8212; IoT-Devkit 实验手册 0.2 文档</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../_static/translations.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'exp-esp32/coap';</script>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="LoRa实验篇" href="../exp-lora/index.html" />
+    <link rel="prev" title="MQTT over WiFi" href="mqtt.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="zh-CN"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">IoT-Devkit 实验手册 0.2 文档</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../dev-board/index.html">实验箱概述与理论准备</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../dev-board/arch.html">实验系统构成</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dev-board/ide.html">开发环境概览</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../dev-board/mcu.html">MCU基础</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../dev-board/esp32.html">ESP32</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../dev-board/stm32l475.html">STM32L475</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../dev-board/clion.html">Clion 项目工程基础</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dev-board/cmake.html">Cmake 构建系统</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dev-board/esp-idf.html">ESP-IDF SDK基础</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../exp-stm32/index.html">STM32实验篇</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../exp-stm32/ide-setup.html">IDE环境搭建</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-stm32/debug-flow.html">基本调试流程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-stm32/peripherals-and-sensors.html">外设与传感器</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../exp-stm32/ble/index.html">BlueTooth</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../exp-stm32/ble/ble-gatt.html"> GATT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-stm32/ble/ble-p2p.html"> BLE点对点(P2P)通信</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-stm32/ble/Profiles.html"> 蓝牙Profiles</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-stm32/nfc.html">NFC</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../exp-stm32/wifi/index.html">WiFi</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../exp-stm32/wifi/tcp-over-wifi.html"> TCP over WiFi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../exp-stm32/wifi/http-over-wifi.html"> HTTP over WiFi</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-stm32/mqtt.html">MQTT</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">ESP32实验篇</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="ide/index.html">IDE集成开发环境搭建</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="ide/esp-idf-setup.html"> ESP-IDF环境配置</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ide/esp-idf-cli.html"> ESP-IDF命令行基本流程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ide/esp-idf-cli-debug.html"> ESP-IDF JTAG调试流程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ide/esp-idf-clion-dev.html"> Clion下ESP-IDF的配置与开发</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="peripherals/index.html">外设接口与传感器</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="peripherals/uart.html"> UART</a></li>
+<li class="toctree-l3"><a class="reference internal" href="peripherals/lcd%26spi.html"> LCD&amp;SPI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="peripherals/i2c.html"> I2C</a></li>
+<li class="toctree-l3"><a class="reference internal" href="peripherals/camera.html"> 摄像头</a></li>
+<li class="toctree-l3"><a class="reference internal" href="peripherals/touch.html"> 触摸传感器</a></li>
+<li class="toctree-l3"><a class="reference internal" href="peripherals/dht11.html"> 温湿度传感器采集</a></li>
+<li class="toctree-l3"><a class="reference internal" href="peripherals/light.html"> 光照传感器采集</a></li>
+<li class="toctree-l3"><a class="reference internal" href="peripherals/gesture.html"> 手势识别</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="bluetooth/index.html">BlueTooth</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="bluetooth/blufi.html"> BluFi配置实验</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bluetooth/hci.html"> BlueTooth HCI主机控制接口</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bluetooth/hid-gap.html"> 基于GAP的BlueTooth HID人机接口</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bluetooth/hid-device-gatt.html"> 基于GATT的BLE HID设备</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="wifi/index.html">WiFi</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="wifi/station.html"> Station 模式</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wifi/ap.html"> AP模式</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wifi/esp-now.html"> ESP_NOW 协议</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wifi/ftm.html"> WiFi测距FTM</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="socket/index.html">Socket over WiFi</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="socket/tcp.html"> TCP Server and Client</a></li>
+<li class="toctree-l3"><a class="reference internal" href="socket/udp.html"> UDP Server and Client</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="websocket.html">WebSocket over WiFi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="http.html">HTTP over WiFi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mqtt.html">MQTT over WiFi</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">CoAP over WiFi</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../exp-lora/index.html">LoRa实验篇</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../exp-lora/at-command.html">LoRa AT指令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-lora/p2p-stm32.html">LoRa P2P @STM32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-lora/lorawan-stm32.html">LoRaWan @STM32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-lora/mqtt-stm32.html">MQTT over LoRaWan @STM32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-lora/p2p-esp32.html">LoRa P2P @ESP32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-lora/lorawan-esp32.html">LoRaWan @ESP32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-lora/mqtt-esp32.html">MQTT over LoRaWan @ESP32</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../exp-advanced/index.html">提高篇-Mesh与AIoT</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../exp-advanced/wifi-mesh.html">WiFi Mesh网</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-advanced/ble-mesh.html">BLE Mesh网</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-advanced/code-recognition.html">二维码识别</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-advanced/ai-face-detection.html">AI人脸识别</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-advanced/ai-motion-detection.html">AI运动检测</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../exp-advanced/ai-tensor-flow-light.html">AI Tensor Flow Light</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../reference.html">参考资料</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">关于我们</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="下载此页面">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/exp-esp32/coap.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="下载源文件"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="列印成 PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="全屏模式"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>CoAP over WiFi</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> 目录 </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">概述</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#coap">Coap协议介绍</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Coap协议特点</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Coap协议消息类型</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Coap消息格式</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#coap-client">CoAP Client 示例</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">配置项目</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">构建和烧录</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">示例输出</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#libcoap">libcoap 文档</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">故障排除</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#coap-server">CoAP Server示例</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">配置项目</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">构建和烧录</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">示例输出</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">libcoap 文档</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">故障排除</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="coap-over-wifi">
+<h1>CoAP over WiFi<a class="headerlink" href="#coap-over-wifi" title="Permalink to this heading">#</a></h1>
+<section id="id1">
+<h2>概述<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
+<p>Coap（Constrained Application Protocol）是一种在物联网世界的类web协议，它的详细规范定义在 RFC 7252。COAP名字翻译来就是“受限应用协议”，顾名思义，使用在资源受限的物联网设备上。物联网设备的ram，rom都通常非常小，运行TCP和HTTP是不可以接受的。
+<img alt="image-20220808102849628" src="../_images/image-20220808102849628.png" /></p>
+</section>
+<section id="coap">
+<h2>Coap协议介绍<a class="headerlink" href="#coap" title="Permalink to this heading">#</a></h2>
+<section id="id2">
+<h3>Coap协议特点<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>COAP协议网络传输层由TCP改为UDP。</p></li>
+<li><p>它基于REST，server的资源地址和互联网一样也有类似url的格式，客户端同样有POST，GET,PUT,DELETE方法来访问server，HTTP做了简化。</p></li>
+<li><p>COAP是二进制格式的，HTTP是文本格式的，COAP比HTTP更加紧凑。</p></li>
+<li><p>轻量化，COAP最小长度仅仅4B，一个HTTP的头都几十个B了。</p></li>
+<li><p>支持可靠传输，数据重传，块传输。确保数据可靠到达。</p></li>
+<li><p>支持IP多播，即可以同时向多个设备发送请求。</p></li>
+<li><p>非长连接通信，适用于低功耗物联网场景。</p></li>
+</ul>
+</section>
+<section id="id3">
+<h3>Coap协议消息类型<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h3>
+<p>COAP协议有4种消息类型：</p>
+<ol class="arabic simple">
+<li><p>CON—— 需要被确认的请求，如果CON请求被发送，那么对方必须做出响应。这有点像TCP，对方必须给确认收到消息，用以可靠消息传输。</p></li>
+<li><p>NON—— 不需要被确认的请求，如果NON请求被发送，那么对方不必做出回应。这适用于消息会重复频繁的发送，丢包不影响正常操作。这个和UDP很像。用以不可靠消息传输。</p></li>
+<li><p>ACK —— 应答消息，对应的是CON消息的应答。</p></li>
+<li><p>RST —— 复位消息，可靠传输时候接收的消息不认识或错误时，不能回ACK消息，必须回RST消息。</p></li>
+</ol>
+</section>
+<section id="id4">
+<h3>Coap消息格式<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h3>
+<p>CoAP的消息格式是很紧凑的，默认运行在UDP上（每个CoAP消息都是UDP数据包中的数据部分）。
+CoAP也可以运行在DTLS协议上和其它传输协议上，例如SMS，TCP或SCTP（CoAP不支持UDP-lite[RFC3828]和UDP zero checksum[RFC6936]）。</p>
+<p>CoAP消息用二进制格式进行编码。 这个消息格式以一个固定4个字节的头部开始。
+此后是一个长度在0到8字节之间的Token。Token值之后是0个或多个Type-Length-Value(TLV)格式的选项(Option)。之后到整个数据报的结尾都是payload部分，payload可以为空。</p>
+<p><img alt="image-20220808103353815" src="../_images/image-20220808103353815.png" /></p>
+</section>
+</section>
+<section id="coap-client">
+<h2>CoAP Client 示例<a class="headerlink" href="#coap-client" title="Permalink to this heading">#</a></h2>
+<p>这个 CoAP 客户端示例是对 libcoap示例之一的非常简化的改编。</p>
+<p>CoAP 客户端示例将您的 ESP32 设备连接到 CoAP 服务器，发送 GET 请求并从 CoAP 服务器获取响应数据。客户端可以扩展为 PUT / POST / DELETE 请求，以及支持观察者扩展RFC7641。</p>
+<p>如果 URI 以 coaps:// 而不是 coap:// 为前缀，则 CoAP 客户端将尝试使用 CoAP 服务器所需的定义的预共享密钥 (PSK) 或公钥基础设施 (PKI) 使用 DTLS 协议要知道。</p>
+<p>如果 URI 以 coap+tcp:// 为前缀，则 CoAP 将尝试使用 TCP 进行通信。</p>
+<p>注意：目前不支持 coaps+tcp://，即使 libcoap 和 MbedTLS 都支持它。</p>
+<p>受限应用协议 (CoAP) 是一种专门的 Web 传输协议，用于物联网中的受限节点和受限网络。
+该协议专为智能能源和大厦自动化等机器对机器 (M2M) 应用而设计。</p>
+<section id="id5">
+<h3>配置项目<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h3>
+<p>命令行界面</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> /示例对应的目录
+get-idf
+idf.py menuconfig
+</pre></div>
+</div>
+<p>Clion界面</p>
+<p>选择示例的文件夹并用Clion打开</p>
+<p>添加各项配置（参考Clion下ESP-IDF的配置与开发）</p>
+<p>选择 menuconfig 并运行</p>
+<p>Example Connection Configuration —&gt;</p>
+<ul class="simple">
+<li><p>在 Example Configuration 下设置 WiFi SSID</p></li>
+<li><p>在 Example Configuration Example  CoAP Client Configuration —&gt;下设置 WiFi 密码</p></li>
+<li><p>设置 CoAP 目标 Uri</p></li>
+<li><p>如果是 PSK，设置 CoAP 预共享密钥以用于连接到服务器</p></li>
+<li><p>如果是 PSK，设置 CoAP PSK 客户端身份（用户名） Component config —&gt; CoAP Configuration —&gt;</p>
+<ul>
+<li><p>设置加密方法定义，PSK（默认）或 PKI</p></li>
+<li><p>如果需要，启用 CoAP 调试高分辨率计时器 (esp_timer) —&gt;</p></li>
+<li><p>用于 esp_timer 的硬件定时器 - 如果需要可更改（QEMU 的 FRC2）</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="id6">
+<h3>构建和烧录<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h3>
+<p>构建项目并将其烧写到板上，然后运行监控工具查看串行输出：</p>
+<p>命令行界面：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>idf.py -p PORT flash monitor
+</pre></div>
+</div>
+<p>（要退出串行监视器，请键入Ctrl-]。）</p>
+<p>Clion界面：</p>
+<p>选择 flash 并运行</p>
+<p>选择 monitor 并运行</p>
+</section>
+<section id="id7">
+<h3>示例输出<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h3>
+<p>前提条件：我们在coap server example上启动一个CoAP server，或者使用默认的coap://californium.eclipseprojects.io。</p>
+<p>如果成功，您可以从 CoAP 服务器接收数据，
+例如以下日志：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>b...
+I <span class="o">(</span><span class="m">332</span><span class="o">)</span> wifi: mode : sta <span class="o">(</span><span class="m">30</span>:ae:a4:04:1b:7c<span class="o">)</span>
+I <span class="o">(</span><span class="m">1672</span><span class="o">)</span> wifi: n:11 <span class="m">0</span>, o:1 <span class="m">0</span>, ap:255 <span class="m">255</span>, sta:11 <span class="m">0</span>, prof:1
+I <span class="o">(</span><span class="m">1672</span><span class="o">)</span> wifi: state: init -&gt; auth <span class="o">(</span>b0<span class="o">)</span>
+I <span class="o">(</span><span class="m">1682</span><span class="o">)</span> wifi: state: auth -&gt; assoc <span class="o">(</span><span class="m">0</span><span class="o">)</span>
+I <span class="o">(</span><span class="m">1692</span><span class="o">)</span> wifi: state: assoc -&gt; run <span class="o">(</span><span class="m">10</span><span class="o">)</span>
+I <span class="o">(</span><span class="m">1692</span><span class="o">)</span> wifi: connected with huawei_cw, channel <span class="m">11</span>
+I <span class="o">(</span><span class="m">1692</span><span class="o">)</span> wifi: pm start, type: <span class="m">1</span>
+
+I <span class="o">(</span><span class="m">2582</span><span class="o">)</span> event: sta ip: <span class="m">192</span>.168.3.89, mask: <span class="m">255</span>.255.255.0, gw: <span class="m">192</span>.168.3.1
+I <span class="o">(</span><span class="m">2582</span><span class="o">)</span> CoAP_client: Connected to AP
+I <span class="o">(</span><span class="m">2582</span><span class="o">)</span> CoAP_client: DNS lookup succeeded. <span class="nv">IP</span><span class="o">=</span><span class="m">35</span>.185.40.182
+Received:
+
+****************************************************************
+
+CoAP RFC <span class="m">7252</span>                                  Cf <span class="m">3</span>.0.0-SNAPSHOT
+
+****************************************************************
+
+This server is using the Eclipse Californium <span class="o">(</span>Cf<span class="o">)</span> CoAP framework
+published under EPL+EDL: http://www.eclipse.org/californium/
+
+<span class="o">(</span>c<span class="o">)</span> <span class="m">2014</span>-2020 Institute <span class="k">for</span> Pervasive Computing, ETH Zurich and others
+
+****************************************************************
+...
+</pre></div>
+</div>
+</section>
+<section id="libcoap">
+<h3>libcoap 文档<a class="headerlink" href="#libcoap" title="Permalink to this heading">#</a></h3>
+<p>这可以在libcoap 文档中找到。当前的 API 是 4.3.0。</p>
+<p>https://libcoap.net/documentation.html</p>
+</section>
+<section id="id8">
+<h3>故障排除<a class="headerlink" href="#id8" title="Permalink to this heading">#</a></h3>
+<p>请确保 Target Url 包含 valid host、 optional port、 optionalpath和以 开头coap://，coaps://或者coap+tcp:// 对于支持 TCP 的 coap 服务器（并非所有都包括 coap+tcp://californium.eclipseprojects.io）。</p>
+<p>可以通过运行“idf.py menuconfig -&gt; Component config -&gt; CoAP Configuration”并设置适当的日志级别来启用 CoAP 日志记录。</p>
+</section>
+</section>
+<section id="coap-server">
+<h2>CoAP Server示例<a class="headerlink" href="#coap-server" title="Permalink to this heading">#</a></h2>
+<p>这个 CoAP 服务器示例是对libcoap 示例 之一的非常简化的改编 。</p>
+<p>CoAP 服务器示例将启动一个守护任务，从 CoAP 客户端接收请求/数据并将数据传输到 CoAP 客户端。</p>
+<p>如果传入的请求请求使用 DTLS（连接到端口 5684），则 CoAP 服务器将尝试使用先前定义的预共享密钥 (PSK) 建立 DTLS 会话 - 这必须与 CoAP 的相同客户端正在使用，或公钥基础设施 (PKI)，其中 PKI 信息必须按请求匹配。</p>
+<p>注意：当前不支持尝试使用 coaps+tcp:// 的客户端会话，即使 libcoap 和 MbedTLS 都支持它。</p>
+<p>受限应用协议 (CoAP) 是一种专门的 Web 传输协议，用于物联网中的受限节点和受限网络。
+该协议专为智能能源和大厦自动化等机器对机器 (M2M) 应用而设计。</p>
+<section id="id9">
+<h3>配置项目<a class="headerlink" href="#id9" title="Permalink to this heading">#</a></h3>
+<p>命令行界面</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> /示例对应的目录
+get-idf
+idf.py menuconfig
+</pre></div>
+</div>
+<p>Clion界面</p>
+<p>选择示例的文件夹并用Clion打开</p>
+<p>添加各项配置（参考Clion下ESP-IDF的配置与开发）</p>
+<p>选择 menuconfig 并运行</p>
+<p>Example Connection Configuration —&gt;</p>
+<ul class="simple">
+<li><p>在 Example Configuration 下设置 WiFi SSID</p></li>
+<li><p>在 Example Configuration Example  CoAP Client Configuration —&gt;下设置 WiFi 密码</p></li>
+<li><p>设置 CoAP 目标 Uri</p></li>
+<li><p>如果是 PSK，设置 CoAP 预共享密钥以用于连接到服务器</p></li>
+<li><p>如果是 PSK，设置 CoAP PSK 客户端身份（用户名） Component config —&gt; CoAP Configuration —&gt;</p>
+<ul>
+<li><p>设置加密方法定义，PSK（默认）或 PKI</p></li>
+<li><p>如果需要，启用 CoAP 调试高分辨率计时器 (esp_timer) —&gt;</p></li>
+<li><p>用于 esp_timer 的硬件定时器 - 如果需要可更改（QEMU 的 FRC2）</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="id10">
+<h3>构建和烧录<a class="headerlink" href="#id10" title="Permalink to this heading">#</a></h3>
+<p>构建项目并将其烧写到板上，然后运行监控工具查看串行输出：</p>
+<p>命令行界面：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>idf.py -p PORT flash monitor
+</pre></div>
+</div>
+<p>（要退出串行监视器，请键入Ctrl-]。）</p>
+<p>Clion界面：</p>
+<p>选择 flash 并运行</p>
+<p>选择 monitor 并运行</p>
+</section>
+<section id="id11">
+<h3>示例输出<a class="headerlink" href="#id11" title="Permalink to this heading">#</a></h3>
+<p>当前的 CoAP 服务器会启动一个 daemon 任务，
+日志如下：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>...
+I <span class="o">(</span><span class="m">332</span><span class="o">)</span> wifi: mode : sta <span class="o">(</span><span class="m">30</span>:ae:a4:04:1b:7c<span class="o">)</span>
+I <span class="o">(</span><span class="m">1672</span><span class="o">)</span> wifi: n:11 <span class="m">0</span>, o:1 <span class="m">0</span>, ap:255 <span class="m">255</span>, sta:11 <span class="m">0</span>, prof:1
+I <span class="o">(</span><span class="m">1672</span><span class="o">)</span> wifi: state: init -&gt; auth <span class="o">(</span>b0<span class="o">)</span>
+I <span class="o">(</span><span class="m">1682</span><span class="o">)</span> wifi: state: auth -&gt; assoc <span class="o">(</span><span class="m">0</span><span class="o">)</span>
+I <span class="o">(</span><span class="m">1692</span><span class="o">)</span> wifi: state: assoc -&gt; run <span class="o">(</span><span class="m">10</span><span class="o">)</span>
+I <span class="o">(</span><span class="m">1692</span><span class="o">)</span> wifi: connected with huawei_cw, channel <span class="m">11</span>
+I <span class="o">(</span><span class="m">1692</span><span class="o">)</span> wifi: pm start, type: <span class="m">1</span>
+
+I <span class="o">(</span><span class="m">2622</span><span class="o">)</span> event: sta ip: <span class="m">192</span>.168.3.84, mask: <span class="m">255</span>.255.255.0, gw: <span class="m">192</span>.168.3.1
+I <span class="o">(</span><span class="m">2622</span><span class="o">)</span> CoAP_server: Connected to AP
+...
+</pre></div>
+</div>
+<p>如果 CoAP 客户端查询/Espressif资源，CoAP 服务器将返回”Hello World!”
+，直到 CoAP 客户端使用不同的数据执行 PUT。</p>
+</section>
+<section id="id12">
+<h3>libcoap 文档<a class="headerlink" href="#id12" title="Permalink to this heading">#</a></h3>
+<p>这可以在libcoap 文档中找到。当前的 API 是 4.3.0。</p>
+<p>https://libcoap.net/documentation.html</p>
+</section>
+<section id="id13">
+<h3>故障排除<a class="headerlink" href="#id13" title="Permalink to this heading">#</a></h3>
+<p>请确保 CoAP 客户端在 path:/Espressif或fetches 下获取或放置数据/.well-known/core</p>
+<p>可以通过运行“idf.py menuconfig -&gt; Component config -&gt; CoAP Configuration”并设置适当的日志级别来启用 CoAP 日志记录</p>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="mqtt.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">上一页</p>
+        <p class="prev-next-title">MQTT over WiFi</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../exp-lora/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">下一页</p>
+        <p class="prev-next-title">LoRa实验篇</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 目录
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">概述</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#coap">Coap协议介绍</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Coap协议特点</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Coap协议消息类型</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Coap消息格式</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#coap-client">CoAP Client 示例</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">配置项目</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">构建和烧录</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">示例输出</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#libcoap">libcoap 文档</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">故障排除</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#coap-server">CoAP Server示例</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">配置项目</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">构建和烧录</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">示例输出</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">libcoap 文档</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">故障排除</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+作者： Lemon.Go，谭文龙，罗明雄
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022, Lemon.Go@gdpu.edu.cn.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,190 @@
+# 温湿度传感器采集
+
+## 概述
+
+DHT11数字温湿度传感器是一款含有已校准数字信号输出的温湿度复合传感器。它应用专用的数字模块采集技术和温湿度传感技术，确保产品具有极高的可靠性与卓越的长期稳定性。传感器包括一个电阻式感湿元件和一个NTC测温元件，并与一个高性能8位单片机相连接。因此该产品具有品质卓越、超快响应、抗干扰能力强、性价比极高等优点。每个DHT11传感器都在极为精确的湿度校验室中进行校准。校准系数以程序的形式储存在OTP内存中，传感器内部在检测信号的处理过程中要调用这些校准系数。单线制串行接口，使系统集成变得简易快捷。超小的体积、极低的功耗，信号传输距离可达20米以上，使其成为各类应用甚至最为苛刻的应用场合的最佳选则。其精度湿度±5%RH， 温度±2℃，量程湿度5到95%RH， 温度-20到+60℃。
+
+![image-20220729165045406](../IMG/image-20220729165045406.png)
+
+## 硬件电路
+
+DHT11有4个引脚pin
+
+| 1              | 2                | 3    | 4              |
+| -------------- | ---------------- | ---- | -------------- |
+| VDD            | DATA             | NC   | GND            |
+| 供电 3－5.5VDC | 串行数据，单总线 | 空脚 | 接地，电源负极 |
+
+可见实际只有3个需要引出，而信号线只有一条DATA线
+
+![](../IMG/image-20220729164903590.png)
+
+## DATA线时序图
+
+先进行通讯，也就是检查有没有DHT11模块
+
+首先主机发送开始信号，即：拉低数据线，保持 t1（至少 18ms）时间，然后拉高数据线 t2（20-40us）时间，然后读取 DHT11 的响应，正常的话，DHT11 会拉低数据线，保持 t3 （40-50us）时间，作为响应信号，然后 DHT11 拉高数据线，保持 t4（40-50us）时间后，开始输出数据。
+
+![image-20220729170546878](../IMG/image-20220729170546878.png)
+
+因为DHT11会发送40位的数据。
+
+数据格式:
+
+8bit湿度整数数据+8bit湿度小数数据 +8bi温度整数数据+8bit温度小数数据 +8bit校验和
+
+这40位的数据每一位的0/1状态又是怎么确定的呢？下图就是数字0和1的信号表示方法
+
+- 数字0时序：
+
+![image-20220729171045106](../IMG/image-20220729171045106.png)
+
+- 数字1时序：
+
+![image-20220729171143739](../IMG/image-20220729171143739.png)
+
+## 代码实现
+
+读取一个字节
+
+```c
+//读取一个字节数据
+static void COM(void)    // 温湿写入
+{
+    uchar i;
+    for(i=0;i<8;i++)
+    {
+        ucharFLAG=2;
+        //等待IO口变低，变低后，通过延时去判断是0还是1
+        while((getData()==0)&&ucharFLAG++) ets_delay_us(10);
+        ets_delay_us(35);//延时35us
+        uchartemp=0;
+
+        //如果这个位是1，35us后，还是1，否则为0
+        if(getData()==1) 
+          uchartemp=1;
+        ucharFLAG=2;
+     
+        //等待IO口变高，变高后，表示可以读取下一位
+        while((getData()==1)&&ucharFLAG++) 
+          ets_delay_us(10);
+        if(ucharFLAG==1)
+          break;
+        ucharcomdata<<=1;
+        ucharcomdata|=uchartemp;
+    }
+
+}
+```
+
+逐个字节读取并返回值
+
+```c
+if(!getData())//表示传感器拉低总线
+    {
+        ucharFLAG=2;
+        //等待总线被传感器拉高
+        while((!getData())&&ucharFLAG++) 
+          ets_delay_us(10);
+        ucharFLAG=2;
+        //等待总线被传感器拉低
+        while((getData())&&ucharFLAG++) 
+          ets_delay_us(10);
+        COM();//读取第1字节，
+        ucharRH_data_H_temp=ucharcomdata;
+        COM();//读取第2字节，
+        ucharRH_data_L_temp=ucharcomdata;
+        COM();//读取第3字节，
+        ucharT_data_H_temp=ucharcomdata;
+        COM();//读取第4字节，
+        ucharT_data_L_temp=ucharcomdata;
+        COM();//读取第5字节，
+        ucharcheckdata_temp=ucharcomdata;
+        OutputHigh();
+        //判断校验和是否一致
+        uchartemp=(ucharT_data_H_temp+ucharT_data_L_temp+ucharRH_data_H_temp+ucharRH_data_L_temp);
+        if(uchartemp==ucharcheckdata_temp)
+        {
+            //校验和一致，
+            ucharRH_data_H=ucharRH_data_H_temp;
+            ucharRH_data_L=ucharRH_data_L_temp;
+            ucharT_data_H=ucharT_data_H_temp;
+            ucharT_data_L=ucharT_data_L_temp;
+            ucharcheckdata=ucharcheckdata_temp;
+            //保存温度和湿度
+            Humi=ucharRH_data_H;
+            Humi_small=ucharRH_data_L;
+            Temp=ucharT_data_H;
+            Temp_small=ucharT_data_L;
+        }
+        else
+        {
+          Humi=100;
+          Temp=100;
+        }
+    }
+    else //没用成功读取，返回0
+    {
+    	Humi=0,
+    	Temp=0;
+    }
+```
+
+## 实验示例
+
+示例演示从DHT11温湿度传感器读取数据并通过串口发送读取到的温湿度。
+
+## 所需硬件
+
+ ESP32开发板、microUSB 线、电脑，开发板上插入DHT11传感器。
+
+注意传感器插入方向，不要插反！！！
+
+## 配置项目
+
+本示例无需配置
+
+命令行界面
+
+```bash
+cd /示例对应的目录
+get-idf
+idf.py menuconfig
+```
+
+Clion界面
+
+选择示例的文件夹并用Clion打开
+
+添加各项配置（参考Clion下ESP-IDF的配置与开发）
+
+选择` menuconfig `并运行
+
+选择` 示例名.elf|Debug  `并运行
+
+## 构建和烧录
+
+构建项目并将其烧写到板上，然后运行监控工具查看串行输出：
+
+Clion界面：
+
+选择 `flash `并运行
+
+打开串口调试器，将会收到读取到的温湿度信息
+
+注意是串口调试器！不是`monitor`！
+
+## 示例输出
+
+您将从串口调试器收到以下重复输出：
+
+```bash
+Temp=25.6d℃--Humi=60.3%RH
+Temp=25.6d℃--Humi=60.3%RH
+Temp=25.9d℃--Humi=61.4%RH
+Temp=25.9d℃--Humi=61.4%RH
+Temp=25.6d℃--Humi=61.4%RH
+Temp=25.6d℃--Humi=60.3%RH
+Temp=25.6d℃--Humi=60.3%RH
+```
+

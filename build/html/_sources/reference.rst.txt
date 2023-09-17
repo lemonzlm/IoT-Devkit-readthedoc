@@ -1,0 +1,34 @@
+源代码与参考文档
+===============
+
+源代码下载
+----------
+
+.. ESP32
+.. ~~~~~
+
+ESP32篇源代码 :download:`下载 <./code/esp32.zip>`
+
+硬件参考文档
+-----------
+
+- `ESP32技术参考手册 <https://www.espressif.com/sites/default/files/documentation/esp32_technical_reference_manual_cn.pdf>`__
+
+- `ESP32技术规格书 <https://espressif.com/sites/default/files/documentation/esp32_datasheet_cn.pdf>`__
+
+- `ESP32硬件设计指南 <https://espressif.com/sites/default/files/documentation/esp32_hardware_design_guidelines_cn.pdf>`__
+
+更多硬件文档，请参看\ `官方参考 <https://espressif.com/sites/default/files/documentation/esp32_hardware_design_guidelines_cn.pdf>`__
+
+软件参考文档
+-----------
+
+-  `API指南 <https://docs.espressif.com/projects/esp-idf/zh_CN/latest/esp32/api-guides/index.html>`__
+
+-  `API参考 <https://docs.espressif.com/projects/esp-idf/zh_CN/latest/esp32/api-reference/index.html>`__
+
+
+
+
+
+

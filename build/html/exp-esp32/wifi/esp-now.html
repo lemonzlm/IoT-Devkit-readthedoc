@@ -1,0 +1,719 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="zh-CN" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>ESP_NOW 协议 &#8212; IoT-Devkit 实验手册 0.2 文档</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../../_static/translations.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'exp-esp32/wifi/esp-now';</script>
+    <link rel="author" title="关于这些文档" href="../../about.html" />
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="搜索" href="../../search.html" />
+    <link rel="next" title="WiFi测距FTM" href="ftm.html" />
+    <link rel="prev" title="AP 接入点模式" href="ap.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="zh-CN"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">IoT-Devkit 实验手册 0.2 文档</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../dev-board/index.html">实验箱概述与理论准备</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../dev-board/arch.html">实验系统构成</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../dev-board/ide.html">开发环境概览</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../dev-board/mcu.html">MCU基础</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../dev-board/esp32.html">ESP32</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../dev-board/stm32l475.html">STM32L475</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../dev-board/clion.html">Clion 项目工程基础</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../dev-board/cmake.html">Cmake 构建系统</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../dev-board/esp-idf.html">ESP-IDF SDK基础</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../exp-stm32/index.html">STM32实验篇</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-stm32/ide-setup.html">IDE环境搭建</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-stm32/debug-flow.html">基本调试流程</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-stm32/peripherals-and-sensors.html">外设与传感器</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../exp-stm32/ble/index.html">BlueTooth</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../exp-stm32/ble/ble-gatt.html"> GATT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../exp-stm32/ble/ble-p2p.html"> BLE点对点(P2P)通信</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../exp-stm32/ble/Profiles.html"> 蓝牙Profiles</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-stm32/nfc.html">NFC</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../exp-stm32/wifi/index.html">WiFi</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../exp-stm32/wifi/tcp-over-wifi.html"> TCP over WiFi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../exp-stm32/wifi/http-over-wifi.html"> HTTP over WiFi</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-stm32/mqtt.html">MQTT</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../index.html">ESP32实验篇</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="../ide/index.html">IDE集成开发环境搭建</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-7"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../ide/esp-idf-setup.html"> ESP-IDF环境配置</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ide/esp-idf-cli.html"> ESP-IDF命令行基本流程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ide/esp-idf-cli-debug.html"> ESP-IDF JTAG调试流程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../ide/esp-idf-clion-dev.html"> Clion下ESP-IDF的配置与开发</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../peripherals/index.html">外设接口与传感器</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-8"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../peripherals/uart.html"> UART</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../peripherals/lcd%26spi.html"> LCD&amp;SPI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../peripherals/i2c.html"> I2C</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../peripherals/camera.html"> 摄像头</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../peripherals/touch.html"> 触摸传感器</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../peripherals/dht11.html"> 温湿度传感器采集</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../peripherals/light.html"> 光照传感器采集</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../peripherals/gesture.html"> 手势识别</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../bluetooth/index.html">BlueTooth</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-9"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../bluetooth/blufi.html"> BluFi配置实验</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../bluetooth/hci.html"> BlueTooth HCI主机控制接口</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../bluetooth/hid-gap.html"> 基于GAP的BLE HID人机接口</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../bluetooth/hid-device-gatt.html"> 基于GATT的BLE HID设备</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="index.html">WiFi</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-10"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="station.html"> Station 模式</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ap.html"> AP模式</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#"> ESP_NOW 协议</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ftm.html"> WiFi测距FTM</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../socket/index.html">Socket over WiFi</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-11"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../socket/tcp.html"> TCP Server and Client</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../socket/udp.html"> UDP Server and Client</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket.html">WebSocket over WiFi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../http.html">HTTP over WiFi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mqtt.html">MQTT over WiFi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../coap.html">CoAP over WiFi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../iot-cloud.html">接入IoT云平台</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../exp-lora/index.html">LoRa实验篇</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-12"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-lora/at-command.html">LoRa AT指令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-lora/p2p-stm32.html">LoRa P2P @STM32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-lora/lorawan-stm32.html">LoRaWan @STM32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-lora/p2p-esp32.html">LoRa P2P @ESP32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-lora/lorawan-esp32.html">LoRaWan @ESP32</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../exp-advanced/index.html">提高篇-Mesh与AIoT</a><input class="toctree-checkbox" id="toctree-checkbox-13" name="toctree-checkbox-13" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-13"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-advanced/wifi-mesh.html">WiFi Mesh网</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-advanced/ble-mesh.html">BLE Mesh网</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-advanced/code-recognition.html">二维码识别</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-advanced/ai-face-detection.html">AI人脸识别</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-advanced/ai-motion-detection.html">AI运动检测</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../exp-advanced/ai-tensor-flow-light.html">AI Tensor Flow Light</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference.html">源代码与参考资料</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">关于我们</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="下载此页面">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/exp-esp32/wifi/esp-now.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="下载源文件"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="列印成 PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="全屏模式"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="搜索" aria-label="搜索" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>ESP_NOW 协议</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> 目录 </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">ESP-NOW编程</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">帧格式</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">安全</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">初始化和反初始化</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">添加配对设备</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">发送 ESP-NOW 数据</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">接收 ESP-NOW 数据</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">实验内容</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">配置项目</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">构建和烧录</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">示例输出</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">故障排除</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">源代码参考</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="esp-now">
+<h1>ESP_NOW 协议<a class="headerlink" href="#esp-now" title="Permalink to this heading">#</a></h1>
+<p>ESP-NOW是一种专为ESP8266和ESP32芯片设计的低功耗无线通信协议。它允许ESP8266和ESP32芯片之间通过Wi-Fi直接进行通信，而无需连接到传统的Wi-Fi网络。</p>
+<p>ESP-NOW协议的特点包括：</p>
+<ol class="arabic simple">
+<li><p>低功耗：ESP-NOW使用低功耗模式，能够在节能的情况下进行通信，适合电池供电的设备。</p></li>
+<li><p>直连通信：ESP-NOW允许ESP8266和ESP32芯片之间直接进行通信，无需连接到路由器或Wi-Fi网络。</p></li>
+<li><p>快速和简单：ESP-NOW提供了简单易用的API，使得设备之间的通信可以快速实现。</p></li>
+<li><p>安全性：ESP-NOW协议支持数据包加密，可以提供一定的数据传输安全性。</p></li>
+</ol>
+<p>ESP-NOW广泛应用于物联网和嵌入式系统中，特别适合在局域网中的设备之间进行直连通信，如传感器节点之间的数据传输、设备间的控制和命令传递等。由于其低功耗和快速的特性，ESP-NOW在无线传感网络和智能家居等领域有广泛的应用。</p>
+<section id="id1">
+<h2>ESP-NOW编程<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
+<p>在 ESP-NOW 中，应用程序数据被封装在各个供应商的动作帧中，然后在无连接的情况下，从一个 Wi-Fi 设备传输到另一个 Wi-Fi 设备。 CTR 与 CBC-MAC 协议 (CCMP) 可用来保护动作帧的安全。</p>
+<section id="id2">
+<h3>帧格式<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h3>
+<p>ESP-NOW 使用各个供应商的动作帧传输数据，默认比特率为 1 Mbps。各个供应商的动作帧格式为：</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p>MAC 报头</p></th>
+<th class="head text-center"><p>分类代码</p></th>
+<th class="head text-center"><p>组织标识符</p></th>
+<th class="head text-center"><p>随机值</p></th>
+<th class="head text-center"><p>供应商特定内容</p></th>
+<th class="head text-center"><p>FCS</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p>24 字节</p></td>
+<td class="text-center"><p>1 字节</p></td>
+<td class="text-center"><p>3 字节</p></td>
+<td class="text-center"><p>4 字节</p></td>
+<td class="text-center"><p>7~255 字节</p></td>
+<td class="text-center"><p>4 字节</p></td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><p>分类代码：分类代码字段可用于指示各个供应商的类别（比如 127）。</p></li>
+<li><p>组织标识符：组织标识符包含一个唯一标识符 (比如 0x18fe34)，为乐鑫指定的 MAC 地址的前三个字节。</p></li>
+<li><p>随机值：防止重放攻击。</p></li>
+<li><p>供应商特定内容：供应商特定内容包含供应商特定字段，如下所示：</p></li>
+</ul>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p>元素 ID</p></th>
+<th class="head text-center"><p>长度</p></th>
+<th class="head text-center"><p>组织标识符</p></th>
+<th class="head text-center"><p>类型</p></th>
+<th class="head text-center"><p>版本</p></th>
+<th class="head text-center"><p>正文</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p>1 字节</p></td>
+<td class="text-center"><p>1 字节</p></td>
+<td class="text-center"><p>3 字节</p></td>
+<td class="text-center"><p>1 字节</p></td>
+<td class="text-center"><p>1 字节</p></td>
+<td class="text-center"><p>0～250 字节</p></td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><p>元素 ID：元素 ID 字段可用于指示特定于供应商的元素。</p></li>
+<li><p>长度：长度是组织标识符、类型、版本和正文的总长度。</p></li>
+<li><p>组织标识符：组织标识符包含一个唯一标识符 (比如 0x18fe34)，为乐鑫指定的 MAC 地址的前三个字节。</p></li>
+<li><p>类型：类型字段设置为 4，代表 ESP-NOW。</p></li>
+<li><p>版本：版本字段设置为 ESP-NOW 的版本。</p></li>
+<li><p>正文：正文包含 ESP-NOW 数据。</p></li>
+</ul>
+<p>由于 ESP-NOW 是无连接的，因此 MAC 报头与标准帧略有不同。<code class="docutils literal notranslate"><span class="pre">FrameControl</span></code> 字段的 <code class="docutils literal notranslate"><span class="pre">FromDS</span></code> 和 <code class="docutils literal notranslate"><span class="pre">ToDS</span></code> 位均为 0。第一个地址字段用于配置目标地址。第二个地址字段用于配置源地址。第三个地址字段用于配置广播地址 (0xff:0xff:0xff:0xff:0xff:0xff)。</p>
+</section>
+<section id="id3">
+<h3>安全<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h3>
+<p><strong>ESP-NOW 采用 CCMP 方法保护供应商特定动作帧的安全，具体可参考 IEEE Std. 802.11-2012。Wi-Fi 设备维护一个初始主密钥 (PMK) 和若干本地主密钥 (LMK)，长度均为 16 个字节。</strong></p>
+<ul class="simple">
+<li><p>PMK 可使用 <code class="docutils literal notranslate"><span class="pre">AES-128</span></code> 算法加密 LMK。请调用 <code class="docutils literal notranslate"><span class="pre">esp_now_set_pmk()</span></code> 设置 PMK。如果未设置 PMK，将使用默认 PMK。</p></li>
+<li><p>LMK 可通过 CCMP 方法对供应商特定的动作帧进行加密，最多拥有 6 个不同的 LMK。如果未设置配对设备的 LMK，则动作帧不进行加密。</p></li>
+</ul>
+<p>目前，不支持加密组播供应商特定的动作帧。</p>
+</section>
+<section id="id4">
+<h3>初始化和反初始化<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h3>
+<p>调用 <code class="docutils literal notranslate"><span class="pre">esp_now_init()</span></code> 初始化 ESP-NOW，调用 <code class="docutils literal notranslate"><span class="pre">esp_now_deinit()</span></code> 反初始化 ESP-NOW。ESP-NOW 数据必须在 Wi-Fi 启动后传输，因此建议在初始化 ESP-NOW 之前启动 Wi-Fi，并在反初始化 ESP-NOW 之后停止 Wi-Fi。 当调用 esp_now_deinit() 时，配对设备的所有信息都将被删除。</p>
+</section>
+<section id="id5">
+<h3>添加配对设备<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h3>
+<p>在将数据发送到其他设备之前，请先调用 <code class="docutils literal notranslate"><span class="pre">esp_now_add_peer()</span></code> 将其添加到配对设备列表中。配对设备的最大数量是 20。如果启用了加密，则必须设置 LMK。ESP-NOW 数据可以从 Station 或 Softap 接口发送。 确保在发送 ESP-NOW 数据之前已启用该接口。在发送广播数据之前必须添加具有广播 MAC 地址的设备。配对设备的信道范围是从 0 ～14。如果信道设置为 0，数据将在当前信道上发送。否则，必须使用本地设备所在的通道。</p>
+</section>
+<section id="id6">
+<h3>发送 ESP-NOW 数据<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h3>
+<p>调用 <code class="docutils literal notranslate"><span class="pre">esp_now_send()</span></code> 发送 ESP-NOW 数据，调用 <code class="docutils literal notranslate"><span class="pre">esp_now_register_send_cb</span></code> 注册发送回调函数。如果 MAC 层成功接收到数据，则该函数将返回 <code class="docutils literal notranslate"><span class="pre">ESP_NOW_SEND_SUCCESS</span></code> 事件。否则，它将返回 <code class="docutils literal notranslate"><span class="pre">ESP_NOW_SEND_FAIL</span></code>。ESP-NOW 数据发送失败可能有几种原因，比如目标设备不存在、设备的信道不相同、动作帧在传输过程中丢失等。应用层并不一定可以总能接收到数据。如果需要，应用层可在接收 ESP-NOW 数据时发回一个应答 (ACK) 数据。如果接收 ACK 数据超时，则将重新传输 ESP-NOW 数据。可以为 ESP-NOW 数据设置序列号，从而删除重复的数据。</p>
+<p>如果有大量 ESP-NOW 数据要发送，则调用 <code class="docutils literal notranslate"><span class="pre">esp_now_send()</span></code> 一次性发送不大于 250 字节的数据。 请注意，两个 ESP-NOW 数据包的发送间隔太短可能导致回调函数返回混乱。因此，建议在等到上一次回调函数返回 ACK 后再发送下一个 ESP-NOW 数据。发送回调函数从高优先级的 Wi-Fi 任务中运行。因此，不要在回调函数中执行冗长的操作。相反，将必要的数据发布到队列，并交给优先级较低的任务处理。</p>
+</section>
+<section id="id7">
+<h3>接收 ESP-NOW 数据<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h3>
+<p>调用 <code class="docutils literal notranslate"><span class="pre">esp_now_register_recv_cb</span></code> 注册接收回调函数。当接收 ESP-NOW 数据时，需要调用接收回调函数。接收回调函数也在 Wi-Fi 任务任务中运行。因此，不要在回调函数中执行冗长的操作。 相反，将必要的数据发布到队列，并交给优先级较低的任务处理。</p>
+</section>
+</section>
+<section id="id8">
+<h2>实验内容<a class="headerlink" href="#id8" title="Permalink to this heading">#</a></h2>
+<p>本实验展示了如何使用 ESP-NOW协议。<strong>本实验至少需要两个 ESP 设备</strong>，由以下步骤组成：</p>
+<ul class="simple">
+<li><p>启动无线网络。</p></li>
+<li><p>初始化 ESP-NOW。</p></li>
+<li><p>注册 ESP-NOW 发送或接收回调函数。</p></li>
+<li><p>添加 ESP-NOW 对等信息。</p></li>
+<li><p>发送和接收 ESP-NOW 数据。</p>
+<ul>
+<li><p>为了获取另一台设备的 MAC 地址，Device1 首先发送广播 ESP-NOW 数据，并将 ‘state’ 设置为 0。</p></li>
+<li><p>当 Device2 从 Device1 接收到 ‘state’ 为 0 的广播 ESP-NOW 数据时，将 Device1 添加到对等列表中。然后开始发送“状态”设置为 1 的广播 ESP-NOW 数据。</p></li>
+<li><p>当 Device1 接收到 ‘state’ 为 1 的广播 ESP-NOW 数据时，将本地幻数与数据中的幻数进行比较。如果本地大于那个，停止发送广播 ESP-NOW 数据并开始向 Device2 发送单播 ESPNOW 数据。</p></li>
+<li><p>如果 Device2 收到单播 ESP-NOW 数据，也停止发送广播 ESP-NOW 数据。</p></li>
+</ul>
+</li>
+</ul>
+<p>在实际应用中，如果其他设备的 MAC 地址已知，则不需要先发送/接收广播 ESPNOW 数据，只需将设备添加到对等列表并发送/接收单播 ESP-NOW 数据即可。</p>
+<section id="id9">
+<h3>配置项目<a class="headerlink" href="#id9" title="Permalink to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>idf.py menuconfig
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>在示例配置选项下设置 WiFi 模式（站或 SoftAP）。</p></li>
+<li><p>在示例配置选项下设置 ESPNOW 主主密钥。对于发送设备和接收设备，此参数必须设置为相同的值。</p></li>
+<li><p>在示例配置选项下设置 ESPNOW 本地主密钥。对于发送设备和接收设备，此参数必须设置为相同的值。</p></li>
+<li><p>在示例配置选项下设置通道。发送设备和接收设备必须在同一通道上。</p></li>
+<li><p>在示例配置选项下设置发送计数和发送延迟。</p></li>
+<li><p>在示例配置选项下设置发送 len。</p></li>
+<li><p>设置启用远程选项。启用此参数后，ESP32 设备将以 512Kbps 或 256Kbps 的 PHY 速率发送数据，从而可以在两个 ESP32 设备之间远距离传输数据。</p></li>
+</ul>
+</section>
+<section id="id10">
+<h3>构建和烧录<a class="headerlink" href="#id10" title="Permalink to this heading">#</a></h3>
+<p>构建项目并将其烧写到板上，然后运行监控工具查看串行输出：</p>
+<p><strong>命令行界面：</strong></p>
+<p><code class="docutils literal notranslate"><span class="pre">idf.py</span> <span class="pre">-p</span> <span class="pre">PORT</span> <span class="pre">flash</span> <span class="pre">monitor</span></code> （要退出串行监视器，请键入Ctrl-]。）</p>
+<p><strong>Clion界面：</strong></p>
+<ol class="arabic simple">
+<li><p>选择 flash 并运行</p></li>
+<li><p>选择 monitor 并运行</p></li>
+</ol>
+</section>
+<section id="id11">
+<h3>示例输出<a class="headerlink" href="#id11" title="Permalink to this heading">#</a></h3>
+<p>这是 ESP-NOW 接收设备控制台输出的示例。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>I <span class="o">(</span><span class="m">898</span><span class="o">)</span> phy: phy_version: <span class="m">3960</span>, <span class="m">5211945</span>, Jul <span class="m">18</span> <span class="m">2018</span>, <span class="m">10</span>:40:07, <span class="m">0</span>, <span class="m">0</span>
+I <span class="o">(</span><span class="m">898</span><span class="o">)</span> wifi: mode : sta <span class="o">(</span><span class="m">30</span>:ae:a4:80:45:68<span class="o">)</span>
+I <span class="o">(</span><span class="m">898</span><span class="o">)</span> espnow_example: WiFi started
+I <span class="o">(</span><span class="m">898</span><span class="o">)</span> ESPNOW: espnow <span class="o">[</span>version: <span class="m">1</span>.0<span class="o">]</span> init
+I <span class="o">(</span><span class="m">5908</span><span class="o">)</span> espnow_example: Start sending broadcast data
+I <span class="o">(</span><span class="m">6908</span><span class="o">)</span> espnow_example: send data to ff:ff:ff:ff:ff:ff
+I <span class="o">(</span><span class="m">7908</span><span class="o">)</span> espnow_example: send data to ff:ff:ff:ff:ff:ff
+I <span class="o">(</span><span class="m">52138</span><span class="o">)</span> espnow_example: send data to ff:ff:ff:ff:ff:ff
+I <span class="o">(</span><span class="m">52138</span><span class="o">)</span> espnow_example: Receive 0th broadcast data from: <span class="m">30</span>:ae:a4:0c:34:ec, len: <span class="m">200</span>
+I <span class="o">(</span><span class="m">53158</span><span class="o">)</span> espnow_example: send data to ff:ff:ff:ff:ff:ff
+I <span class="o">(</span><span class="m">53158</span><span class="o">)</span> espnow_example: Receive 1th broadcast data from: <span class="m">30</span>:ae:a4:0c:34:ec, len: <span class="m">200</span>
+I <span class="o">(</span><span class="m">54168</span><span class="o">)</span> espnow_example: send data to ff:ff:ff:ff:ff:ff
+I <span class="o">(</span><span class="m">54168</span><span class="o">)</span> espnow_example: Receive 2th broadcast data from: <span class="m">30</span>:ae:a4:0c:34:ec, len: <span class="m">200</span>
+I <span class="o">(</span><span class="m">54168</span><span class="o">)</span> espnow_example: Receive 0th unicast data from: <span class="m">30</span>:ae:a4:0c:34:ec, len: <span class="m">200</span>
+I <span class="o">(</span><span class="m">54678</span><span class="o">)</span> espnow_example: Receive 1th unicast data from: <span class="m">30</span>:ae:a4:0c:34:ec, len: <span class="m">200</span>
+I <span class="o">(</span><span class="m">55668</span><span class="o">)</span> espnow_example: Receive 2th unicast data from: <span class="m">30</span>:ae:a4:0c:34:ec, len: <span class="m">200</span>
+</pre></div>
+</div>
+<p>这是 ESP-NOW 发送设备控制台输出的示例。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>I <span class="o">(</span><span class="m">915</span><span class="o">)</span> phy: phy_version: <span class="m">3960</span>, <span class="m">5211945</span>, Jul <span class="m">18</span> <span class="m">2018</span>, <span class="m">10</span>:40:07, <span class="m">0</span>, <span class="m">0</span>
+I <span class="o">(</span><span class="m">915</span><span class="o">)</span> wifi: mode : sta <span class="o">(</span><span class="m">30</span>:ae:a4:0c:34:ec<span class="o">)</span>
+I <span class="o">(</span><span class="m">915</span><span class="o">)</span> espnow_example: WiFi started
+I <span class="o">(</span><span class="m">915</span><span class="o">)</span> ESPNOW: espnow <span class="o">[</span>version: <span class="m">1</span>.0<span class="o">]</span> init
+I <span class="o">(</span><span class="m">5915</span><span class="o">)</span> espnow_example: Start sending broadcast data
+I <span class="o">(</span><span class="m">5915</span><span class="o">)</span> espnow_example: Receive 41th broadcast data from: <span class="m">30</span>:ae:a4:80:45:68, len: <span class="m">200</span>
+I <span class="o">(</span><span class="m">5915</span><span class="o">)</span> espnow_example: Receive 42th broadcast data from: <span class="m">30</span>:ae:a4:80:45:68, len: <span class="m">200</span>
+I <span class="o">(</span><span class="m">5925</span><span class="o">)</span> espnow_example: Receive 44th broadcast data from: <span class="m">30</span>:ae:a4:80:45:68, len: <span class="m">200</span>
+I <span class="o">(</span><span class="m">5935</span><span class="o">)</span> espnow_example: Receive 45th broadcast data from: <span class="m">30</span>:ae:a4:80:45:68, len: <span class="m">200</span>
+I <span class="o">(</span><span class="m">6965</span><span class="o">)</span> espnow_example: send data to ff:ff:ff:ff:ff:ff
+I <span class="o">(</span><span class="m">6965</span><span class="o">)</span> espnow_example: Receive 46th broadcast data from: <span class="m">30</span>:ae:a4:80:45:68, len: <span class="m">200</span>
+I <span class="o">(</span><span class="m">7975</span><span class="o">)</span> espnow_example: send data to ff:ff:ff:ff:ff:ff
+I <span class="o">(</span><span class="m">7975</span><span class="o">)</span> espnow_example: Receive 47th broadcast data from: <span class="m">30</span>:ae:a4:80:45:68, len: <span class="m">200</span>
+I <span class="o">(</span><span class="m">7975</span><span class="o">)</span> espnow_example: Start sending unicast data
+I <span class="o">(</span><span class="m">7975</span><span class="o">)</span> espnow_example: send data to <span class="m">30</span>:ae:a4:80:45:68
+I <span class="o">(</span><span class="m">9015</span><span class="o">)</span> espnow_example: send data to <span class="m">30</span>:ae:a4:80:45:68
+I <span class="o">(</span><span class="m">9015</span><span class="o">)</span> espnow_example: Receive 48th broadcast data from: <span class="m">30</span>:ae:a4:80:45:68, len: <span class="m">200</span>
+I <span class="o">(</span><span class="m">10015</span><span class="o">)</span> espnow_example: send data to <span class="m">30</span>:ae:a4:80:45:68
+I <span class="o">(</span><span class="m">16075</span><span class="o">)</span> espnow_example: send data to <span class="m">30</span>:ae:a4:80:45:68
+I <span class="o">(</span><span class="m">17075</span><span class="o">)</span> espnow_example: send data to <span class="m">30</span>:ae:a4:80:45:68
+I <span class="o">(</span><span class="m">24125</span><span class="o">)</span> espnow_example: send data to <span class="m">30</span>:ae:a4:80:45:68
+</pre></div>
+</div>
+</section>
+<section id="id12">
+<h3>故障排除<a class="headerlink" href="#id12" title="Permalink to this heading">#</a></h3>
+<p>如果无法从其他设备接收到 ESP-NOW 数据，可能是两个设备不在同一个频道上，或者主秘钥和本地秘钥不同。</p>
+<p>在实际应用中，如果接收设备仅处于工作站模式并且连接到 AP，则应禁用调制解调器睡眠。否则，它可能无法从其他设备接收 ESP-NOW 数据。</p>
+</section>
+</section>
+<section id="id13">
+<h2>源代码参考<a class="headerlink" href="#id13" title="Permalink to this heading">#</a></h2>
+<p>参见<a class="reference internal" href="../../reference.html"><span class="std std-doc">参考资料与源代码</span></a></p>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="ap.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">上一页</p>
+        <p class="prev-next-title">AP 接入点模式</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="ftm.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">下一页</p>
+        <p class="prev-next-title">WiFi测距FTM</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> 目录
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">ESP-NOW编程</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">帧格式</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">安全</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">初始化和反初始化</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">添加配对设备</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">发送 ESP-NOW 数据</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">接收 ESP-NOW 数据</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">实验内容</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">配置项目</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">构建和烧录</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">示例输出</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">故障排除</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">源代码参考</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+作者： Lemon.Go，谭文龙，罗明雄
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022, Lemon.Go@gdpu.edu.cn.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

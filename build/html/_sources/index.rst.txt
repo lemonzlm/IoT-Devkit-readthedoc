@@ -1,0 +1,42 @@
+.. iot-devkit documentation master file, created by
+   sphinx-quickstart on Tue Jul 12 11:02:48 2022.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+IoT-DevKit 实验箱指导手册 (V0.2)
+======================================
+
+本文档是电子信息工程专业本科三年级课程《物联网关键技术》的配套实验讲义与操作指导，为广东药科大学电子信息技术学院电子信息工程课程实验的专用指导文件，如若转载，请标注来源。
+
+本文档所使用只低功耗IOT节点实验箱为自行设计，委托第三方加工组装，请注意知识产权保护。
+
+实验箱设计采用双MCU并行设计，即 **ESP32** 和 **STM32L475**，每个MCU均单独提供WIFI, Bluetooth（重点BLE），RFID, NFC, 十余种外部传感器，LoRa, NB-IoT以及丰富的预留接口。可承担绝大部分IoT节点功能实验。
+
+同时，本实验室配置了10台低功耗高性能边缘计算网关，可兼容实现LoraWan，以及开源的IoT云平台，该平台基于开源项目ThethingsBoard，Chipstack以及EMQX整合改造而成，云平台物理部署在阿里云广州机房，可承担高速，高并发的物联网实验项目，结合低功耗节点，以及Lora网关，可完整实现 **云，边，端** 的一体化实验项目。
+
+本指导文档共分为以下几个部分：
+   * 实验箱概述与理论准备
+   * 基于STM32L475的基础实验
+   * 基于ESP32的基础实验
+   * 基于ESP32的高级实验-AIoT & Mesh
+
+.. toctree::
+   :maxdepth: 5                                              
+   :hidden:
+
+   实验箱概述与理论准备 <dev-board/index>
+   STM32实验篇 <exp-stm32/index>
+   ESP32实验篇 <exp-esp32/index>
+   LoRa实验篇 <exp-lora/index>
+   提高篇-Mesh与AIoT <exp-advanced/index>
+   参考资料 <reference.md>
+   关于我们 <about.md>
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
+
+
